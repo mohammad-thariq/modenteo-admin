@@ -19,7 +19,9 @@ export const NoDataFound = ({ noHeader, message, messageContent }) => {
         <img src="/assets/img/noDataFound.svg" alt="not-found" />
         <div className="noData-message-wrapper">
           <h4 className="noData-message">{message || defaultMessage}</h4>
-          <p>{messageContent || defaultMessageContent}</p>
+          <p style={{ width: "360px" }}>
+            {messageContent || defaultMessageContent}
+          </p>
         </div>
       </div>
     </>
