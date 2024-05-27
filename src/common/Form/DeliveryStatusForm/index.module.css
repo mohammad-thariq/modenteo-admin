@@ -1,0 +1,26 @@
+.wrapper {
+    padding: 60px 30px;
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    justify-content: center;
+  }
+  .btnWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 10px;
+  }
+
+  .label{
+    font-size: medium;
+    margin-top: 4px;
+  }
+  
+  @media (min-width: 320px) and (max-width: 600px){
+    .wrapper {
+        
+        width: 350px;
+        
+      }
+  }

@@ -1,0 +1,357 @@
+body {
+  background-color: #f8f9fa !important;
+}
+.overflow-column {
+  overflow-y: auto !important;
+}
+
+.sideNav_subactive {
+  color: #dc395f;
+}
+
+.authLogo {
+  object-fit: contain;
+  margin: 10px 0px;
+  width: 200px;
+}
+.profile-btn,
+.logout-btn {
+  background-color: transparent;
+  border: none;
+}
+.logout-btn {
+  color: red;
+}
+
+.flex {
+  display: flex;
+}
+
+.align-item-center {
+  align-items: center;
+}
+
+.justify-content-fs {
+  justify-content: flex-start !important;
+}
+
+.justify-content-sb {
+  justify-content: space-between;
+}
+
+.justify-content-se {
+  justify-content: space-evenly;
+}
+
+.justify-content-sa {
+  justify-content: space-around;
+}
+
+.justify-content-c {
+  justify-content: center;
+}
+
+.justify-content-e {
+  justify-content: end;
+}
+
+.align-item-end {
+  align-items: flex-end;
+}
+
+.InvoiceWrapperImage {
+  object-fit: contain;
+}
+
+.color-6c757d {
+  color: #6c757d;
+}
+
+.breadcrum {
+  margin-left: 0 !important;
+}
+.toggle-button {
+  padding: 10px 20px;
+  background-color: #ddd;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.toggle-button.on {
+  background-color: #4caf50;
+  color: white;
+}
+
+.toggle-button.off {
+  background-color: #f44336;
+  color: white;
+}
+.noData-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 10px;
+}
+.noData-wrapper > img {
+  width: 400px;
+  margin: 0px auto;
+  padding-bottom: 40px;
+}
+
+.noData-message-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 500px;
+  text-align: center;
+}
+
+.noData-message {
+  font-size: 20px;
+  color: #dc395f;
+}
+
+.flex-direction-row {
+  flex-direction: row !important;
+}
+
+.flex-direction-column {
+  flex-direction: column !important;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  border-radius: 6px;
+  background: #aaa;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+@media (min-width: 1200px) {
+  .breadcrum {
+    margin-left: 17.125rem !important;
+  }
+}
+
+@media (min-width: 300px) and (max-width: 600px) {
+  .noData-wrapper > img {
+    width: 100%;
+  }
+  .noData-message-wrapper > p {
+    width: 300px;
+    text-align: center;
+  }
+}
+
+/* Drop Down */
+
+.dropbtn {
+  cursor: pointer;
+  background: transparent;
+  border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+  /* margin-top: 20px; */
+  align-items: center;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 1px;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 10px;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  cursor: pointer;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+/* Show the status color */
+.status-pending {
+  border: 1px solid orange;
+  border-radius: 5px;
+}
+.status-success {
+  border: 1px solid #dc395f;
+  border-radius: 5px;
+}
+
+.status-failed {
+  border: 1px solid #f56565;
+  border-radius: 5px;
+}
+
+.product-image {
+  width: 80px;
+  height: 80px;
+  /* border-radius: 50%; */
+  object-fit: scale-down;
+}
+
+.productFields {
+  padding: 0 25px;
+  height: 60px;
+  vertical-align: middle;
+}
+
+.formInner::-webkit-scrollbar {
+  display: none;
+}
+
+.switchToggle {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switchToggle .toggleInput {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.sliderToggle {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.sliderToggle:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background: #fff;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.toggleInput:checked + .sliderToggle {
+  background-color: rgb(35, 210, 79);
+}
+
+.toggleInput:focus + .sliderToggle {
+  box-shadow: 0 0 1px rgb(35, 210, 79);
+}
+
+.toggleInput:checked + .sliderToggle:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliderToggles */
+.sliderToggle.roundToggle {
+  border-radius: 34px;
+}
+
+.sliderToggle.roundToggle:before {
+  border-radius: 50%;
+}
+
+.ease {
+  transition: 0.1s ease-in-out;
+}
+
+.w-350 {
+  width: 350px !important;
+}
+
+.imageSelect {
+  width: 220px;
+  height: 220px;
+  margin: 0 auto;
+  object-fit: scale-down;
+}
+
+.h-20vh {
+  height: 20vh;
+}
+.h-50vh {
+  height: 50vh;
+}
+.h-80vh {
+  height: 80vh;
+}
+.h-100vh {
+  height: 100vh;
+}
+.font-20 {
+  font-size: 20px;
+}
+
+.react-pagination {
+  list-style: none;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 10px;
+  cursor: pointer;
+  gap: 10px;
+  padding: 0px 20px;
+}
+
+.page-active {
+  background-color: rgb(35, 210, 79);
+  color: #ffffff;
+  border-radius: 50%;
+}
+
+.page-item {
+  list-style: none;
+  padding: 2px 12px;
+  height: 31.5px;
+  width: 31.5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2px;
+}

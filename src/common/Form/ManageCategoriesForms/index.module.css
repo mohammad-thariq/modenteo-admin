@@ -1,0 +1,15 @@
+.wrapper {
+    padding: 40px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .btnWrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  
