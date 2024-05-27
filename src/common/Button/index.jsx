@@ -1,5 +1,5 @@
 import { ThreeDots } from "react-loader-spinner";
-import "../../styles/button.css";
+
 export const Button = ({
   name,
   bg,
