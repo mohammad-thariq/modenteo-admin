@@ -19,6 +19,8 @@ export const SubCategories = () => {
   const [currentSubCategoryId, setCurrentSubCategoryId] = useState(null);
   const [currentSubCategoryDataId, setCurrentSubCategoryDataId] =
     useState(null);
+    const [page, setPage] = useState(1)
+    const [limit, setLimit] = useState(5)
   const {
     productCategory,
     productSubCategory,
@@ -28,11 +30,11 @@ export const SubCategories = () => {
   } = new ManageCategoriesApi();
 
   const { data, isLoading, refetch } = useQuery(
-    ["product-Subcategory"],
+    ["product-Subcategory", page, limit],
     productSubCategory
   );
 
-  const { data: getCategory } = useQuery(["product-category"], productCategory);
+  // const { data: getCategory } = useQuery(["product-category"], productCategory);
 
   const { mutate: createSubCategory, isLoading: createSubCategoryLoading } =
     useMutation(createProductSubCategory, {
@@ -99,14 +101,15 @@ export const SubCategories = () => {
     deleteSubCategoryMutate({ id: currentSubCategoryId });
   };
 
-  if (data && !data) {
-    return <NoDataFound />;
-  }
+  // if (data && !data) {
+  //   return <NoDataFound />;
+  // }
 
   if (isLoading) {
     return <Loader />;
   }
 
+  console.log(data, 'data');
   return (
     <>
       <Breadcrumb currentPage={"Sub Categories"} serachEnable />
@@ -135,7 +138,7 @@ export const SubCategories = () => {
             onSave={createSubCategory}
             loading={createSubCategoryLoading}
             button="Add New"
-            getCategory={getCategory}
+            // getCategory={getCategory}
           />
         </Popup>
       )}
@@ -143,7 +146,7 @@ export const SubCategories = () => {
       {updateSubCategories && (
         <Popup open={updateSubCategories} onClose={handleUpdateSubCategories}>
           <SubCategoriesForm
-            getCategory={getCategory}
+            // getCategory={getCategory}
             onClose={handleUpdateSubCategories}
             onUpdate={updateSubCategory}
             button="Update"

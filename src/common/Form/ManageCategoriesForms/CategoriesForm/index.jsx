@@ -21,8 +21,6 @@ export const CategoriesForm = ({
   const [imagePreview, setImagePreview] = useState();
   const schema = Yup.object({
     name: Yup.string().required("Name is Required"),
-    icon: Yup.string().required("Icon is Required"),
-    slug: Yup.string().required("Slug is Required"),
     status: Yup.string().required("Status is Required"),
   });
 
@@ -31,8 +29,6 @@ export const CategoriesForm = ({
       <Formik
         initialValues={{
           image: imagePreview,
-          icon: data?.icon || "",
-          slug: data?.slug || "",
           name: data?.name || "",
           status: data?.status + 1 || "",
         }}
@@ -46,15 +42,11 @@ export const CategoriesForm = ({
             ? onUpdate({
                 id: currentCategoryId,
                 image: imagePreview,
-                icon: values?.icon,
-                slug: values?.slug,
                 name: values?.name,
                 status: values?.status - 1,
               })
             : onSave({
                 image: imagePreview,
-                icon: values?.icon,
-                slug: values?.slug,
                 name: values?.name,
                 status: values?.status - 1,
               });
@@ -84,26 +76,6 @@ export const CategoriesForm = ({
             <p style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}>
               {errors.image && touched.image && errors.image}
             </p>
-
-            <label>Icon</label>
-            <div className="mb-2">
-              <input
-                type="text"
-                name="icon"
-                className="form-control"
-                placeholder="Icon"
-                aria-label="Icon"
-                aria-describedby="Icon-addon"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.icon}
-              />
-              <p
-                style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}
-              >
-                {errors.icon && touched.icon && errors.icon}
-              </p>
-            </div>
             <label>Name</label>
             <div className="mb-2">
               <input
@@ -121,26 +93,6 @@ export const CategoriesForm = ({
                 style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}
               >
                 {errors.name && touched.name && errors.name}
-              </p>
-            </div>
-
-            <label>Slug</label>
-            <div className="mb-2">
-              <input
-                type="text"
-                name="slug"
-                className="form-control"
-                placeholder="Slug"
-                aria-label="Slug"
-                aria-describedby="SLug"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.slug}
-              />
-              <p
-                style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}
-              >
-                {errors.slug && touched.slug && errors.slug}
               </p>
             </div>
             <InputSelect

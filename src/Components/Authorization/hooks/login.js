@@ -7,10 +7,16 @@ import { LocalStorageHelper } from "@/utils/localStorage";
 
 // const BASE_URL = process.env.NEXT_SHOPOADMIN_BASE_URL;
 
-const { login } = new AuthorizationApi();
+const { login, getTypeByEmail } = new AuthorizationApi();
 
 export const handleLogin = async (data) => {
-  const res = await login(data);
+  const type = await getTypeByEmail(data)
+  if(type) {
+    const AdminData = {
+      ...data,
+      type: type?.data?.type || "super-admin"
+    }
+  const res = await login(AdminData);
   if (res?.response?.data?.error) {
     console.log(res, "error");
     ToastifyFailed(`${res.response.data.error}`);
@@ -30,4 +36,5 @@ export const handleLogin = async (data) => {
     ToastifySuccess(`Welcome Back ${user.name}`);
     Redirect("/");
   }
+}
 };

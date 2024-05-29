@@ -8,9 +8,9 @@ import { BrandsTable } from "./TableBody/Products/BrandsTable";
 import { SpecKeyTable } from "./TableBody/Products/SpecKeyTable";
 import { Product } from "./TableBody/Products/Product";
 import { Inventory } from "./TableBody/Inventory";
-// import ReactPaginate from "react-paginate";
-// import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
-// import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
+import ReactPaginate from "react-paginate";
+import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
+import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 
 export const BaseTable = ({
   ref,
@@ -38,6 +38,10 @@ export const BaseTable = ({
   onNavigate,
   isShown = false,
   //  tableActions ends
+
+  // pagintaion starts
+  totalPage,
+  onPageChange,
 }) => {
   let tableHeadingList = [];
 
@@ -124,17 +128,19 @@ export const BaseTable = ({
                 </table>
               </div>
             </div>
-            {/* <ReactPaginate
+            <ReactPaginate
               breakLabel="..."
               nextLabel={<ArrowForwardIosRoundedIcon sx={{ fontSize: 18 }} />}
               pageRangeDisplayed={2}
-              pageCount={10}
+              pageCount={totalPage}
+              onPageChange={onPageChange}
               previousLabel={<ArrowBackIosRoundedIcon sx={{ fontSize: 18 }} />}
               renderOnZeroPageCount={null}
               containerClassName={"react-pagination"}
               pageClassName={"page-item"}
               activeClassName={"page-active"}
-            /> */}
+                         
+            />
           </div>
         </div>
       </div>

@@ -87,7 +87,6 @@ export const ManageTableHeadings = [
   "SN",
   "Name",
   "Image",
-  "Icon",
   "Status",
   "Action",
 ];

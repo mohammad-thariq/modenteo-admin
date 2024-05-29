@@ -1,22 +1,17 @@
-import { localStorageConst } from "@/constant/localStorage";
 import { _axios } from "@/helper/axios";
-import { LocalStorageHelper } from "@/utils/localStorage";
 
-const getToken = () => {
-  let token = LocalStorageHelper.getItem(localStorageConst.JWTADMIN);
-  return token;
-};
+
 
 export class ManageCategoriesApi {
-  productCategory = async () => {
-    const res = await _axios("get", `/product-category?token=${getToken()}`);
+  productCategory = async ({queryKey}) => {
+    const res = await _axios("get", `/categories?page=${queryKey[1]}&limit=${queryKey[2]}`);
     return res;
   };
 
   createProductCategory = async (data) => {
     const res = await _axios(
       "post",
-      `/product-category/store?token=${getToken()}`,
+      `/product-category/store`,
       { ...data },
       "multipart/form-data"
     );
@@ -26,7 +21,7 @@ export class ManageCategoriesApi {
   updateProductCategory = async (data) => {
     const res = await _axios(
       "post",
-      `/product-category/update?token=${getToken()}`,
+      `/product-category/update`,
       { ...data }
     );
     return res;
@@ -35,7 +30,7 @@ export class ManageCategoriesApi {
   deleteProductCategory = async (data) => {
     const res = await _axios(
       "delete",
-      `/product-category/delete?token=${getToken()}`,
+      `/product-category/delete`,
       { ...data }
     );
     return res;
@@ -44,7 +39,7 @@ export class ManageCategoriesApi {
   productSubCategory = async () => {
     const res = await _axios(
       "get",
-      `/product-sub-category?token=${getToken()}`
+      `/sub_categories?page=${queryKey[1]}&limit=${queryKey[2]}`
     );
     return res;
   };
@@ -52,7 +47,7 @@ export class ManageCategoriesApi {
   createProductSubCategory = async (data) => {
     const res = await _axios(
       "post",
-      `/product-sub-category/store?token=${getToken()}`,
+      `/product-sub-category/store`,
       { ...data }
     );
     return res;
@@ -61,7 +56,7 @@ export class ManageCategoriesApi {
   updateProductSubCategory = async (data) => {
     const res = await _axios(
       "post",
-      `/product-sub-category/update?token=${getToken()}`,
+      `/product-sub-category/update`,
       { ...data }
     );
     return res;
@@ -70,7 +65,7 @@ export class ManageCategoriesApi {
   deleteProductSubCategory = async (data) => {
     const res = await _axios(
       "delete",
-      `/product-sub-category/delete?token=${getToken()}`,
+      `/product-sub-category/delete`,
       { ...data }
     );
     return res;
@@ -79,7 +74,7 @@ export class ManageCategoriesApi {
   productChildCategory = async () => {
     const res = await _axios(
       "get",
-      `/product-child-category?token=${getToken()}`
+      `/product-child-category`
     );
     return res;
   };
@@ -87,7 +82,7 @@ export class ManageCategoriesApi {
   createProductChildCategory = async (data) => {
     const res = await _axios(
       "post",
-      `/product-child-category/store?token=${getToken()}`,
+      `/product-child-category/store`,
       { ...data }
     );
     return res;
@@ -96,7 +91,7 @@ export class ManageCategoriesApi {
   updateProductChildCategory = async (data) => {
     const res = await _axios(
       "post",
-      `/product-child-category/update?token=${getToken()}`,
+      `/product-child-category/update`,
       { ...data }
     );
     return res;
@@ -105,21 +100,21 @@ export class ManageCategoriesApi {
   deleteProductChildCategory = async (data) => {
     const res = await _axios(
       "delete",
-      `/product-child-category/delete?token=${getToken()}`,
+      `/product-child-category/delete`,
       { ...data }
     );
     return res;
   };
 
   megaMenuCategory = async () => {
-    const res = await _axios("get", `/mega-menu-category?token=${getToken()}`);
+    const res = await _axios("get", `/mega-menu-category`);
     return res;
   };
 
   createProductMegaMenuCategory = async (data) => {
     const res = await _axios(
       "post",
-      `/mega-menu-category/store?token=${getToken()}`,
+      `/mega-menu-category/store`,
       { ...data }
     );
     return res;
@@ -128,7 +123,7 @@ export class ManageCategoriesApi {
   updateProductMegaMenuCategory = async (data) => {
     const res = await _axios(
       "post",
-      `/mega-menu-category/update?token=${getToken()}`,
+      `/mega-menu-category/update`,
       { ...data }
     );
     return res;
@@ -137,19 +132,19 @@ export class ManageCategoriesApi {
   deleteProductMegaMenuCategory = async (data) => {
     const res = await _axios(
       "delete",
-      `/mega-menu-category/delete?token=${getToken()}`,
+      `/mega-menu-category/delete`,
       { ...data }
     );
     return res;
   };
 
   popularCategory = async () => {
-    const res = await _axios("get", `/popular-category?token=${getToken()}`);
+    const res = await _axios("get", `/popular-category`);
     return res;
   };
 
   featuredCategory = async () => {
-    const res = await _axios("get", `/featured-category?token=${getToken()}`);
+    const res = await _axios("get", `/featured-category`);
     return res;
   };
 }

@@ -18,6 +18,8 @@ export const Categories = () => {
   const [currentCategoryId, setCurrentCategoryId] = useState(null);
   const [currentCategoryDataId, setCurrentCategoryDataId] = useState(null);
   const [updateCategories, setupdateCategories] = useState(false);
+  const [page, setPage] = useState(1)
+  const [limit, setLimit] = useState(5)
 
   const {
     productCategory,
@@ -26,7 +28,7 @@ export const Categories = () => {
     deleteProductCategory,
   } = new ManageCategoriesApi();
   const { data, isLoading, refetch } = useQuery(
-    ["product-category"],
+    ["product-category", page, limit],
     productCategory
   );
 
@@ -100,6 +102,13 @@ export const Categories = () => {
     return <Loader />;
   }
 
+  console.log(data, 'data');
+
+  const handlePageClick = (selectedPage) => {
+    const pageNumber = selectedPage.selected + 1; // Adding 1 to match your backend's 1-based index
+    setPage(pageNumber);
+  };
+
   return (
     <>
       <Breadcrumb currentPage={"Categories"} serachEnable />
@@ -119,6 +128,8 @@ export const Categories = () => {
         onCategoriesData={data?.categories}
         onDelete={handleDeleteCategory}
         onUpdate={handleUpdateCategoties}
+        totalPage={data?.pagination?.totalPage}
+        onPageChange={handlePageClick}
       />
 
       {createCategories && (
