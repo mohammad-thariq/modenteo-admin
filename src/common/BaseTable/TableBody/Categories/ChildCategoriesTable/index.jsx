@@ -16,7 +16,7 @@ export const ChildCategoriesTable = (props) => {
   return (
     <>
       {props.onChildCategories &&
-        props.onChildCategories?.childCategories?.map((item, index) => (
+        props.onChildCategories?.map((item, index) => (
           <tr key={index}>
             <td className="align-middle text-center">
               <span className="text-secondary text-sm font-weight-bold">
@@ -58,9 +58,7 @@ export const ChildCategoriesTable = (props) => {
                   <span>
                     <EditNoteIcon
                       sx={{ fontSize: 25 }}
-                      onClick={() =>
-                        props?.onUpdate(item.id)
-                      }
+                      onClick={() => props?.onUpdate(item.id)}
                     />
                   </span>
                   {"  "}

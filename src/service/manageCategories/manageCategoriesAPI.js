@@ -1,17 +1,20 @@
 import { _axios } from "@/helper/axios";
 
-
-
 export class ManageCategoriesApi {
-  productCategory = async ({queryKey}) => {
-    const res = await _axios("get", `/categories?page=${queryKey[1]}&limit=${queryKey[2]}`);
+  // categories STARTS
+
+  productCategory = async ({ queryKey }) => {
+    const res = await _axios(
+      "get",
+      `/categories?page=${queryKey[1]}&limit=${queryKey[2]}`
+    );
     return res;
   };
 
   createProductCategory = async (data) => {
     const res = await _axios(
       "post",
-      `/product-category/store`,
+      `/categories/create`,
       { ...data },
       "multipart/form-data"
     );
@@ -20,23 +23,24 @@ export class ManageCategoriesApi {
 
   updateProductCategory = async (data) => {
     const res = await _axios(
-      "post",
-      `/product-category/update`,
-      { ...data }
+      "patch",
+      `/categories/update/${data.id}`,
+      { ...data },
+      "multipart/form-data"
     );
     return res;
   };
 
   deleteProductCategory = async (data) => {
-    const res = await _axios(
-      "delete",
-      `/product-category/delete`,
-      { ...data }
-    );
+    const res = await _axios("delete", `/categories/delete/${data.id}`);
     return res;
   };
 
-  productSubCategory = async () => {
+  // categories ENDS
+
+  // sub-categories STARTS
+
+  productSubCategory = async ({ queryKey }) => {
     const res = await _axios(
       "get",
       `/sub_categories?page=${queryKey[1]}&limit=${queryKey[2]}`
@@ -47,34 +51,40 @@ export class ManageCategoriesApi {
   createProductSubCategory = async (data) => {
     const res = await _axios(
       "post",
-      `/product-sub-category/store`,
-      { ...data }
+      `/sub_categories/create`,
+      {
+        ...data,
+      },
+      "multipart/form-data"
     );
     return res;
   };
 
   updateProductSubCategory = async (data) => {
     const res = await _axios(
-      "post",
-      `/product-sub-category/update`,
-      { ...data }
+      "patch",
+      `/sub_categories/update`,
+      {
+        ...data,
+      },
+      "multipart/form-data"
     );
     return res;
   };
 
   deleteProductSubCategory = async (data) => {
-    const res = await _axios(
-      "delete",
-      `/product-sub-category/delete`,
-      { ...data }
-    );
+    const res = await _axios("delete", `/sub_categories/delete/${data?.id}`);
     return res;
   };
 
-  productChildCategory = async () => {
+  // sub-Category ENDS
+
+  // child-category start
+
+  productChildCategory = async ({ queryKey }) => {
     const res = await _axios(
       "get",
-      `/product-child-category`
+      `/child_categories?page=${queryKey[1]}&limit=${queryKey[2]}`
     );
     return res;
   };
@@ -82,69 +92,31 @@ export class ManageCategoriesApi {
   createProductChildCategory = async (data) => {
     const res = await _axios(
       "post",
-      `/product-child-category/store`,
-      { ...data }
+      `/child_categories/create`,
+      {
+        ...data,
+      },
+      "multipart/form-data"
     );
     return res;
   };
 
   updateProductChildCategory = async (data) => {
     const res = await _axios(
-      "post",
-      `/product-child-category/update`,
-      { ...data }
+      "patch",
+      `/child_categories/update/${data.id}`,
+      {
+        ...data,
+      },
+      "multipart/form-data"
     );
     return res;
   };
 
   deleteProductChildCategory = async (data) => {
-    const res = await _axios(
-      "delete",
-      `/product-child-category/delete`,
-      { ...data }
-    );
+    const res = await _axios("delete", `/child_categories/delete/${data.id}`);
     return res;
   };
 
-  megaMenuCategory = async () => {
-    const res = await _axios("get", `/mega-menu-category`);
-    return res;
-  };
-
-  createProductMegaMenuCategory = async (data) => {
-    const res = await _axios(
-      "post",
-      `/mega-menu-category/store`,
-      { ...data }
-    );
-    return res;
-  };
-
-  updateProductMegaMenuCategory = async (data) => {
-    const res = await _axios(
-      "post",
-      `/mega-menu-category/update`,
-      { ...data }
-    );
-    return res;
-  };
-
-  deleteProductMegaMenuCategory = async (data) => {
-    const res = await _axios(
-      "delete",
-      `/mega-menu-category/delete`,
-      { ...data }
-    );
-    return res;
-  };
-
-  popularCategory = async () => {
-    const res = await _axios("get", `/popular-category`);
-    return res;
-  };
-
-  featuredCategory = async () => {
-    const res = await _axios("get", `/featured-category`);
-    return res;
-  };
+  // child-category ENDS
 }

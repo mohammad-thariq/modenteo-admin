@@ -6,7 +6,7 @@ export const SubCategoriesTable = (props) => {
   return (
     <>
       {props.onSubCategories &&
-        props?.onSubCategories?.subCategories.map((item, index) => (
+        props?.onSubCategories?.map((item, index) => (
           <tr key={index}>
             <td className="align-middle text-center">
               <span className="text-secondary text-sm font-weight-bold">
@@ -39,9 +39,7 @@ export const SubCategoriesTable = (props) => {
                     onClick={() => props?.onUpdate(item.id)}
                   />
                 </span>
-                <span
-                  className="text-secondary text-sm font-weight-bold cursor-pointer"
-                >
+                <span className="text-secondary text-sm font-weight-bold cursor-pointer">
                   <DeleteIcon
                     sx={{ fontSize: 20 }}
                     onClick={() => props?.onDelete(item.id)}

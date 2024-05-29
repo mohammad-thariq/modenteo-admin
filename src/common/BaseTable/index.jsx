@@ -11,6 +11,8 @@ import { Inventory } from "./TableBody/Inventory";
 import ReactPaginate from "react-paginate";
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
+import { InputSelect } from "../Form/common/inputSelect";
+import { PaginationLimit } from "@/constant/paginationConst";
 
 export const BaseTable = ({
   ref,
@@ -41,21 +43,34 @@ export const BaseTable = ({
 
   // pagintaion starts
   totalPage,
-  onPageChange,
+  pageLimit,
+  onPaginationLimitClick,
+  onPaginationClick,
 }) => {
   let tableHeadingList = [];
+  let limit = pageLimit;
 
   tableHeadings?.forEach((item, index) => {
     tableHeadingList.push(<TableHeader index={index} item={item} />);
   });
 
+  console.log(totalPage, "total");
   return (
     <div className="container-fluid py-4">
       <div className="row">
         <div className="col-12">
           <div className="card mb-4">
-            <div className="card-header pb-0">
+            <div className="card-header pb-0 flex justify-content-sb">
               <h5>{tableTitle}</h5>
+              {/* <InputSelect
+                noLabel
+                label="total Items"
+                onData={PaginationLimit}
+                isValue
+                name={limit}
+                values={limit}
+                onChange={onPaginationLimitClick}
+              /> */}
             </div>
             <br />
             <div className="card-body px-0 pt-0 pb-2" ref={ref}>
@@ -128,19 +143,22 @@ export const BaseTable = ({
                 </table>
               </div>
             </div>
-            <ReactPaginate
-              breakLabel="..."
-              nextLabel={<ArrowForwardIosRoundedIcon sx={{ fontSize: 18 }} />}
-              pageRangeDisplayed={2}
-              pageCount={totalPage}
-              onPageChange={onPageChange}
-              previousLabel={<ArrowBackIosRoundedIcon sx={{ fontSize: 18 }} />}
-              renderOnZeroPageCount={null}
-              containerClassName={"react-pagination"}
-              pageClassName={"page-item"}
-              activeClassName={"page-active"}
-                         
-            />
+            {totalPage > 1 && (
+              <ReactPaginate
+                breakLabel="..."
+                nextLabel={<ArrowForwardIosRoundedIcon sx={{ fontSize: 18 }} />}
+                pageRangeDisplayed={2}
+                pageCount={totalPage}
+                onPageChange={({ selected }) => onPaginationClick(selected)}
+                previousLabel={
+                  <ArrowBackIosRoundedIcon sx={{ fontSize: 18 }} />
+                }
+                renderOnZeroPageCount={null}
+                containerClassName={"react-pagination"}
+                pageClassName={"page-item"}
+                activeClassName={"page-active"}
+              />
+            )}
           </div>
         </div>
       </div>

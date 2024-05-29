@@ -9,10 +9,11 @@ export const InputSelect = ({
   onData,
   isValue,
   isCode,
+  noLabel,
 }) => {
   return (
     <>
-      <label>{label}</label>
+      {noLabel ? null : <label>{label}</label>}
       <div className="mb-2">
         <select
           className="form-select"

@@ -295,7 +295,7 @@ export const DashboardPanel = () => {
           ))}
         </div>
         <div className="row mt-4">
-          {data?.todayOrders?.length >= 1 ? (
+          {!data?.todayOrders?.length >= 1 ? (
             <BaseTable
               tableTitle="Today's Order"
               tableHeadings={AllOrderTableHeadings}

@@ -19,6 +19,8 @@ export const ChildCategories = () => {
   const [currentChildCategoryDataId, setCurrentChildCategoryDataId] =
     useState(null);
   const [currentChildCategoryId, setCurrentChildCategoryId] = useState(null);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(5);
 
   const {
     productCategory,
@@ -30,16 +32,17 @@ export const ChildCategories = () => {
   } = new ManageCategoriesApi();
 
   const { data, isLoading, refetch } = useQuery(
-    ["product-Childcategory"],
-    productChildCategory
+    ["product-Childcategory", page, limit],
+    productChildCategory,
+    { keepPreviousData: true }
   );
 
-  const { data: getCategory } = useQuery(["product-category"], productCategory);
+  // const { data: getCategory } = useQuery(["product-category"], productCategory);
 
-  const { data: getSubCategory } = useQuery(
-    ["product-subCategory"],
-    productSubCategory
-  );
+  // const { data: getSubCategory } = useQuery(
+  //   ["product-subCategory"],
+  //   productSubCategory
+  // );
 
   const { mutate: createChildCategory, isLoading: createChildCategoryLoading } =
     useMutation(createProductChildCategory, {
@@ -114,6 +117,10 @@ export const ChildCategories = () => {
     return <Loader />;
   }
 
+  const onPaginationClick = (page) => {
+    setPage(Number(page) + 1);
+  };
+
   return (
     <>
       <Breadcrumb currentPage={"Child Categories"} serachEnable />
@@ -131,9 +138,11 @@ export const ChildCategories = () => {
       </div>
       <BaseTable
         tableHeadings={ChildCategoriesTableHeading}
-        onChildCategoriesData={data}
+        onChildCategoriesData={data?.child_categories}
         onDelete={handleDeleteOrder}
         onUpdate={handleUpdateChildCategories}
+        totalPage={data?.pagination?.totalPage}
+        onPaginationClick={onPaginationClick}
       />
 
       {createChildCategories && (

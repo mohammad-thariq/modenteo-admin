@@ -18,8 +18,8 @@ export const Categories = () => {
   const [currentCategoryId, setCurrentCategoryId] = useState(null);
   const [currentCategoryDataId, setCurrentCategoryDataId] = useState(null);
   const [updateCategories, setupdateCategories] = useState(false);
-  const [page, setPage] = useState(1)
-  const [limit, setLimit] = useState(5)
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(5);
 
   const {
     productCategory,
@@ -29,7 +29,8 @@ export const Categories = () => {
   } = new ManageCategoriesApi();
   const { data, isLoading, refetch } = useQuery(
     ["product-category", page, limit],
-    productCategory
+    productCategory,
+    { keepPreviousData: true }
   );
 
   const { mutate: createCategory, isLoading: createCategoryLoading } =
@@ -102,11 +103,10 @@ export const Categories = () => {
     return <Loader />;
   }
 
-  console.log(data, 'data');
+  console.log(data, "data");
 
-  const handlePageClick = (selectedPage) => {
-    const pageNumber = selectedPage.selected + 1; // Adding 1 to match your backend's 1-based index
-    setPage(pageNumber);
+  const onPaginationClick = (page) => {
+    setPage(Number(page) + 1);
   };
 
   return (
@@ -129,7 +129,8 @@ export const Categories = () => {
         onDelete={handleDeleteCategory}
         onUpdate={handleUpdateCategoties}
         totalPage={data?.pagination?.totalPage}
-        onPageChange={handlePageClick}
+        onPaginationClick={onPaginationClick}
+        pageLimit={limit}
       />
 
       {createCategories && (
