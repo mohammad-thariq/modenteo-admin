@@ -16,10 +16,12 @@ export const Brands = () => {
   const [updateBrand, setUpdateBrand] = useState(false);
   const [currentBrandsId, setCurrentBrandsId] = useState(null);
   const [currentBrandsDataId, setCurrentBrandsDataId] = useState(null);
+  const [page, setPage] = useState(1)
+  const [limit, setLimit] = useState(10)
 
   const { brands, createBrands, updateBrands } = new productCateoriesAPI();
 
-  const { data, isLoading, refetch } = useQuery(["brands"], brands);
+  const { data, isLoading, refetch } = useQuery(["brands", page, limit], brands);
 
   const { mutate: createBrandsMutate, isLoading: createBrandsLoading } =
     useMutation(createBrands, {
@@ -84,7 +86,7 @@ export const Brands = () => {
       </div>
       <BaseTable
         tableHeadings={BrandsTableHeading}
-        onBrandsData={data}
+        onBrandsData={data?.brands}
         onUpdate={handleUpdateBrand}
       />
       {createbrand && (

@@ -19,8 +19,8 @@ export const SubCategories = () => {
   const [currentSubCategoryId, setCurrentSubCategoryId] = useState(null);
   const [currentSubCategoryDataId, setCurrentSubCategoryDataId] =
     useState(null);
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(5);
+    const [page, setPage] = useState(1)
+    const [limit, setLimit] = useState(5)
   const {
     productCategory,
     productSubCategory,
@@ -31,8 +31,7 @@ export const SubCategories = () => {
 
   const { data, isLoading, refetch } = useQuery(
     ["product-Subcategory", page, limit],
-    productSubCategory,
-    { keepPreviousData: true }
+    productSubCategory
   );
 
   // const { data: getCategory } = useQuery(["product-category"], productCategory);
@@ -102,15 +101,13 @@ export const SubCategories = () => {
     deleteSubCategoryMutate({ id: currentSubCategoryId });
   };
 
-  // if (data && !data) {
-  //   return <NoDataFound />;
-  // }
-
+ 
+  
   if (isLoading) {
     return <Loader />;
   }
 
-  console.log(data, "data");
+  console.log(data, 'data');
   return (
     <>
       <Breadcrumb currentPage={"Sub Categories"} serachEnable />
@@ -130,7 +127,6 @@ export const SubCategories = () => {
         onSubCategoriesData={data?.sub_categories}
         onDelete={handleDeleteOrder}
         onUpdate={handleUpdateSubCategories}
-        totalPage={data?.pagination.totalPage}
       />
 
       {createSubCategories && (

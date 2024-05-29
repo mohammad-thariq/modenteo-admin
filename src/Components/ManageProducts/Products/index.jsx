@@ -154,7 +154,7 @@ export const Products = () => {
       </div>
       <BaseTable
         tableHeadings={productTableHeading}
-        onProductData={data}
+        onProductData={data.products}
         onUpdate={handleUpdateProduct}
         onDelete={handleDeleteProduct}
       />
