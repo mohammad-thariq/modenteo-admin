@@ -83,13 +83,7 @@ export const CityTableHeading = [
   "Action",
 ];
 
-export const ManageTableHeadings = [
-  "SN",
-  "Name",
-  "Image",
-  "Status",
-  "Action",
-];
+export const ManageTableHeadings = ["Name", "Image", "Status", "Action"];
 
 export const ChildCategoriesTableHeading = [
   "SN",
@@ -202,12 +196,46 @@ export const stockOutTableheading = ["SN", "Name", "Price", "Photo", "Action"];
 
 export const popularCateoryTableHeading = ["Name", "	Action"];
 
-export const CouponTableHeading = ["SN",	"Name",	"Code",	"Discount",	"Number of Times",	"Apply Qty",	"Expired Date",	"Status",	"Action"]
+export const CouponTableHeading = [
+  "SN",
+  "Name",
+  "Code",
+  "Discount",
+  "Number of Times",
+  "Apply Qty",
+  "Expired Date",
+  "Status",
+  "Action",
+];
 
-export const ShippingRuleTableHeading = ["Rule","Condition",	"Fee",	"Address",	"Action"]
+export const ShippingRuleTableHeading = [
+  "Rule",
+  "Condition",
+  "Fee",
+  "Address",
+  "Action",
+];
 
-export const WithdrawTableHeading = ["SN",	"Seller"	,"Method"	,"Charge"	,"Total Amount"	,"Withdraw Amount", "Requested Date",
-"Approved Date",	
-"Account Information", "Status",	"Action"]
+export const WithdrawTableHeading = [
+  "SN",
+  "Seller",
+  "Method",
+  "Charge",
+  "Total Amount",
+  "Withdraw Amount",
+  "Requested Date",
+  "Approved Date",
+  "Account Information",
+  "Status",
+  "Action",
+];
 
-export const WithdrawMethodTableheading = ["SN",	"Name"	,"Minimum Amount"	, "Maximum Amount"	,"Charge",	"Status",	"Action"]
+export const WithdrawMethodTableheading = [
+  "SN",
+  "Name",
+  "Minimum Amount",
+  "Maximum Amount",
+  "Charge",
+  "Status",
+  "Action",
+];

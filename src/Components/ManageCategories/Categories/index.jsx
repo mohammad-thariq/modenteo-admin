@@ -19,7 +19,7 @@ export const Categories = () => {
   const [currentCategoryDataId, setCurrentCategoryDataId] = useState(null);
   const [updateCategories, setupdateCategories] = useState(false);
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(2);
+  const [limit, setLimit] = useState(5);
 
   const {
     productCategory,
@@ -31,7 +31,6 @@ export const Categories = () => {
     ["product-category", page, limit],
     productCategory,
     { keepPreviousData: true }
-      
   );
 
   const { mutate: createCategory, isLoading: createCategoryLoading } =
