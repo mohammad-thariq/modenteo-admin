@@ -4,6 +4,9 @@ import * as Yup from "yup";
 import style from "../index.module.css";
 import { InputSelect } from "../../common/inputSelect";
 import { statusConstantOption } from "@/constant/statusConst";
+import { InputFileUpload } from "../../common/inputFileUpload";
+import { FilePreviewChange } from "@/utils/filePreviewChange";
+import { useState } from "react";
 
 export const ChildCategoriesForm = ({
   onClose,
@@ -11,16 +14,18 @@ export const ChildCategoriesForm = ({
   data,
   onSave,
   onUpdate,
-  currentCategoryId,
+  currentChildCategoryId,
   loading,
   getCategory,
   getSubCategory,
 }) => {
+
+  const [imagePreview, setImagePreview] = useState();
+
   const schema = Yup.object({
-    sub_category: Yup.string().required("Sub Category is Required"),
+    sub_category_id: Yup.string().required("Sub Category is Required"),
     name: Yup.string().required("Child Category is Required"),
-    slug: Yup.string().required("Slug is Required"),
-    category: Yup.string().required("Category is Required"),
+    category_id: Yup.string().required("Category is Required"),
     status: Yup.string().required("Status is Required"),
   });
 
@@ -28,28 +33,32 @@ export const ChildCategoriesForm = ({
     <div className={style.wrapper}>
       <Formik
         initialValues={{
-          category: data?.category_id || "",
-          sub_category: data?.sub_category_id || "",
+          category_id: data?.category_id || "",
+          sub_category_id: data?.sub_category_id || "",
           name: data?.name || "",
-          slug: data?.slug || "",
+          image: imagePreview,
           status: data?.status + 1 || "",
         }}
         validationSchema={schema}
         onSubmit={(values, actions) => {
+          if (!imagePreview) {
+            actions.setFieldError("image", "Image is required");
+            return;
+          }
           onUpdate
             ? onUpdate({
-                id: currentCategoryId,
+                id: currentChildCategoryId,
                 name: values?.name,
-                slug: values?.slug,
-                sub_category: values?.sub_category,
-                category: values?.category,
+                image: imagePreview,
+                sub_category_id: values?.sub_category_id,
+                category_id: values?.category_id,
                 status: values?.status - 1,
               })
             : onSave({
                 name: values?.name,
-                slug: values?.slug,
-                sub_category: values?.sub_category,
-                category: values?.category,
+                image: imagePreview,
+                sub_category_id: values?.sub_category_id,
+                category_id: values?.category_id,
                 status: values?.status - 1,
               });
           actions.setSubmitting(true);
@@ -64,30 +73,44 @@ export const ChildCategoriesForm = ({
           handleSubmit,
         }) => (
           <form className="formInner overflow-column height-500">
+            <InputFileUpload
+              label="Image"
+              onChange={(e) => FilePreviewChange(e, setImagePreview)}
+              onBlur={handleBlur}
+              name="image"
+              value={values?.image}
+              accept="image/*"
+              onData={data?.image}
+              previewImage={imagePreview}
+              setPreviewImage={setImagePreview}
+            />
+            <p style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}>
+              {errors.image && touched.image && errors.image}
+            </p>
             <InputSelect
               label="Category"
-              name="category"
+              name="category_id"
               onBlur={handleBlur}
               onChange={handleChange}
-              values={values.category}
+              values={values.category_id}
               onData={getCategory?.categories}
             />
             <p style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}>
-              {errors.category && touched.category && errors.category}
+              {errors.category_id && touched.category_id && errors.category_id}
             </p>
 
             <InputSelect
               label="Sub Category"
-              name="sub_category"
+              name="sub_category_id"
               onBlur={handleBlur}
               onChange={handleChange}
-              values={values.sub_category}
-              onData={getSubCategory?.subCategories}
+              values={values.sub_category_id}
+              onData={getSubCategory?.sub_categories}
             />
             <p style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}>
-              {errors.sub_category &&
-                touched.sub_category &&
-                errors.sub_category}
+              {errors.sub_category_id &&
+                touched.sub_category_id &&
+                errors.sub_category_id}
             </p>
             <label>Child Category</label>
             <div className="mb-2">
@@ -103,25 +126,6 @@ export const ChildCategoriesForm = ({
                 style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}
               >
                 {errors.name && touched.name && errors.name}
-              </p>
-            </div>
-            <label>Slug</label>
-            <div className="mb-2">
-              <input
-                type="text"
-                name="slug"
-                className="form-control"
-                placeholder="Slug"
-                aria-label="NaSlugme"
-                aria-describedby="Slug"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.slug}
-              />
-              <p
-                style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}
-              >
-                {errors.slug && touched.slug && errors.slug}
               </p>
             </div>
             <InputSelect

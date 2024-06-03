@@ -1,6 +1,8 @@
 import { ProductStatus } from "@/common/BaseTable/TableColumn/ProductStatus";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditNoteIcon from "@mui/icons-material/EditNote";
+import Image from "next/image";
+import { BaseUrls } from "../../../../../../env";
 
 export const SubCategoriesTable = (props) => {
   return (
@@ -14,18 +16,22 @@ export const SubCategoriesTable = (props) => {
               </span>
             </td>
             <td className="align-middle text-center">
-              <span className="text-secondary text-sm font-weight-bold">
-                {item.name}
-              </span>
-            </td>
-            <td className="align-middle text-center">
-              <span className="text-secondary text-sm font-weight-bold">
-                {item.slug}
-              </span>
-            </td>
+            <Image
+              width={70}
+              height={70}
+              alt=""
+              src={`${BaseUrls?.IMAGE_URL}${item.image}`}
+              className="text-secondary text-sm font-weight-bold product-image"
+            />
+          </td>
             <td className="align-middle text-center">
               <span className="text-secondary text-sm font-weight-bold">
                 {item.category?.name}
+              </span>
+            </td>
+            <td className="align-middle text-center">
+              <span className="text-secondary text-sm font-weight-bold">
+                {item.name}
               </span>
             </td>
             <td className="align-middle text-center">

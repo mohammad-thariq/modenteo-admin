@@ -5,6 +5,10 @@ import { Formik } from "formik";
 import { useState } from "react";
 import Image from "next/image";
 import { BaseUrls } from "../../../../../env";
+import { InputFileUpload } from "../../common/inputFileUpload";
+import { FilePreviewChange } from "@/utils/filePreviewChange";
+import { InputSelect } from "../../common/inputSelect";
+import { statusConstantOption } from "@/constant/statusConst";
 
 export const BrandForm = ({
   onSave,
@@ -15,50 +19,38 @@ export const BrandForm = ({
   loading,
   button,
 }) => {
-  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState();
+
 
   const schema = Yup.object({
     name: Yup.string().required("Name is Required"),
-    // logo: Yup.string().required("Logo is Required"),
-    slug: Yup.string().required("Slug is Required"),
     status: Yup.string().required("Status is Required"),
   });
   return (
     <div className={style.wrapper}>
-      {data && (
-        <Image
-          width={70}
-          height={70}
-          alt=""
-          src={
-            `${BaseUrls?.IMAGE_URL}/${data?.logo}` ||
-            "/assets/img/placeholder.jpg"
-          }
-          className="text-secondary text-sm font-weight-bold product-image"
-        />
-      )}
       <Formik
         initialValues={{
-          logo: null,
-          slug: data?.slug || "",
+          image: imagePreview,
           name: data?.name || "",
-          status: data?.status || "",
+          status: data?.status + 1|| "",
         }}
         validationSchema={schema}
         onSubmit={(values, actions) => {
+          if (!imagePreview) {
+            actions.setFieldError("image", "Image is required");
+            return;
+          }
           onUpdate
             ? onUpdate({
                 id: currentBrandsId,
-                logo: imageFile || data?.image,
-                slug: values?.slug,
+                image: imagePreview,
                 name: values?.name,
-                status: values?.status,
+                status: values?.status - 1,
               })
             : onSave({
-                logo: imageFile,
-                slug: values?.slug,
+                image: imagePreview,
                 name: values?.name,
-                status: values?.status,
+                status: values?.status - 1,
               });
           actions.setSubmitting(true);
         }}
@@ -71,25 +63,22 @@ export const BrandForm = ({
           handleBlur,
           handleSubmit,
         }) => (
-          <form role="form">
+          <form className="formInner overflow-column height-500">
             <div className="mb-3">
-              <label>Logo</label>
-              <input
-                type="file"
-                className="form-control"
-                name="logo"
-                onChange={(e) => {
-                  const file = e?.currentTarget?.files[0];
-                  setImageFile(file?.name);
-                }}
-                onBlur={handleBlur}
-                value={values.logo}
-              />
-              {/* <p
-                style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}
-              >
-                {errors.logo && touched.logo && errors.logo}
-              </p> */}
+            <InputFileUpload
+              label="Logo"
+              onChange={(e) => FilePreviewChange(e, setImagePreview)}
+              onBlur={handleBlur}
+              name="image"
+              value={values?.image}
+              accept="image/*"
+              onData={data?.image}
+              previewImage={imagePreview}
+              setPreviewImage={setImagePreview}
+            />
+            <p style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}>
+              {errors.image && touched.image && errors.image}
+            </p>
             </div>
             <label>Name</label>
             <div className="mb-3">
@@ -108,36 +97,15 @@ export const BrandForm = ({
                 {errors.name && touched.name && errors.name}
               </p>
             </div>
-            <label>Slug</label>
-            <div className="mb-3">
-              <input
-                type="name"
-                name="slug"
-                className="form-control"
-                placeholder="Slug"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.slug}
-              />
-              <p
-                style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}
-              >
-                {errors.slug && touched.slug && errors.slug}
-              </p>
-            </div>
-            <label>Status</label>
-            <select
-              className="form-select"
-              aria-label="Default select example"
-              name="status"
-              onChange={handleChange}
+            <InputSelect
+              label={"Status"}
               onBlur={handleBlur}
-              value={values.status}
-            >
-              <option hidden>Select Status</option>
-              <option value={1}>Active</option>
-              <option value={0}>Inactive</option>
-            </select>
+              onChange={handleChange}
+              name={"status"}
+              values={values?.status}
+              isValue
+              onData={statusConstantOption}
+            />
             <p style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}>
               {errors.status && touched.status && errors.status}
             </p>

@@ -23,8 +23,8 @@ export const ChildCategories = () => {
   const [limit, setLimit] = useState(5);
 
   const {
-    productCategory,
-    productSubCategory,
+    productActiveCategory,
+    productActiveSubCategory,
     productChildCategory,
     createProductChildCategory,
     updateProductChildCategory,
@@ -37,12 +37,12 @@ export const ChildCategories = () => {
     { keepPreviousData: true }
   );
 
-  // const { data: getCategory } = useQuery(["product-category"], productCategory);
+  const { data: getCategory } = useQuery(["product-active-category"], productActiveCategory);
 
-  // const { data: getSubCategory } = useQuery(
-  //   ["product-subCategory"],
-  //   productSubCategory
-  // );
+  const { data: getSubCategory } = useQuery(
+    ["product-ative-subCategory"],
+    productActiveSubCategory
+  );
 
   const { mutate: createChildCategory, isLoading: createChildCategoryLoading } =
     useMutation(createProductChildCategory, {
@@ -96,7 +96,7 @@ export const ChildCategories = () => {
   const handleUpdateChildCategories = (id) => {
     setUpdateChildCategories(!updateChildCategories);
     setCurrentChildCategoryId(id);
-    const getCategoryById = data?.childCategories?.find((i) => i?.id === id);
+    const getCategoryById = data?.child_categories?.find((i) => i?.id === id);
     setCurrentChildCategoryDataId(getCategoryById);
   };
 
@@ -172,7 +172,7 @@ export const ChildCategories = () => {
             onUpdate={updateChildCategory}
             button="Update"
             loading={updateChildCategoryLoading}
-            currentCategoryId={currentChildCategoryId}
+            currentChildCategoryId={currentChildCategoryId}
             data={currentChildCategoryDataId}
           />
         </Popup>

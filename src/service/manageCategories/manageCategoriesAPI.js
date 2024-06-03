@@ -11,6 +11,11 @@ export class ManageCategoriesApi {
     return res;
   };
 
+  productActiveCategory = async () => {
+    const res = await _axios("get", `/list/categories`);
+    return res;
+  };
+
   createProductCategory = async (data) => {
     const res = await _axios(
       "post",
@@ -48,6 +53,11 @@ export class ManageCategoriesApi {
     return res;
   };
 
+  productActiveSubCategory = async () => {
+    const res = await _axios("get", `/list/sub_categories`);
+    return res;
+  };
+
   createProductSubCategory = async (data) => {
     const res = await _axios(
       "post",
@@ -63,9 +73,9 @@ export class ManageCategoriesApi {
   updateProductSubCategory = async (data) => {
     const res = await _axios(
       "patch",
-      `/sub_categories/update`,
+      `/sub_categories/update/${data?.id}`,
       {
-        ...data,
+        data,
       },
       "multipart/form-data"
     );

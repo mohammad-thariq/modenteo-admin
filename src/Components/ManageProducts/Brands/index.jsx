@@ -10,18 +10,24 @@ import { ToastifyFailed, ToastifySuccess } from "@/common/Toastify";
 import { BrandsTableHeading } from "@/constant/tableHeading";
 import { NoDataFound } from "@/common/NoDataFound";
 import { Loader } from "@/common/Loader";
+import { DeleteItem } from "@/common/Popup/DeleteItem";
 
 export const Brands = () => {
   const [createbrand, setCreateBrand] = useState(false);
   const [updateBrand, setUpdateBrand] = useState(false);
+  const [deleteBrand, setDeleteBrand] = useState(false);
   const [currentBrandsId, setCurrentBrandsId] = useState(null);
   const [currentBrandsDataId, setCurrentBrandsDataId] = useState(null);
-  const [page, setPage] = useState(1)
-  const [limit, setLimit] = useState(10)
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
 
-  const { brands, createBrands, updateBrands } = new productCateoriesAPI();
+  const { brands, createBrands, updateBrands, deleteBrands } =
+    new productCateoriesAPI();
 
-  const { data, isLoading, refetch } = useQuery(["brands", page, limit], brands);
+  const { data, isLoading, refetch } = useQuery(
+    ["brands", page, limit],
+    brands
+  );
 
   const { mutate: createBrandsMutate, isLoading: createBrandsLoading } =
     useMutation(createBrands, {
@@ -51,6 +57,20 @@ export const Brands = () => {
       },
     });
 
+  const { mutate: deleteBrandsMutate, isLoading: deleteBrandsLoading } =
+    useMutation(deleteBrands, {
+      onSuccess: (data, variables, context) => {
+        setDeleteBrand(false);
+        ToastifySuccess(data?.message);
+        refetch();
+      },
+      onError: (data, variables, context) => {
+        setDeleteBrand(true);
+        ToastifyFailed(data?.message);
+        refetch();
+      },
+    });
+
   const handleCreateBrand = () => {
     setCreateBrand(!createbrand);
   };
@@ -62,6 +82,15 @@ export const Brands = () => {
     setUpdateBrand(!updateBrand);
   };
 
+  const handleDeleteBrands = (id) => {
+    setCurrentBrandsId(id);
+    setDeleteBrand(!deleteBrand);
+  };
+
+  const handleOnDeleteBrands = () => {
+    deleteBrandsMutate({ id: currentBrandsId });
+  };
+
   if (data && !data) {
     return <NoDataFound />;
   }
@@ -69,6 +98,8 @@ export const Brands = () => {
   if (isLoading) {
     return <Loader />;
   }
+
+  console.log(data, "data");
 
   return (
     <>
@@ -88,6 +119,7 @@ export const Brands = () => {
         tableHeadings={BrandsTableHeading}
         onBrandsData={data?.brands}
         onUpdate={handleUpdateBrand}
+        onDelete={deleteBrandsMutate}
       />
       {createbrand && (
         <Popup open={createbrand} onClose={handleCreateBrand}>
@@ -108,6 +140,16 @@ export const Brands = () => {
             data={currentBrandsDataId}
             currentBrandsId={currentBrandsId}
             loading={updateBrandsLoading}
+          />
+        </Popup>
+      )}
+
+      {deleteBrand && (
+        <Popup open={deleteBrand} onClose={handleDeleteBrands}>
+          <DeleteItem
+            onClose={handleDeleteBrands}
+            loading={deleteBrandsLoading}
+            onClick={handleOnDeleteBrands}
           />
         </Popup>
       )}

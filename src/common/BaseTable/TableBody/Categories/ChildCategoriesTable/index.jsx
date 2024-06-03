@@ -2,16 +2,10 @@ import { ProductStatus } from "@/common/BaseTable/TableColumn/ProductStatus";
 import { TruncateString } from "@/utils/truncateString";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditNoteIcon from "@mui/icons-material/EditNote";
+import Image from "next/image";
+import { BaseUrls } from "../../../../../../env";
 
 export const ChildCategoriesTable = (props) => {
-  // const [isToggled, setIsToggled] = useState(false);
-
-  // const handleChange = (id) => {
-  //   const filterData = props?.onChildCategories?.childCategories?.find(
-  //     (i) => i?.id === id
-  //   );
-  //   setIsToggled(!isToggled);
-  // };
 
   return (
     <>
@@ -24,6 +18,25 @@ export const ChildCategoriesTable = (props) => {
               </span>
             </td>
             <td className="align-middle text-center">
+            <Image
+              width={70}
+              height={70}
+              alt=""
+              src={`${BaseUrls?.IMAGE_URL}${item.image}`}
+              className="text-secondary text-sm font-weight-bold product-image"
+            />
+          </td>
+          <td className="align-middle text-center">
+              <span className="text-secondary text-sm font-weight-bold">
+                {item.category?.name}
+              </span>
+            </td>
+            <td className="align-middle text-center">
+              <span className="text-secondary text-sm font-weight-bold">
+                {item.sub_category?.name}
+              </span>
+            </td>
+            <td className="align-middle text-center">
               <span
                 className="text-secondary text-sm font-weight-bold"
                 title={item?.name}
@@ -31,24 +44,7 @@ export const ChildCategoriesTable = (props) => {
                 {TruncateString(item?.name)}
               </span>
             </td>
-            <td className="align-middle text-center">
-              <span
-                className="text-secondary text-sm font-weight-bold"
-                title={item?.slug}
-              >
-                {TruncateString(item?.slug)}
-              </span>
-            </td>
-            <td className="align-middle text-center">
-              <span className="text-secondary text-sm font-weight-bold">
-                {item.sub_category.name}
-              </span>
-            </td>
-            <td className="align-middle text-center">
-              <span className="text-secondary text-sm font-weight-bold">
-                {item.category.name}
-              </span>
-            </td>
+         
             <td className="align-middle text-center">
               <ProductStatus status={item?.status} />
             </td>
@@ -65,7 +61,7 @@ export const ChildCategoriesTable = (props) => {
                   <span>
                     <DeleteIcon
                       sx={{ fontSize: 20 }}
-                      onClick={() => props?.onDelete()}
+                      onClick={() => props?.onDelete(item.id)}
                     />
                   </span>
                 </span>{" "}

@@ -22,7 +22,7 @@ export const SubCategories = () => {
     const [page, setPage] = useState(1)
     const [limit, setLimit] = useState(5)
   const {
-    productCategory,
+    productActiveCategory,
     productSubCategory,
     createProductSubCategory,
     updateProductSubCategory,
@@ -34,7 +34,7 @@ export const SubCategories = () => {
     productSubCategory
   );
 
-  // const { data: getCategory } = useQuery(["product-category"], productCategory);
+  const { data: getCategory } = useQuery(["product-active-category"], productActiveCategory);
 
   const { mutate: createSubCategory, isLoading: createSubCategoryLoading } =
     useMutation(createProductSubCategory, {
@@ -87,7 +87,7 @@ export const SubCategories = () => {
 
   const handleUpdateSubCategories = (id) => {
     setCurrentSubCategoryId(id);
-    const getSubCategoryById = data?.subCategories?.find((i) => i?.id === id);
+    const getSubCategoryById = data?.sub_categories?.find((i) => i?.id === id);
     setCurrentSubCategoryDataId(getSubCategoryById);
     setUpdateSubCategories(!updateSubCategories);
   };
@@ -108,6 +108,8 @@ export const SubCategories = () => {
   }
 
   console.log(data, 'data');
+
+  console.log(getCategory, 'getCategory');
   return (
     <>
       <Breadcrumb currentPage={"Sub Categories"} serachEnable />
@@ -136,7 +138,8 @@ export const SubCategories = () => {
             onSave={createSubCategory}
             loading={createSubCategoryLoading}
             button="Add New"
-            // getCategory={getCategory}
+            data={currentSubCategoryId}
+            getCategory={getCategory}
           />
         </Popup>
       )}
@@ -144,7 +147,7 @@ export const SubCategories = () => {
       {updateSubCategories && (
         <Popup open={updateSubCategories} onClose={handleUpdateSubCategories}>
           <SubCategoriesForm
-            // getCategory={getCategory}
+            getCategory={getCategory}
             onClose={handleUpdateSubCategories}
             onUpdate={updateSubCategory}
             button="Update"

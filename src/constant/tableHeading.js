@@ -19,45 +19,6 @@ export const showOrderTableHeadings = [
   "Total",
 ];
 
-export const deliveryManTableHeading = [
-  "SN",
-  "Name",
-  "Email",
-  "Total order",
-  "Image",
-  "Status",
-  "Action",
-];
-
-export const reciveAmountTableheading = [
-  "SN",
-  "Delivery Man",
-  "Total Amount",
-  "Date",
-  "Action",
-];
-
-export const reviewTableheading = [
-  "SN",
-  "Delivery man",
-  "Customer",
-  "Order id",
-  "Review",
-  "Rating",
-  "Status",
-  "Action",
-];
-
-export const pendingTableHeading = [
-  "SN",
-  "Seller",
-  "Method",
-  "Charge",
-  "Total Amount",
-  "Withdraw Amount",
-  "Status",
-  "Action",
-];
 
 export const InventoryTableHeading = [
   "SN",
@@ -87,36 +48,20 @@ export const ManageTableHeadings = ["Name", "Image", "Status", "Action"];
 
 export const ChildCategoriesTableHeading = [
   "SN",
-  "Child Category",
-  "Slug",
-  "Sub Category",
+  "Image",
   "Category",
+  "Sub Category",
+  "Child Category",
   "Status",
   "Action",
 ];
 export const featuredCategoryTableHeading = ["Name", "	Action"];
 
-export const MegaMenuCategoriesTableHeading = [
-  "SN",
-  "Name",
-  "Serial",
-  "Status",
-  "Action",
-];
-
-export const MegaMenuSubCategoryTableHeading = [
-  "SN",
-  "Sub Category",
-  "Serial",
-  "Status",
-  "Action",
-];
-
 export const subCategoriesTableHeading = [
   "SN",
-  "Sub Category",
-  "Slug",
+  "Image",
   "Category",
+  "Sub Category",
   "Status",
   "Action",
 ];
@@ -124,7 +69,6 @@ export const subCategoriesTableHeading = [
 export const BrandsTableHeading = [
   "SN",
   "Name",
-  "Slug",
   "Logo",
   "Status",
   "Action",
