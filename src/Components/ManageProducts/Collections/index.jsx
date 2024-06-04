@@ -19,7 +19,7 @@ export const Collections = () => {
   const [currentCollectionsId, setCurrentCollectionsId] = useState(null);
   const [currentCollectionsDataId, setCurrentCollectionsDataId] = useState(null);
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(9);
 
   const { collections, createCollections, updateCollections, deleteCollections } =
     new productCateoriesAPI();

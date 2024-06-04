@@ -19,7 +19,7 @@ export const Categories = () => {
   const [currentCategoryDataId, setCurrentCategoryDataId] = useState(null);
   const [updateCategories, setupdateCategories] = useState(false);
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(5);
+  const [limit, setLimit] = useState(9);
 
   const {
     productCategory,

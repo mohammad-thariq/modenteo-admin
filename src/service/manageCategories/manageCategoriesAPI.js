@@ -30,7 +30,7 @@ export class ManageCategoriesApi {
     const res = await _axios(
       "patch",
       `/categories/update/${data.id}`,
-      { ...data },
+      {...data},
       "multipart/form-data"
     );
     return res;
@@ -75,7 +75,7 @@ export class ManageCategoriesApi {
       "patch",
       `/sub_categories/update/${data?.id}`,
       {
-        data,
+        ...data,
       },
       "multipart/form-data"
     );

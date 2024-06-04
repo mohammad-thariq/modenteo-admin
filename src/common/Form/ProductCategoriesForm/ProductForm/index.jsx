@@ -20,9 +20,9 @@ import { statusConstantOption } from "@/constant/statusConst";
 const schema = Yup.object({
   name: Yup.string().required("Name is Required"),
   short_name: Yup.string().required("Short Name is Required"),
-  category_id: Yup.string().required("Category is Required"),
-  sub_category_id: Yup.string().required("Sub Category is Required"),
-  stock_quantity: Yup.string().required("Stock Quantity is Required"),
+  category: Yup.string().required("Category is Required"),
+  sub_category: Yup.string().required("Sub Category is Required"),
+  quantity: Yup.string().required("Stock Quantity is Required"),
   sku: Yup.string().required("Sku is Required"),
   price: Yup.string().required("Price is Required"),
   short_description: Yup.string().required("Short Description is Required"),
@@ -83,17 +83,17 @@ export const ProductForm = ({
           short_name: data?.short_name || "",
           name: data?.name || "",
           image: imagePreview,
-          category_id: data?.category?.name || "",
-          sub_category_id: data?.sub_category_id || "",
-          collection: data?.collection || "",
-          brand_id: data?.brand_id || "",
-          stock_quantity: data?.stock_quantity || "",
+          category: data?.category_id || "",
+          sub_category: data?.sub_category_id || "",
+          collection: data?.collection_id || "",
+          brand: data?.brand_id || "",
+          quantity: data?.stock_quantity || "",
           sku: data?.sku || "",
           price: data?.price || "",
           offer_price: data?.offer_price || "",
           short_description: data?.short_description || "",
           long_description: data?.long_description || getLongDescription || "",
-          status: data?.status || "",
+          status: data?.status + 1 || "",
           weight: data?.weight || "",
           seo_title: data?.seo_title || "",
           seo_description: data?.seo_description || "",
@@ -121,17 +121,17 @@ export const ProductForm = ({
                 short_name: values?.short_name,
                 name: values?.name,
                 image: imagePreview,
-                category_id: values?.category_id,
-                sub_category_id: values?.sub_category_id,
+                category: values?.category,
+                sub_category: values?.sub_category,
                 collection: values?.collection,
-                brand_id: values?.brand_id,
+                brand: values?.brand,
                 quantity: values?.quantity,
                 sku: values?.sku,
                 price: values?.price,
                 offer_price: values?.offer_price,
                 short_description: values?.short_description,
                 long_description: getLongDescription,
-                status: values?.status,
+                status: values?.status - 1,
                 weight: values?.weight,
                 seo_title: values?.seo_title,
                 seo_description: values?.seo_description,
@@ -144,17 +144,17 @@ export const ProductForm = ({
                 short_name: values?.short_name,
                 name: values?.name,
                 image: imagePreview,
-                category_id: values?.category_id,
-                sub_category_id: values?.sub_category_id,
+                category: values?.category,
+                sub_category: values?.sub_category,
                 collection: values?.collection,
-                brand_id: values?.brand_id,
+                brand: values?.brand,
                 quantity: values?.quantity,
                 sku: values?.sku,
                 price: values?.price,
                 offer_price: values?.offer_price,
                 short_description: values?.short_description,
                 long_description: getLongDescription,
-                status: values?.status,
+                status: values?.status - 1,
                 weight: values?.weight,
                 seo_title: values?.seo_title,
                 seo_description: values?.seo_description,
@@ -231,23 +231,46 @@ export const ProductForm = ({
             </div>
             <InputSelect
               label="Category"
-              name="category_id"
+              name="category"
               onChange={handleChange}
               onBlur={handleBlur}
-              values={values?.category_id}
+              values={values?.category}
               onData={category}
             />
             <p style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}>
-              {errors.category_id && touched.category_id && errors.category_id}
+              {errors.category && touched.category && errors.category}
             </p>
-            <InputSelect
+            {/* <InputSelect
               label="Sub Category"
               name="sub_category_id"
               onBlur={handleBlur}
               onChange={handleChange}
               values={values.sub_category_id}
-              onData={values.category_id == i?.category_id && subCategory}
-            />
+              onData={subCategory}
+            /> */}
+            <label>Sub Category</label>
+            <select
+              className="form-select"
+              name="sub_category"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.sub_category}
+            >
+              <option hidden>Select Sub Category</option>
+              {subCategory?.map(
+                (i) =>
+                  values.category == i?.category_id && (
+                    <option key={i?.id} value={i?.id}>
+                      {i?.name}
+                    </option>
+                  )
+              )}
+            </select>
+            <p style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}>
+              {errors.sub_category &&
+                touched.sub_category &&
+                errors.sub_category}
+            </p>
             <InputSelect
               label="Collection"
               name="collection"
@@ -258,10 +281,10 @@ export const ProductForm = ({
             />
             <InputSelect
               label="Brand"
-              name="brand_id"
+              name="brand"
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.brand_id}
+              value={values.brand}
               onData={brand}
             />
             <label>SKU</label>
@@ -317,6 +340,9 @@ export const ProductForm = ({
                 value={values.quantity}
               />
             </div>
+            <p style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}>
+              {errors.quantity && touched.quantity && errors.quantity}
+            </p>
             <label>Weight</label>
             <div className="mb-2">
               <input
@@ -328,11 +354,6 @@ export const ProductForm = ({
                 onBlur={handleBlur}
                 value={values.weight}
               />
-              <p
-                style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}
-              >
-                {errors.weight && touched.weight && errors.weight}
-              </p>
             </div>
             <label>Short Description</label>
             <div className="mb-2">
@@ -419,6 +440,7 @@ export const ProductForm = ({
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.status}
+              isValue
               onData={statusConstantOption}
             />
             <p style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}>

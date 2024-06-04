@@ -20,7 +20,7 @@ export const SubCategories = () => {
   const [currentSubCategoryDataId, setCurrentSubCategoryDataId] =
     useState(null);
   const [page, setPage] = useState(1)
-  const [limit, setLimit] = useState(5)
+  const [limit, setLimit] = useState(9)
   const {
     productActiveCategory,
     productSubCategory,
@@ -112,7 +112,7 @@ export const SubCategories = () => {
   const onPaginationClick = (page) => {
     setPage(Number(page) + 1);
   };
-  console.log(getCategory, 'getCategory');
+
   return (
     <>
       <Breadcrumb currentPage={"Sub Categories"} serachEnable />
@@ -160,7 +160,7 @@ export const SubCategories = () => {
             onUpdate={updateSubCategory}
             button="Update"
             loading={updateSubCategoryLoading}
-            currentCategoryId={currentSubCategoryId}
+            currentSubCategoryId={currentSubCategoryId}
             data={currentSubCategoryDataId}
           />
         </Popup>

@@ -58,7 +58,7 @@ export class productCateoriesAPI {
     return res;
   };
   
-  activeCollections = async () => {
+  collectionsActive = async () => {
     const res = await _axios("get", `/list/collections`);
     return res;
   };

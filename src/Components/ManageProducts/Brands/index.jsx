@@ -19,7 +19,7 @@ export const Brands = () => {
   const [currentBrandsId, setCurrentBrandsId] = useState(null);
   const [currentBrandsDataId, setCurrentBrandsDataId] = useState(null);
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(9);
 
   const { brands, createBrands, updateBrands, deleteBrands } =
     new productCateoriesAPI();

@@ -45,10 +45,10 @@ export const Product = ({
             <td className="align-middle text-center">
               <span className="text-secondary text-sm font-weight-bold">
                 <ProductType
-                  top={item?.is_top}
-                  best={item?.is_best}
-                  featured={item?.is_featured}
-                  newProduct={item?.new_product}
+                  top={item?.top_product}
+                  best={item?.best_product}
+                  featured={item?.featured_product}
+                  newProduct={item?.new_arrival}
                 />
               </span>
             </td>

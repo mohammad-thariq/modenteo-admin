@@ -17,18 +17,29 @@ export const Products = () => {
   const {
     productActiveCategory,
     productActiveSubCategory,
-    productActiveChildCategory,
   } = new ManageCategoriesApi();
 
   const {
     products,
     brandsActive,
+    collectionsActive,
     createProducts,
     updateProducts,
     deleteProductById,
   } = new productCateoriesAPI();
 
-  const { data, isLoading, refetch } = useQuery(["products"], products);
+  const [createProduct, setCreateProduct] = useState(false);
+  const [updateProduct, setUpdateProduct] = useState(false);
+  const [openDeletePopup, setOpenDeletePopup] = useState(false);
+  const [currentProductId, setCurrentProductId] = useState(null);
+  const [currentProductDataId, setCurrentProductDataId] = useState(null);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(9);
+
+  const { data, isLoading, refetch } = useQuery(
+    ["products", page, limit],
+    products
+  );
 
   const { data: category } = useQuery(
     ["product-active-category"],
@@ -39,18 +50,12 @@ export const Products = () => {
     ["product-active-subcategory"],
     productActiveSubCategory
   );
-  const { data: childCategory } = useQuery(
-    ["product-active-childcategory"],
-    productActiveChildCategory
+
+  const { data: collection } = useQuery(
+    ["product-active-collection"],
+    collectionsActive
   );
   const { data: brand } = useQuery(["brands-active"], brandsActive);
-
-
-  const [createProduct, setCreateProduct] = useState(false);
-  const [updateProduct, setUpdateProduct] = useState(false);
-  const [openDeletePopup, setOpenDeletePopup] = useState(false);
-  const [currentProductId, setCurrentProductId] = useState(null);
-  const [currentProductDataId, setCurrentProductDataId] = useState(null);
 
   const { mutate: createProductMutate, isLoading: createProductLoading } =
     useMutation(createProducts, {
@@ -112,7 +117,6 @@ export const Products = () => {
     deleteProductMutate({ id: currentProductId });
   };
 
-
   if (data && !data) {
     return <NoDataFound />;
   }
@@ -125,6 +129,7 @@ export const Products = () => {
     setPage(Number(page) + 1);
   };
 
+  console.log(currentProductDataId, 'currentProductDataId');
   return (
     <>
       <Breadcrumb currentPage={"Products"} serachEnable />
@@ -152,10 +157,10 @@ export const Products = () => {
       {createProduct && (
         <Popup open={createProduct} onClose={handleCreateProduct}>
           <ProductForm
-            category={category}
-            subCategory={subCategory}
-            childCategory={childCategory}
-            brand={brand}
+            category={category?.categories}
+            subCategory={subCategory?.sub_categories}
+            collection={collection?.collections}
+            brand={brand?.brands}
             onClose={handleCreateProduct}
             onSave={createProductMutate}
             button="Add New"
@@ -166,10 +171,10 @@ export const Products = () => {
       {updateProduct && (
         <Popup open={updateProduct} onClose={handleUpdateProduct}>
           <ProductForm
-            category={category}
-            subCategory={subCategory}
-            childCategory={childCategory}
-            brand={brand}
+            category={category?.categories}
+            subCategory={subCategory?.sub_categories}
+            collection={collection?.collections}
+            brand={brand?.brands}
             onClose={handleUpdateProduct}
             data={currentProductDataId}
             button="update"
