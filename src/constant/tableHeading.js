@@ -46,15 +46,7 @@ export const CityTableHeading = [
 
 export const ManageTableHeadings = ["Name", "Image", "Status", "Action"];
 
-export const ChildCategoriesTableHeading = [
-  "SN",
-  "Image",
-  "Category",
-  "Sub Category",
-  "Child Category",
-  "Status",
-  "Action",
-];
+
 export const featuredCategoryTableHeading = ["Name", "	Action"];
 
 export const subCategoriesTableHeading = [
