@@ -1,43 +1,38 @@
 import { Button } from "@/common/Button";
-import { Formik } from "formik";
-import * as Yup from "yup";
 import style from "../index.module.css";
-import { InputSelect } from "../../common/inputSelect";
-import { statusConstantOption } from "@/constant/statusConst";
+import * as Yup from "yup";
+import { Formik } from "formik";
+import { useState } from "react";
+import Image from "next/image";
+import { BaseUrls } from "../../../../../env";
 import { InputFileUpload } from "../../common/inputFileUpload";
 import { FilePreviewChange } from "@/utils/filePreviewChange";
-import { useState } from "react";
+import { InputSelect } from "../../common/inputSelect";
+import { statusConstantOption } from "@/constant/statusConst";
 
-export const ChildCategoriesForm = ({
-  onClose,
-  button,
-  data,
+export const CollectionForm = ({
   onSave,
+  onClose,
+  currentCollectionsId,
+  data,
   onUpdate,
-  currentChildCategoryId,
   loading,
-  getCategory,
-  getSubCategory,
+  button,
 }) => {
-
   const [imagePreview, setImagePreview] = useState();
 
+
   const schema = Yup.object({
-    sub_category_id: Yup.string().required("Sub Category is Required"),
-    name: Yup.string().required("Child Category is Required"),
-    category_id: Yup.string().required("Category is Required"),
+    name: Yup.string().required("Name is Required"),
     status: Yup.string().required("Status is Required"),
   });
-
   return (
     <div className={style.wrapper}>
       <Formik
         initialValues={{
-          category_id: data?.category_id || "",
-          sub_category_id: data?.sub_category_id || "",
-          name: data?.name || "",
           image: imagePreview,
-          status: data?.status + 1 || "",
+          name: data?.name || "",
+          status: data?.status + 1|| "",
         }}
         validationSchema={schema}
         onSubmit={(values, actions) => {
@@ -47,18 +42,14 @@ export const ChildCategoriesForm = ({
           }
           onUpdate
             ? onUpdate({
-                id: currentChildCategoryId,
-                name: values?.name,
+                id: currentCollectionsId,
                 image: imagePreview,
-                sub_category_id: values?.sub_category_id,
-                category_id: values?.category_id,
+                name: values?.name,
                 status: values?.status - 1,
               })
             : onSave({
-                name: values?.name,
                 image: imagePreview,
-                sub_category_id: values?.sub_category_id,
-                category_id: values?.category_id,
+                name: values?.name,
                 status: values?.status - 1,
               });
           actions.setSubmitting(true);
@@ -73,8 +64,9 @@ export const ChildCategoriesForm = ({
           handleSubmit,
         }) => (
           <form className="formInner overflow-column height-500">
+            <div className="mb-3">
             <InputFileUpload
-              label="Image"
+              label="Logo"
               onChange={(e) => FilePreviewChange(e, setImagePreview)}
               onBlur={handleBlur}
               name="image"
@@ -87,37 +79,14 @@ export const ChildCategoriesForm = ({
             <p style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}>
               {errors.image && touched.image && errors.image}
             </p>
-            <InputSelect
-              label="Category"
-              name="category_id"
-              onBlur={handleBlur}
-              onChange={handleChange}
-              values={values.category_id}
-              onData={getCategory?.categories}
-            />
-            <p style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}>
-              {errors.category_id && touched.category_id && errors.category_id}
-            </p>
-
-            <InputSelect
-              label="Sub Category"
-              name="sub_category_id"
-              onBlur={handleBlur}
-              onChange={handleChange}
-              values={values.sub_category_id}
-              onData={getSubCategory?.sub_categories}
-            />
-            <p style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}>
-              {errors.sub_category_id &&
-                touched.sub_category_id &&
-                errors.sub_category_id}
-            </p>
-            <label>Child Category</label>
-            <div className="mb-2">
+            </div>
+            <label>Name</label>
+            <div className="mb-3">
               <input
-                type="text"
+                type="name"
                 name="name"
                 className="form-control"
+                placeholder="Name"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.name}
@@ -145,7 +114,7 @@ export const ChildCategoriesForm = ({
                 name="Close"
                 border="1px solid #dc395f"
                 color="#000"
-                onClick={onClose}
+                onClick={() => onClose()}
               />
               <Button
                 name={button}

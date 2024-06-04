@@ -1,10 +1,10 @@
 import { CategoriesTable } from "@/common/BaseTable/TableBody/Categories/CategoriesTable";
 import { OrderTable } from "@/common/BaseTable/TableBody/OrderTable";
 import { SubCategoriesTable } from "@/common/BaseTable/TableBody/Categories/SubCategoriesTable";
-import { ChildCategoriesTable } from "@/common/BaseTable/TableBody/Categories/ChildCategoriesTable";
 import { TableHeader } from "./TableHeader";
 import { OrderShowTable } from "./TableBody/OrderTable/OrderShow";
 import { BrandsTable } from "./TableBody/Products/BrandsTable";
+import { CollectionsTable } from "./TableBody/Products/CollectionsTable";
 import { SpecKeyTable } from "./TableBody/Products/SpecKeyTable";
 import { Product } from "./TableBody/Products/Product";
 import { Inventory } from "./TableBody/Inventory";
@@ -23,11 +23,11 @@ export const BaseTable = ({
   onTableData,
   onCategoriesData,
   onBrandsData,
+  onCollectionsData,
   onSpecKeyData,
   onInventoryData,
   onProductData,
   onSubCategoriesData,
-  onChildCategoriesData,
   onShowOrder,
   // tableDatas ends
 
@@ -103,13 +103,6 @@ export const BaseTable = ({
                         onDelete={onDelete}
                       />
                     )}
-                    {onChildCategoriesData && (
-                      <ChildCategoriesTable
-                        onChildCategories={onChildCategoriesData}
-                        onUpdate={onUpdate}
-                        onDelete={onDelete}
-                      />
-                    )}
 
                     {onShowOrder && (
                       <OrderShowTable onShowOrder={onShowOrder} />
@@ -118,6 +111,11 @@ export const BaseTable = ({
                       <BrandsTable
                         onBrandsData={onBrandsData}
                         onUpdate={onUpdate}
+                        onDelete={onDelete}
+                      />
+                    )}
+                    {onCollectionsData && (
+                      <CollectionsTable onCollectionsData={onCollectionsData} onUpdate={onUpdate}
                         onDelete={onDelete}
                       />
                     )}

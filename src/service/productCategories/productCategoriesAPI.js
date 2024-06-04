@@ -8,7 +8,7 @@ const getToken = () => {
 };
 
 export class productCateoriesAPI {
-  brands = async ({queryKey}) => {
+  brands = async ({ queryKey }) => {
     const res = await _axios("get", `/brands?page=${queryKey[1]}&limit=${queryKey[2]}`);
     return res;
   };
@@ -17,7 +17,7 @@ export class productCateoriesAPI {
     const res = await _axios(
       "post",
       `/brands/create`,
-      {data},
+      { data },
       "multipart/form-data"
     );
     return res;
@@ -27,7 +27,7 @@ export class productCateoriesAPI {
     const res = await _axios(
       "patch",
       `/brands/update/${data.id}`,
-      {data},
+      { data },
       "multipart/form-data"
     );
     return res;
@@ -41,7 +41,42 @@ export class productCateoriesAPI {
     return res;
   };
 
-  products = async ({queryKey}) => {
+
+  // Collection Starts
+  collections = async ({ queryKey }) => {
+    const res = await _axios("get", `/collections?page=${queryKey[1]}&limit=${queryKey[2]}`);
+    return res;
+  };
+
+  createCollections = async (data) => {
+    const res = await _axios(
+      "post",
+      `/collections/create`,
+      data,
+      "multipart/form-data"
+    );
+    return res;
+  };
+
+  updateCollections = async (data) => {
+    const res = await _axios(
+      "patch",
+      `/collections/update/${data.id}`,
+      { data },
+      "multipart/form-data"
+    );
+    return res;
+  };
+
+  deleteCollections = async (data) => {
+    const res = await _axios(
+      "delete",
+      `/collections/delete/${data.id}`
+    );
+    return res;
+  };
+  // Collection Ends
+  products = async ({ queryKey }) => {
     const res = await _axios("get", `/products?page=${queryKey[1]}&limit=${queryKey[2]}`);
     return res;
   };

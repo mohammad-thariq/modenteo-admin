@@ -54,10 +54,6 @@ export const SideNavConst = {
           name: "Sub Categories",
           url: "/admin/sub-categories",
         },
-        {
-          name: "Child Categories",
-          url: "/admin/child-categories",
-        },
       ],
     },
     {
@@ -67,6 +63,10 @@ export const SideNavConst = {
         {
           name: "Brands",
           url: "/admin/brands",
+        },
+        {
+          name: "Collections",
+          url: "/admin/collections",
         },
         {
           name: "Products",

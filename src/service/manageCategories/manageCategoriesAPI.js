@@ -88,45 +88,4 @@ export class ManageCategoriesApi {
   };
 
   // sub-Category ENDS
-
-  // child-category start
-
-  productChildCategory = async ({ queryKey }) => {
-    const res = await _axios(
-      "get",
-      `/child_categories?page=${queryKey[1]}&limit=${queryKey[2]}`
-    );
-    return res;
-  };
-
-  createProductChildCategory = async (data) => {
-    const res = await _axios(
-      "post",
-      `/child_categories/create`,
-      {
-        ...data,
-      },
-      "multipart/form-data"
-    );
-    return res;
-  };
-
-  updateProductChildCategory = async (data) => {
-    const res = await _axios(
-      "patch",
-      `/child_categories/update/${data.id}`,
-      {
-        ...data,
-      },
-      "multipart/form-data"
-    );
-    return res;
-  };
-
-  deleteProductChildCategory = async (data) => {
-    const res = await _axios("delete", `/child_categories/delete/${data.id}`);
-    return res;
-  };
-
-  // child-category ENDS
 }

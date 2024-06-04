@@ -74,6 +74,13 @@ export const BrandsTableHeading = [
   "Action",
 ];
 
+export const CollectionsTableHeading = [
+  "SN",
+  "Name",
+  "Logo",
+  "Status",
+  "Action",
+];
 export const productReportTableHeading = [
   "SN",
   "Name",
