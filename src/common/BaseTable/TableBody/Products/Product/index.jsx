@@ -36,7 +36,7 @@ export const Product = ({
                 height={70}
                 alt=""
                 src={
-                  `${BaseUrls?.IMAGE_URL}/${item.thumb_image}` ||
+                  `${BaseUrls?.IMAGE_URL}/${item.image}` ||
                   "/assets/img/placeholder.jpg"
                 }
                 className="text-secondary text-sm font-weight-bold product-image"

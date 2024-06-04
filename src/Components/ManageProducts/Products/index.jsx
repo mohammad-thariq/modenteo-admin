@@ -15,28 +15,33 @@ import { useMutation, useQuery } from "react-query";
 
 export const Products = () => {
   const {
+    activeBrands,
     products,
-    brands,
+    activeCollections,
     specificationKey,
     createProducts,
     updateProducts,
     deleteProductById,
   } = new productCateoriesAPI();
 
-  const { productCategory, productChildCategory, productSubCategory } =
+  const { productActiveCategory, productActiveSubCategory } =
     new ManageCategoriesApi();
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(5);
 
-  const { data, isLoading, refetch } = useQuery(["products"], products);
-  const { data: category } = useQuery(["product-category"], productCategory);
-  const { data: childCategory } = useQuery(
-    ["product-Childcategory"],
-    productChildCategory
+  const { data, isLoading, refetch } = useQuery(
+    ["products", page, limit],
+    products,
+    { keepPreviousData: true }
   );
+  const { data: category } = useQuery(["product-category"], productActiveCategory);
+
   const { data: subCategory } = useQuery(
     ["product-Subcategory"],
-    productSubCategory
+    productActiveSubCategory
   );
-  const { data: brand } = useQuery(["brands"], brands);
+  const { data: brand } = useQuery(["brands"], activeBrands);
+  const { data: collection } = useQuery(["collections"], activeCollections);
   const { data: specificationKeys } = useQuery(
     ["specificationKeys"],
     specificationKey
@@ -112,11 +117,12 @@ export const Products = () => {
     value: i?.id,
     name: i?.name,
   }));
-  const getSubCategoryToSelect = subCategory?.subCategories?.map((i) => ({
+  const getSubCategoryToSelect = subCategory?.sub_categories?.map((i) => ({
     value: i?.id,
     name: i?.name,
+    category_id: i?.category_id
   }));
-  const getChildCategoryToSelect = childCategory?.childCategories?.map((i) => ({
+  const getCollectionsToSelect = collection?.collections?.map((i) => ({
     value: i?.id,
     name: i?.name,
   }));
@@ -138,6 +144,10 @@ export const Products = () => {
     return <Loader />;
   }
 
+  const onPaginationClick = (page) => {
+    setPage(Number(page) + 1);
+  };
+
   return (
     <>
       <Breadcrumb currentPage={"Products"} serachEnable />
@@ -152,18 +162,22 @@ export const Products = () => {
           onClick={handleCreateProduct}
         />
       </div>
+
       <BaseTable
         tableHeadings={productTableHeading}
-        onProductData={data.products}
-        onUpdate={handleUpdateProduct}
+        onProductData={data}
         onDelete={handleDeleteProduct}
+        onUpdate={handleUpdateProduct}
+        totalPage={data?.pagination?.totalPage}
+        onPaginationClick={onPaginationClick}
+        pageLimit={limit}
       />
       {createProduct && (
         <Popup open={createProduct} onClose={handleCreateProduct}>
           <ProductForm
             category={getCategoryToSelect}
             subCategory={getSubCategoryToSelect}
-            childCategory={getChildCategoryToSelect}
+            collection={getCollectionsToSelect}
             brand={getBrandsToSelect}
             keys={getSpecificationKeysToSelect}
             onClose={handleCreateProduct}
@@ -178,7 +192,7 @@ export const Products = () => {
           <ProductForm
             category={getCategoryToSelect}
             subCategory={getSubCategoryToSelect}
-            childCategory={getChildCategoryToSelect}
+            collection={getCollectionsToSelect}
             brand={getBrandsToSelect}
             keys={getSpecificationKeysToSelect}
             onClose={handleUpdateProduct}

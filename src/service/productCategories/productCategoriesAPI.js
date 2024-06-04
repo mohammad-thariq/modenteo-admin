@@ -12,6 +12,11 @@ export class productCateoriesAPI {
     const res = await _axios("get", `/brands?page=${queryKey[1]}&limit=${queryKey[2]}`);
     return res;
   };
+  
+  activeBrands = async () => {
+    const res = await _axios("get", `/list/brands`);
+    return res;
+  };
 
   createBrands = async (data) => {
     const res = await _axios(
@@ -47,7 +52,11 @@ export class productCateoriesAPI {
     const res = await _axios("get", `/collections?page=${queryKey[1]}&limit=${queryKey[2]}`);
     return res;
   };
-
+  
+  activeCollections = async () => {
+    const res = await _axios("get", `/list/collections`);
+    return res;
+  };
   createCollections = async (data) => {
     const res = await _axios(
       "post",
@@ -103,7 +112,7 @@ export class productCateoriesAPI {
 
   deleteProductById = async (data) => {
     const res = await _axios(
-      "post",
+      "delete",
       `/products/delete/${data.id}`,
       data
     );

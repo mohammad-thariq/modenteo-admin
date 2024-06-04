@@ -21,7 +21,7 @@ const schema = Yup.object({
   weight: Yup.string().required("weight is Required"),
   short_description: Yup.string().required("Short Description is Required"),
   // long_description: Yup.string().required("Long Description is Required"),
-  // thumb_image: Yup.string().required("Image is Required"),
+  // image: Yup.string().required("Image is Required"),
   slug: Yup.string().required("Slug is Required"),
   status: Yup.string().required("Status is Required"),
   // keys: Yup.array().required("Keys is Required"),
@@ -38,11 +38,12 @@ export const ProductForm = ({
   loading,
   category,
   subCategory,
-  childCategory,
+  collection,
   brand,
   keys,
 }) => {
   const editorRef = useRef("");
+  const [subCategories, setsubCategories] = useState([]);
   const [topProduct, setTopProduct] = useState(
     data?.is_top === 1 ? true : false || false
   );
@@ -63,7 +64,7 @@ export const ProductForm = ({
 
   useEffect(() => {
     if (data) {
-      setImagePreview(`${BaseUrls?.IMAGE_URL}/${data?.thumb_image}`);
+      setImagePreview(`${BaseUrls?.IMAGE_URL}/${data?.image}`);
     }
   }, [data]);
 
@@ -126,11 +127,11 @@ export const ProductForm = ({
           short_name: data?.short_name || "",
           name: data?.name || "",
           slug: data?.slug || "",
-          thumb_image: imagePreview,
-          category: data?.category?.name || "",
+          image: imagePreview,
+          category: data?.category_id || "",
           sub_category: data?.sub_category_id || "",
-          child_category: data?.child_category_id || "",
-          brand: data?.brand?.name || "",
+          collection: data?.collection_id || "",
+          brand: data?.brand_id || "",
           quantity: data?.qty || "",
           sku: data?.sku || "",
           price: data?.price || "",
@@ -154,62 +155,62 @@ export const ProductForm = ({
         onSubmit={(values, actions) => {
           onUpdate
             ? onUpdate({
-                id: currentProductId,
-                short_name: values?.short_name,
-                name: values?.name,
-                slug: values?.slug,
-                thumb_image: imagePreview,
-                category: values?.category,
-                sub_category: values?.sub_category,
-                child_category: values?.child_category,
-                brand: values?.brand,
-                quantity: values?.quantity,
-                sku: values?.sku,
-                price: values?.price,
-                offer_price: values?.offer_price,
-                short_description: values?.short_description,
-                long_description: getLongDescription,
-                tags: values?.tags,
-                status: values?.status,
-                weight: values?.weight,
-                is_specification: isSpecification === false ? 0 : 1,
-                seo_title: values?.seo_title,
-                seo_description: values?.seo_description,
-                top_product: topProduct === false ? 0 : 1,
-                new_arrival: newArrival === false ? 0 : 1,
-                best_product: bestProduct === false ? 0 : 1,
-                is_featured: featuredProduct === false ? 0 : 1,
-                keys: [...values?.keys],
-                specifications: [...values?.specifications],
-              })
+              id: currentProductId,
+              short_name: values?.short_name,
+              name: values?.name,
+              slug: values?.slug,
+              image: imagePreview,
+              category: values?.category,
+              sub_category: values?.sub_category,
+              collection: values?.collection,
+              brand: values?.brand,
+              quantity: values?.quantity,
+              sku: values?.sku,
+              price: values?.price,
+              offer_price: values?.offer_price,
+              short_description: values?.short_description,
+              long_description: getLongDescription,
+              tags: values?.tags,
+              status: values?.status,
+              weight: values?.weight,
+              is_specification: isSpecification === false ? 0 : 1,
+              seo_title: values?.seo_title,
+              seo_description: values?.seo_description,
+              top_product: topProduct === false ? 0 : 1,
+              new_arrival: newArrival === false ? 0 : 1,
+              best_product: bestProduct === false ? 0 : 1,
+              is_featured: featuredProduct === false ? 0 : 1,
+              keys: [...values?.keys],
+              specifications: [...values?.specifications],
+            })
             : onSave({
-                short_name: values?.short_name,
-                name: values?.name,
-                slug: values?.slug,
-                thumb_image: imagePreview,
-                category: values?.category,
-                sub_category: values?.sub_category,
-                child_category: values?.child_category,
-                brand: values?.brand,
-                quantity: values?.quantity,
-                sku: values?.sku,
-                price: values?.price,
-                offer_price: values?.offer_price,
-                short_description: values?.short_description,
-                long_description: getLongDescription,
-                tags: values?.tags,
-                status: values?.status,
-                weight: values?.weight,
-                is_specification: isSpecification === false ? 0 : 1,
-                seo_title: values?.seo_title,
-                seo_description: values?.seo_description,
-                top_product: topProduct === false ? 0 : 1,
-                new_arrival: newArrival === false ? 0 : 1,
-                best_product: bestProduct === false ? 0 : 1,
-                is_featured: featuredProduct === false ? 0 : 1,
-                keys: [...values?.keys],
-                specifications: [...values?.specifications],
-              });
+              short_name: values?.short_name,
+              name: values?.name,
+              slug: values?.slug,
+              image: imagePreview,
+              category: values?.category,
+              sub_category: values?.sub_category,
+              collection: values?.collection,
+              brand: values?.brand,
+              quantity: values?.quantity,
+              sku: values?.sku,
+              price: values?.price,
+              offer_price: values?.offer_price,
+              short_description: values?.short_description,
+              long_description: getLongDescription,
+              tags: values?.tags,
+              status: values?.status,
+              weight: values?.weight,
+              is_specification: isSpecification === false ? 0 : 1,
+              seo_title: values?.seo_title,
+              seo_description: values?.seo_description,
+              top_product: topProduct === false ? 0 : 1,
+              new_arrival: newArrival === false ? 0 : 1,
+              best_product: bestProduct === false ? 0 : 1,
+              is_featured: featuredProduct === false ? 0 : 1,
+              keys: [...values?.keys],
+              specifications: [...values?.specifications],
+            });
           actions.setSubmitting(true);
         }}
       >
@@ -228,11 +229,11 @@ export const ProductForm = ({
                 accept="image/*"
                 onChange={handleFileChange}
                 type="file"
-                name="thumb_image"
+                name="image"
                 className="form-control"
                 placeholder="Thumb Image"
                 onBlur={handleBlur}
-                value={values.thumb_image}
+                value={values.image}
               />
             </div>
             <div className={style.imageSelect}>
@@ -307,7 +308,7 @@ export const ProductForm = ({
             >
               <option hidden>Select Category</option>
               {category?.map((i) => (
-                <option key={i?.id} value={i?.id}>
+                <option key={i?.value} value={i?.value}>
                   {i?.name}
                 </option>
               ))}
@@ -325,22 +326,22 @@ export const ProductForm = ({
             >
               <option hidden>Select Sub Category</option>
               {subCategory?.map((i) => (
-                <option key={i?.id} value={i?.id}>
+                values.category == i?.category_id && <option key={i?.value} value={i?.value}>
                   {i?.name}
                 </option>
               ))}
             </select>
-            <label>Child Category</label>
+            <label>Collection</label>
             <select
               className="form-select"
-              name="child_category"
+              name="collection"
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.child_category}
+              value={values.collection}
             >
-              <option hidden>Select Child Category</option>
-              {childCategory?.map((i) => (
-                <option key={i?.id} value={i?.id}>
+              <option hidden>Select Collection</option>
+              {collection?.map((i) => (
+                <option key={i?.value} value={i?.value}>
                   {i?.name}
                 </option>
               ))}
@@ -354,10 +355,10 @@ export const ProductForm = ({
               onBlur={handleBlur}
               value={values.brand}
             >
-              <option hidden>Select Child Category</option>
+              <option hidden>Select Brand</option>
 
               {brand?.map((i) => (
-                <option key={i?.id} value={i?.id}>
+                <option key={i?.value} value={i?.value}>
                   {i?.name}
                 </option>
               ))}

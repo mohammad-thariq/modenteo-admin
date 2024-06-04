@@ -54,7 +54,6 @@ export const BaseTable = ({
     tableHeadingList.push(<TableHeader index={index} item={item} />);
   });
 
-  console.log(totalPage, "total");
   return (
     <div className="container-fluid py-4">
       <div className="row">
