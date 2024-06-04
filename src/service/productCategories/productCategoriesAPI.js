@@ -17,7 +17,7 @@ export class productCateoriesAPI {
     const res = await _axios(
       "post",
       `/brands/create`,
-      { data },
+      data,
       "multipart/form-data"
     );
     return res;
@@ -27,7 +27,7 @@ export class productCateoriesAPI {
     const res = await _axios(
       "patch",
       `/brands/update/${data.id}`,
-      { data },
+      data,
       "multipart/form-data"
     );
     return res;
@@ -62,7 +62,7 @@ export class productCateoriesAPI {
     const res = await _axios(
       "patch",
       `/collections/update/${data.id}`,
-      { data },
+      data,
       "multipart/form-data"
     );
     return res;
