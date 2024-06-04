@@ -33,10 +33,10 @@ export class productCateoriesAPI {
     return res;
   };
 
-  deleteBrands = async (id) => {
+  deleteBrands = async (data) => {
     const res = await _axios(
       "delete",
-      `/brands/delete/${id}`
+      `/brands/delete/${data.id}`
     );
     return res;
   };
@@ -68,10 +68,10 @@ export class productCateoriesAPI {
     return res;
   };
 
-  deleteCollections = async (id) => {
+  deleteCollections = async (data) => {
     const res = await _axios(
       "delete",
-      `/collections/delete/${id}`
+      `/collections/delete/${data.id}`
     );
     return res;
   };

@@ -100,6 +100,7 @@ export const Brands = () => {
   }
 
   console.log(data, "data");
+ 
 
   return (
     <>
@@ -119,7 +120,7 @@ export const Brands = () => {
         tableHeadings={BrandsTableHeading}
         onBrandsData={data?.brands}
         onUpdate={handleUpdateBrand}
-        onDelete={deleteBrandsMutate}
+        onDelete={handleDeleteBrands}
       />
       {createbrand && (
         <Popup open={createbrand} onClose={handleCreateBrand}>

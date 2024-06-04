@@ -119,7 +119,7 @@ export const Collections = () => {
         tableHeadings={CollectionsTableHeading}
         onCollectionsData={data?.collections}
         onUpdate={handleUpdateCollection}
-        onDelete={deleteCollectionsMutate}
+        onDelete={handleDeleteCollections}
       />
       {createcollection && (
         <Popup open={createcollection} onClose={handleCreateCollection}>
