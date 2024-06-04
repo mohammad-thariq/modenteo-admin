@@ -18,6 +18,11 @@ export class productCateoriesAPI {
     return res;
   };
 
+  brandsActive = async () => {
+    const res = await _axios("get", `/list/brands`);
+    return res;
+  };
+
   createBrands = async (data) => {
     const res = await _axios(
       "post",

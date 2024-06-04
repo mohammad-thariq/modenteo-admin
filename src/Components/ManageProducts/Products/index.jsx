@@ -15,37 +15,36 @@ import { useMutation, useQuery } from "react-query";
 
 export const Products = () => {
   const {
-    activeBrands,
+    productActiveCategory,
+    productActiveSubCategory,
+    productActiveChildCategory,
+  } = new ManageCategoriesApi();
+
+  const {
     products,
-    activeCollections,
-    specificationKey,
+    brandsActive,
     createProducts,
     updateProducts,
     deleteProductById,
   } = new productCateoriesAPI();
 
-  const { productActiveCategory, productActiveSubCategory } =
-    new ManageCategoriesApi();
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(5);
+  const { data, isLoading, refetch } = useQuery(["products"], products);
 
-  const { data, isLoading, refetch } = useQuery(
-    ["products", page, limit],
-    products,
-    { keepPreviousData: true }
+  const { data: category } = useQuery(
+    ["product-active-category"],
+    productActiveCategory
   );
-  const { data: category } = useQuery(["product-category"], productActiveCategory);
 
   const { data: subCategory } = useQuery(
-    ["product-Subcategory"],
+    ["product-active-subcategory"],
     productActiveSubCategory
   );
-  const { data: brand } = useQuery(["brands"], activeBrands);
-  const { data: collection } = useQuery(["collections"], activeCollections);
-  const { data: specificationKeys } = useQuery(
-    ["specificationKeys"],
-    specificationKey
+  const { data: childCategory } = useQuery(
+    ["product-active-childcategory"],
+    productActiveChildCategory
   );
+  const { data: brand } = useQuery(["brands-active"], brandsActive);
+
 
   const [createProduct, setCreateProduct] = useState(false);
   const [updateProduct, setUpdateProduct] = useState(false);
@@ -113,28 +112,6 @@ export const Products = () => {
     deleteProductMutate({ id: currentProductId });
   };
 
-  const getCategoryToSelect = category?.categories?.map((i) => ({
-    value: i?.id,
-    name: i?.name,
-  }));
-  const getSubCategoryToSelect = subCategory?.sub_categories?.map((i) => ({
-    value: i?.id,
-    name: i?.name,
-    category_id: i?.category_id
-  }));
-  const getCollectionsToSelect = collection?.collections?.map((i) => ({
-    value: i?.id,
-    name: i?.name,
-  }));
-  const getBrandsToSelect = brand?.brands?.map((i) => ({
-    value: i?.id,
-    name: i?.name,
-  }));
-  const getSpecificationKeysToSelect =
-    specificationKeys?.SpecificationKeys?.map((i) => ({
-      value: i?.id,
-      name: i?.key,
-    }));
 
   if (data && !data) {
     return <NoDataFound />;
@@ -175,11 +152,10 @@ export const Products = () => {
       {createProduct && (
         <Popup open={createProduct} onClose={handleCreateProduct}>
           <ProductForm
-            category={getCategoryToSelect}
-            subCategory={getSubCategoryToSelect}
-            collection={getCollectionsToSelect}
-            brand={getBrandsToSelect}
-            keys={getSpecificationKeysToSelect}
+            category={category}
+            subCategory={subCategory}
+            childCategory={childCategory}
+            brand={brand}
             onClose={handleCreateProduct}
             onSave={createProductMutate}
             button="Add New"
@@ -190,11 +166,10 @@ export const Products = () => {
       {updateProduct && (
         <Popup open={updateProduct} onClose={handleUpdateProduct}>
           <ProductForm
-            category={getCategoryToSelect}
-            subCategory={getSubCategoryToSelect}
-            collection={getCollectionsToSelect}
-            brand={getBrandsToSelect}
-            keys={getSpecificationKeysToSelect}
+            category={category}
+            subCategory={subCategory}
+            childCategory={childCategory}
+            brand={brand}
             onClose={handleUpdateProduct}
             data={currentProductDataId}
             button="update"

@@ -2,7 +2,7 @@
 import { Formik } from "formik";
 import style from "../index.module.css";
 import { Button } from "@/common/Button";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { BaseUrls } from "../../../../../env";
@@ -12,20 +12,21 @@ import {
   tinyMcePlugin,
   tinyMceToolbar,
 } from "@/constant/tableHeading";
+import { InputFileUpload } from "../../common/inputFileUpload";
+import { FilePreviewChange } from "@/utils/filePreviewChange";
+import { InputSelect } from "../../common/inputSelect";
+import { statusConstantOption } from "@/constant/statusConst";
 
 const schema = Yup.object({
   name: Yup.string().required("Name is Required"),
   short_name: Yup.string().required("Short Name is Required"),
-  category: Yup.string().required("Category is Required"),
+  category_id: Yup.string().required("Category is Required"),
+  sub_category_id: Yup.string().required("Sub Category is Required"),
+  stock_quantity: Yup.string().required("Stock Quantity is Required"),
+  sku: Yup.string().required("Sku is Required"),
   price: Yup.string().required("Price is Required"),
-  weight: Yup.string().required("weight is Required"),
   short_description: Yup.string().required("Short Description is Required"),
-  // long_description: Yup.string().required("Long Description is Required"),
-  // image: Yup.string().required("Image is Required"),
-  slug: Yup.string().required("Slug is Required"),
   status: Yup.string().required("Status is Required"),
-  // keys: Yup.array().required("Keys is Required"),
-  // specifications: Yup.array().required("Specifications is Required"),
 });
 
 export const ProductForm = ({
@@ -40,63 +41,22 @@ export const ProductForm = ({
   subCategory,
   collection,
   brand,
-  keys,
 }) => {
   const editorRef = useRef("");
-  const [subCategories, setsubCategories] = useState([]);
   const [topProduct, setTopProduct] = useState(
-    data?.is_top === 1 ? true : false || false
+    data?.top_product === 1 ? true : false || false
   );
   const [newArrival, setNewArrival] = useState(
     data?.new_product === 1 ? true : false || false
   );
   const [bestProduct, setBestProduct] = useState(
-    data?.is_best === 1 ? true : false || false
+    data?.best_product === 1 ? true : false || false
   );
   const [featuredProduct, setFeaturedProduct] = useState(
-    data?.is_featured === 1 ? true : false || false
+    data?.featured_product === 1 ? true : false || false
   );
-  const [isSpecification, setIsSpecification] = useState(
-    data?.is_specification || true
-  );
-  const [inputPairs, setInputPairs] = useState([{ key: "", value: "" }]);
-  const [imagePreview, setImagePreview] = useState(null);
 
-  useEffect(() => {
-    if (data) {
-      setImagePreview(`${BaseUrls?.IMAGE_URL}/${data?.image}`);
-    }
-  }, [data]);
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  // Function to add a new input pair
-  const addInputPair = () => {
-    setInputPairs([...inputPairs, { key: "", value: "" }]);
-  };
-
-  // Function to remove an input pair
-  const removeInputPair = (index) => {
-    const pairs = [...inputPairs];
-    pairs.splice(index, 1);
-    setInputPairs(pairs);
-  };
-
-  // Function to handle changes in input field values for a pair
-  const handleInputChange = (index, field, event) => {
-    const pairs = [...inputPairs];
-    pairs[index][field] = event.target.value;
-    setInputPairs(pairs);
-  };
+  const [imagePreview, setImagePreview] = useState();
 
   const toggleTopProduct = () => {
     setTopProduct(!topProduct);
@@ -113,10 +73,6 @@ export const ProductForm = ({
     setFeaturedProduct(!featuredProduct);
   };
 
-  const toggleIsSpecification = () => {
-    setIsSpecification(!isSpecification);
-  };
-
   const getLongDescription =
     editorRef.current && editorRef.current.getContent();
 
@@ -126,91 +82,87 @@ export const ProductForm = ({
         initialValues={{
           short_name: data?.short_name || "",
           name: data?.name || "",
-          slug: data?.slug || "",
           image: imagePreview,
-          category: data?.category_id || "",
-          sub_category: data?.sub_category_id || "",
-          collection: data?.collection_id || "",
-          brand: data?.brand_id || "",
-          quantity: data?.qty || "",
+          category_id: data?.category?.name || "",
+          sub_category_id: data?.sub_category_id || "",
+          collection: data?.collection || "",
+          brand_id: data?.brand_id || "",
+          stock_quantity: data?.stock_quantity || "",
           sku: data?.sku || "",
           price: data?.price || "",
           offer_price: data?.offer_price || "",
           short_description: data?.short_description || "",
           long_description: data?.long_description || getLongDescription || "",
-          tags: data?.tags || "",
           status: data?.status || "",
           weight: data?.weight || "",
-          is_specification: isSpecification || "",
           seo_title: data?.seo_title || "",
           seo_description: data?.seo_description || "",
           top_product: topProduct === false ? 0 : 1,
           new_arrival: newArrival === false ? 0 : 1,
           best_product: bestProduct === false ? 0 : 1,
-          is_featured: featuredProduct === false ? 0 : 1,
-          keys: [],
-          specifications: [],
+          featured_product: featuredProduct === false ? 0 : 1,
         }}
         validationSchema={schema}
         onSubmit={(values, actions) => {
+          if (!imagePreview) {
+            actions.setFieldError("image", "Image is required");
+            return;
+          }
+          if (!getLongDescription) {
+            actions.setFieldError(
+              "long_description",
+              "Long Description is required"
+            );
+            return;
+          }
           onUpdate
             ? onUpdate({
-              id: currentProductId,
-              short_name: values?.short_name,
-              name: values?.name,
-              slug: values?.slug,
-              image: imagePreview,
-              category: values?.category,
-              sub_category: values?.sub_category,
-              collection: values?.collection,
-              brand: values?.brand,
-              quantity: values?.quantity,
-              sku: values?.sku,
-              price: values?.price,
-              offer_price: values?.offer_price,
-              short_description: values?.short_description,
-              long_description: getLongDescription,
-              tags: values?.tags,
-              status: values?.status,
-              weight: values?.weight,
-              is_specification: isSpecification === false ? 0 : 1,
-              seo_title: values?.seo_title,
-              seo_description: values?.seo_description,
-              top_product: topProduct === false ? 0 : 1,
-              new_arrival: newArrival === false ? 0 : 1,
-              best_product: bestProduct === false ? 0 : 1,
-              is_featured: featuredProduct === false ? 0 : 1,
-              keys: [...values?.keys],
-              specifications: [...values?.specifications],
-            })
+                id: currentProductId,
+                short_name: values?.short_name,
+                name: values?.name,
+                image: imagePreview,
+                category_id: values?.category_id,
+                sub_category_id: values?.sub_category_id,
+                collection: values?.collection,
+                brand_id: values?.brand_id,
+                quantity: values?.quantity,
+                sku: values?.sku,
+                price: values?.price,
+                offer_price: values?.offer_price,
+                short_description: values?.short_description,
+                long_description: getLongDescription,
+                status: values?.status,
+                weight: values?.weight,
+                seo_title: values?.seo_title,
+                seo_description: values?.seo_description,
+                top_product: topProduct === false ? 0 : 1,
+                new_arrival: newArrival === false ? 0 : 1,
+                best_product: bestProduct === false ? 0 : 1,
+                featured_product: featuredProduct === false ? 0 : 1,
+              })
             : onSave({
-              short_name: values?.short_name,
-              name: values?.name,
-              slug: values?.slug,
-              image: imagePreview,
-              category: values?.category,
-              sub_category: values?.sub_category,
-              collection: values?.collection,
-              brand: values?.brand,
-              quantity: values?.quantity,
-              sku: values?.sku,
-              price: values?.price,
-              offer_price: values?.offer_price,
-              short_description: values?.short_description,
-              long_description: getLongDescription,
-              tags: values?.tags,
-              status: values?.status,
-              weight: values?.weight,
-              is_specification: isSpecification === false ? 0 : 1,
-              seo_title: values?.seo_title,
-              seo_description: values?.seo_description,
-              top_product: topProduct === false ? 0 : 1,
-              new_arrival: newArrival === false ? 0 : 1,
-              best_product: bestProduct === false ? 0 : 1,
-              is_featured: featuredProduct === false ? 0 : 1,
-              keys: [...values?.keys],
-              specifications: [...values?.specifications],
-            });
+                short_name: values?.short_name,
+                name: values?.name,
+                image: imagePreview,
+                category_id: values?.category_id,
+                sub_category_id: values?.sub_category_id,
+                collection: values?.collection,
+                brand_id: values?.brand_id,
+                quantity: values?.quantity,
+                sku: values?.sku,
+                price: values?.price,
+                offer_price: values?.offer_price,
+                short_description: values?.short_description,
+                long_description: getLongDescription,
+                status: values?.status,
+                weight: values?.weight,
+                seo_title: values?.seo_title,
+                seo_description: values?.seo_description,
+                top_product: topProduct === false ? 0 : 1,
+                new_arrival: newArrival === false ? 0 : 1,
+                best_product: bestProduct === false ? 0 : 1,
+                featured_product: featuredProduct === false ? 0 : 1,
+              });
           actions.setSubmitting(true);
         }}
       >
@@ -223,26 +175,23 @@ export const ProductForm = ({
           handleSubmit,
         }) => (
           <form className="formInner overflow-column height-500">
-            <label>Thumb Image</label>
-            <div className="mb-2">
-              <input
-                accept="image/*"
-                onChange={handleFileChange}
-                type="file"
-                name="image"
-                className="form-control"
-                placeholder="Thumb Image"
+            <div className="mb-3">
+              <InputFileUpload
+                label="Thumb Image"
+                onChange={(e) => FilePreviewChange(e, setImagePreview)}
                 onBlur={handleBlur}
-                value={values.image}
+                name="image"
+                value={values?.image}
+                accept="image/*"
+                onData={data?.image}
+                previewImage={imagePreview}
+                setPreviewImage={setImagePreview}
               />
-            </div>
-            <div className={style.imageSelect}>
-              <img
-                className={style.imageSelect}
-                src={imagePreview || "/assets/img/placeholder.jpg"}
-                alt="Preview"
-                style={{ maxWidth: "100%" }}
-              />
+              <p
+                style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}
+              >
+                {errors.image && touched.image && errors.image}
+              </p>
             </div>
             <label>Short Name</label>
             <div className="mb-2">
@@ -280,89 +229,41 @@ export const ProductForm = ({
                 {errors.name && touched.name && errors.name}
               </p>
             </div>
-            <label>Slug</label>
-            <div className="mb-2">
-              <input
-                type="text"
-                name="slug"
-                className="form-control"
-                placeholder="Slug"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.slug}
-              />
-              <p
-                style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}
-              >
-                {errors.slug && touched.slug && errors.slug}
-              </p>
-            </div>
-
-            <label>Category</label>
-            <select
-              className="form-select"
-              name="category"
+            <InputSelect
+              label="Category"
+              name="category_id"
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.category}
-            >
-              <option hidden>Select Category</option>
-              {category?.map((i) => (
-                <option key={i?.value} value={i?.value}>
-                  {i?.name}
-                </option>
-              ))}
-            </select>
+              values={values?.category_id}
+              onData={category}
+            />
             <p style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}>
-              {errors.category && touched.category && errors.category}
+              {errors.category_id && touched.category_id && errors.category_id}
             </p>
-            <label>Sub Category</label>
-            <select
-              className="form-select"
-              name="sub_category"
-              onChange={handleChange}
+            <InputSelect
+              label="Sub Category"
+              name="sub_category_id"
               onBlur={handleBlur}
-              value={values.sub_category}
-            >
-              <option hidden>Select Sub Category</option>
-              {subCategory?.map((i) => (
-                values.category == i?.category_id && <option key={i?.value} value={i?.value}>
-                  {i?.name}
-                </option>
-              ))}
-            </select>
-            <label>Collection</label>
-            <select
-              className="form-select"
+              onChange={handleChange}
+              values={values.sub_category_id}
+              onData={values.category_id == i?.category_id && subCategory}
+            />
+            <InputSelect
+              label="Collection"
               name="collection"
+              onBlur={handleBlur}
+              onChange={handleChange}
+              values={values.collection}
+              onData={collection}
+            />
+            <InputSelect
+              label="Brand"
+              name="brand_id"
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.collection}
-            >
-              <option hidden>Select Collection</option>
-              {collection?.map((i) => (
-                <option key={i?.value} value={i?.value}>
-                  {i?.name}
-                </option>
-              ))}
-            </select>
-
-            <label>Brand</label>
-            <select
-              className="form-select"
-              name="brand"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.brand}
-            >
-              <option hidden>Select Brand</option>
-
-              {brand?.map((i) => (
-                <option key={i?.value} value={i?.value}>
-                  {i?.name}
-                </option>
-              ))}
-            </select>
+              value={values.brand_id}
+              onData={brand}
+            />
             <label>SKU</label>
             <div className="mb-2">
               <input
@@ -459,7 +360,6 @@ export const ProductForm = ({
                 apiKey={BaseUrls.TINYMCE_API_KEY}
                 onInit={(_evt, editor) => (editorRef.current = editor)}
                 initialValue={values?.long_description}
-                // tagName="long_description"
                 init={{
                   height: 350,
                   menubar: false,
@@ -469,13 +369,11 @@ export const ProductForm = ({
                 }}
               />
             </div>
-            {/* <p
-                style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}
-              >
-                {errors.long_description &&
-                  touched.long_description &&
-                  errors.long_description}
-              </p> */}
+            <p style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}>
+              {errors.long_description &&
+                touched.long_description &&
+                errors.long_description}
+            </p>
             <label>Highlight</label>
             <div className="flex align-items-center gap-2">
               <div className="mb-2 flex align-item-center">
@@ -515,19 +413,14 @@ export const ProductForm = ({
               </div>
             </div>
 
-            <label>Status</label>
-            <select
-              className="form-select"
-              aria-label="Default select example"
+            <InputSelect
+              label="Status"
               name="status"
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.status}
-            >
-              <option hidden>Select Status</option>
-              <option value={0}>Inactive</option>
-              <option value={1}>Active</option>
-            </select>
+              onData={statusConstantOption}
+            />
             <p style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}>
               {errors.status && touched.status && errors.status}
             </p>
@@ -556,78 +449,6 @@ export const ProductForm = ({
                 value={values.seo_description}
               />
             </div>
-
-            <label>Specifications</label>
-            <br />
-            <div className="mb-2 switchToggle" onClick={toggleIsSpecification}>
-              <input
-                className="toggleInput"
-                type="checkbox"
-                checked={isSpecification}
-              />
-
-              <span className="sliderToggle roundToggle"></span>
-            </div>
-            {isSpecification && (
-              <div className="flex justify-content-fs align-items-center gap-3 ease flex-direction-column">
-                {inputPairs.map((pair, index) => (
-                  <div
-                    className="flex justify-content-fs align-items-center gap-3 ease flex-direction-row"
-                    key={index}
-                  >
-                    <div style={{ width: "180px" }}>
-                      <label>Key</label>
-                      <div className="mb2">
-                        <select
-                          className="form-select"
-                          name="keys"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.keys}
-                        >
-                          {keys?.map((i) => (
-                            <option key={i?.id} value={i?.id}>
-                              {i?.name}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
-                    <div>
-                      <label>Specification</label>
-                      <div className="mb2">
-                        <input
-                          type="text"
-                          name="specifications"
-                          className="form-control"
-                          placeholder="Specifications"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.specifications}
-                        />
-                      </div>
-                    </div>
-                    {index === 0 && (
-                      <Button
-                        name="A"
-                        bg="#dc395f"
-                        type="button"
-                        color="#fff"
-                        onClick={addInputPair}
-                      />
-                    )}
-                    {index !== 0 && (
-                      <Button
-                        border="1px solid red"
-                        color="red"
-                        name="D"
-                        onClick={() => removeInputPair(index)}
-                      />
-                    )}
-                  </div>
-                ))}
-              </div>
-            )}
             <div className={style.btnWrapper}>
               <Button
                 name="Close"
