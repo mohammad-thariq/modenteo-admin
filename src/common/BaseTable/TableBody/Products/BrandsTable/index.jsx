@@ -4,7 +4,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { BaseUrls } from "../../../../../../env";
 import { ProductStatus } from "@/common/BaseTable/TableColumn/ProductStatus";
 
-export const BrandsTable = ({ onBrandsData, onUpdate }) => {
+export const BrandsTable = ({ onBrandsData, onUpdate, onDelete }) => {
   return (
     <>
       {onBrandsData &&
@@ -46,7 +46,7 @@ export const BrandsTable = ({ onBrandsData, onUpdate }) => {
               <span>
                 <DeleteIcon
                   sx={{ fontSize: 20 }}
-                  onClick={() => props?.onDelete(item.id)}
+                  onClick={() => onDelete(item.id)}
                 />
               </span>
             </td>
