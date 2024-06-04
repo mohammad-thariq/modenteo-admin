@@ -102,6 +102,10 @@ export const Brands = () => {
   console.log(data, "data");
  
 
+  const onPaginationClick = (page) => {
+    setPage(Number(page) + 1);
+  };
+
   return (
     <>
       <Breadcrumb currentPage={"Brands"} serachEnable />
@@ -121,6 +125,9 @@ export const Brands = () => {
         onBrandsData={data?.brands}
         onUpdate={handleUpdateBrand}
         onDelete={handleDeleteBrands}
+        totalPage={data?.pagination?.totalPage}
+        onPaginationClick={onPaginationClick}
+        pageLimit={limit}
       />
       {createbrand && (
         <Popup open={createbrand} onClose={handleCreateBrand}>

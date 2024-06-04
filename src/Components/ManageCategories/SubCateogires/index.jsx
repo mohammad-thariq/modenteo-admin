@@ -19,8 +19,8 @@ export const SubCategories = () => {
   const [currentSubCategoryId, setCurrentSubCategoryId] = useState(null);
   const [currentSubCategoryDataId, setCurrentSubCategoryDataId] =
     useState(null);
-    const [page, setPage] = useState(1)
-    const [limit, setLimit] = useState(5)
+  const [page, setPage] = useState(1)
+  const [limit, setLimit] = useState(5)
   const {
     productActiveCategory,
     productSubCategory,
@@ -101,14 +101,17 @@ export const SubCategories = () => {
     deleteSubCategoryMutate({ id: currentSubCategoryId });
   };
 
- 
-  
+
+
   if (isLoading) {
     return <Loader />;
   }
 
   console.log(data, 'data');
 
+  const onPaginationClick = (page) => {
+    setPage(Number(page) + 1);
+  };
   console.log(getCategory, 'getCategory');
   return (
     <>
@@ -124,12 +127,17 @@ export const SubCategories = () => {
           onClick={handleCreateSubCategories}
         />
       </div>
+
       <BaseTable
         tableHeadings={subCategoriesTableHeading}
         onSubCategoriesData={data?.sub_categories}
         onDelete={handleDeleteOrder}
         onUpdate={handleUpdateSubCategories}
+        totalPage={data?.pagination?.totalPage}
+        onPaginationClick={onPaginationClick}
+        pageLimit={limit}
       />
+
 
       {createSubCategories && (
         <Popup open={createSubCategories} onClose={handleCreateSubCategories}>

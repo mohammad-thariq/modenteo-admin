@@ -101,6 +101,10 @@ export const Collections = () => {
 
   console.log(data, "data");
 
+  const onPaginationClick = (page) => {
+    setPage(Number(page) + 1);
+  };
+
   return (
     <>
       <Breadcrumb currentPage={"Collections"} serachEnable />
@@ -120,6 +124,9 @@ export const Collections = () => {
         onCollectionsData={data?.collections}
         onUpdate={handleUpdateCollection}
         onDelete={handleDeleteCollections}
+        totalPage={data?.pagination?.totalPage}
+        onPaginationClick={onPaginationClick}
+        pageLimit={limit}
       />
       {createcollection && (
         <Popup open={createcollection} onClose={handleCreateCollection}>
