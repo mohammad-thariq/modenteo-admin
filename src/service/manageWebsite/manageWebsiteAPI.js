@@ -79,4 +79,40 @@ export class manageWebsiteAPI {
     return res;
   };
   // Fashion Product Ends
+
+
+  // Popular Product Starts
+  popular = async ({ queryKey }) => {
+    const res = await _axios("get", `/popular_produts?page=${queryKey[1]}&limit=${queryKey[2]}`);
+    return res;
+  };
+  
+  createPopular = async (data) => {
+    const res = await _axios(
+      "post",
+      `/popular_produts/create`,
+      data,
+      "multipart/form-data"
+    );
+    return res;
+  };
+
+  updatePopular = async (data) => {
+    const res = await _axios(
+      "patch",
+      `/popular_produts/update/${data.id}`,
+      data,
+      "multipart/form-data"
+    );
+    return res;
+  };
+
+  deletePopular = async (data) => {
+    const res = await _axios(
+      "delete",
+      `/popular_produts/delete/${data.id}`
+    );
+    return res;
+  };
+  // Popular Product Ends
 }

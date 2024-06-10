@@ -13,9 +13,7 @@ import { Inventory } from "./TableBody/Inventory";
 import ReactPaginate from "react-paginate";
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
-import { InputSelect } from "../Form/common/inputSelect";
-import { PaginationLimit } from "@/constant/paginationConst";
-
+import { PopularProductTable } from "./TableBody/ManageWebsite/PopularProductTable";
 export const BaseTable = ({
   ref,
   tableHeadings,
@@ -28,6 +26,7 @@ export const BaseTable = ({
   onCollectionsData,
   onCustomerServiceData,
   onFashionProductData,
+  onPopularProductsData,
   onSpecKeyData,
   onInventoryData,
   onProductData,
@@ -129,6 +128,11 @@ export const BaseTable = ({
                     )}
                     {onFashionProductData && (
                       <FashionProductTable onFashionProductData={onFashionProductData} onUpdate={onUpdate}
+                        onDelete={onDelete}
+                      />
+                    )}
+                    {onPopularProductsData && (
+                      <PopularProductTable onPopularProductsData={onPopularProductsData} onUpdate={onUpdate}
                         onDelete={onDelete}
                       />
                     )}

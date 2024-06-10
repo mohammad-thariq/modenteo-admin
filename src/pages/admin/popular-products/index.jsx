@@ -1,4 +1,4 @@
-import { CustomerService } from "@/Components/ManageWebsite/CustomerService";
-export default function customerservice(){
-    return <CustomerService/>
+import { PopularProducts } from "@/Components/ManageWebsite/PopularProducts";
+export default function popularproducts(){
+    return <PopularProducts/>
 }
