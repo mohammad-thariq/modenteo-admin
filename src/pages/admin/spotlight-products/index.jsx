@@ -1,4 +1,4 @@
-import { CustomerService } from "@/Components/ManageWebsite/CustomerService";
+import { Spotlight } from "@/Components/ManageWebsite/Spotlight";
 export default function customerservice(){
-    return <CustomerService/>
+    return <Spotlight/>
 }

@@ -152,4 +152,42 @@ export class manageWebsiteAPI {
     return res;
   };
   // Discount Banner Ends
+
+
+
+
+  // Spotlight Starts
+  spotlight = async ({ queryKey }) => {
+    const res = await _axios("get", `/spot_light?page=${queryKey[1]}&limit=${queryKey[2]}`);
+    return res;
+  };
+  
+  createSpotlight = async (data) => {
+    const res = await _axios(
+      "post",
+      `/spot_light/create`,
+      data,
+      "multipart/form-data"
+    );
+    return res;
+  };
+
+  updateSpotlight = async (data) => {
+    const res = await _axios(
+      "patch",
+      `/spot_light/update/${data.id}`,
+      data,
+      "multipart/form-data"
+    );
+    return res;
+  };
+
+  deleteSpotlight = async (data) => {
+    const res = await _axios(
+      "delete",
+      `/spot_light/delete/${data.id}`
+    );
+    return res;
+  };
+  // Spotlight Ends
 }

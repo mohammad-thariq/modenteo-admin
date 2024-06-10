@@ -82,7 +82,9 @@ export const PopularProductsTableHeading = [
 export const DiscountBannerTableHeading = [
   "SN",
   "Title", "Sub title", "description", "Button Name", "Status", "Image", "Action",
-]
+];
+export const SpotlightTableHeading = ["SN",
+  "Title", "Status", "Image", "Action",];
 export const CollectionsTableHeading = [
   "SN",
   "Name",

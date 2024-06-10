@@ -15,6 +15,7 @@ import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import { PopularProductTable } from "./TableBody/ManageWebsite/PopularProductTable";
 import { DiscountBannerTable } from "./TableBody/ManageWebsite/DiscountBannerTable";
+import { SpotlightTable } from "./TableBody/ManageWebsite/SpotlightTable";
 export const BaseTable = ({
   ref,
   tableHeadings,
@@ -29,6 +30,7 @@ export const BaseTable = ({
   onFashionProductData,
   onPopularProductsData,
   onDiscountBannerData,
+  onSpotlightData,
   onSpecKeyData,
   onInventoryData,
   onProductData,
@@ -140,6 +142,11 @@ export const BaseTable = ({
                     )}
                     {onDiscountBannerData && (
                       <DiscountBannerTable onDiscountBannerData={onDiscountBannerData} onUpdate={onUpdate}
+                        onDelete={onDelete}
+                      />
+                    )}
+                    {onSpotlightData && (
+                      <SpotlightTable onSpotlightData={onSpotlightData} onUpdate={onUpdate}
                         onDelete={onDelete}
                       />
                     )}
