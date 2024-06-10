@@ -29,12 +29,12 @@ export const SideNavConst = {
           url: "/admin/progress-orders",
         },
         {
-          name: "Delivered Orders",
-          url: "/admin/delivered-orders",
+          name: "Dispatched Orders",
+          url: "/admin/dispatched-orders",
         },
         {
-          name: "Completed Orders",
-          url: "/admin/completed-orders",
+          name: "Delivered Orders",
+          url: "/admin/delivered-orders",
         },
         {
           name: "Declined Orders",
@@ -72,10 +72,10 @@ export const SideNavConst = {
           name: "Products",
           url: "/admin/products",
         },
-        {
-          name: "Specification Key",
-          url: "/admin/specification",
-        },
+        // {
+        //   name: "Specification Key",
+        //   url: "/admin/specification",
+        // },
       ],
     },
     {

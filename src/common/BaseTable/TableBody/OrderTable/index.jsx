@@ -25,12 +25,7 @@ export const OrderTable = ({onTableData, onUpdate,onDelete,onNavigate }) => {
             </td>
             <td className="align-middle text-center">
               <span className="text-secondary text-xs font-weight-bold ">
-                {item.created_at.slice(0, 10)}
-              </span>
-            </td>
-            <td className="align-middle text-center">
-              <span className="text-secondary text-xs font-weight-bold ">
-                {item.product_qty}
+                {item.ordered_date.slice(0, 10)}
               </span>
             </td>
             <td className="align-middle text-center">
@@ -87,12 +82,12 @@ export const OrderTable = ({onTableData, onUpdate,onDelete,onNavigate }) => {
             </td>
             <td className="align-middle text-center">
               <span className="text-secondary text-sm font-weight-bold cursor-pointer">
-                <span
+                {/* <span
                   // className="material-symbols-outlined"
                   onClick={() => onNavigate(item.id)}
                 >
                   <VisibilityIcon sx={{ fontSize: 20 }} />
-                </span>
+                </span> */}
                 <span
                   className="text-secondary text-sm font-weight-bold cursor-pointer"
                   onClick={() => onDelete(item.id)}

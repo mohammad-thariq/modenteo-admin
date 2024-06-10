@@ -131,7 +131,7 @@ export const Breadcrumb = ({ currentPage, serachEnable }) => {
                   </div>
                 </a>
               </li>
-              <li className="nav-item px-3 d-flex align-items-center">
+              {/* <li className="nav-item px-3 d-flex align-items-center">
                 <a className="nav-link text-body p-0">
                   <i 
                   title="Settings"
@@ -139,16 +139,16 @@ export const Breadcrumb = ({ currentPage, serachEnable }) => {
                     onClick={() => router.push("/admin/setting")}
                   ></i>
                 </a>
-              </li>
+              </li> */}
               <li className="nav-item dropdown pe-2 d-flex align-items-center">
-                <a
+                {/* <a
                   className="nav-link text-body p-0 cursor-pointer"
                   id="dropdownMenuButton"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
                   <InventoryIcon titleAccess="Inventory" sx={{ fontSize: "18px" }} onClick={()=> router.push("/admin/inventory")}/>
-                </a>
+                </a> */}
                 <ul
                   className="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4"
                   aria-labelledby="dropdownMenuButton"

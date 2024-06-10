@@ -30,6 +30,7 @@ console.log(data, 'profile');
             validationSchema={schema}
             onSubmit={(values, actions) => {
               handleLogin({
+                name: values.name,
                 email: values.email,
                 password: values.password,
                 rememberMe: rememberMe,

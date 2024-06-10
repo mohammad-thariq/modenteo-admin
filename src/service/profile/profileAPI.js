@@ -9,7 +9,7 @@ const getToken = () => {
 
 export class ProfileApi {
   profile = async () => {
-    const res = await _axios("get", `/profile?token=${getToken()}`);
+    const res = await _axios("get", `/profile`);
     return res;
   };
 }

@@ -3,7 +3,6 @@ export const AllOrderTableHeadings = [
   "CUSTOMER",
   "ORDER ID",
   "DATE",
-  "QUANTITY",
   "AMOUNT",
   "ORDER STATUS",
   "PAYMENT",

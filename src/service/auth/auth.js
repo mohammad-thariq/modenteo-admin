@@ -9,4 +9,8 @@ export class AuthorizationApi {
     const res = await _axios("post", "/login", data);
     return res;
   };
+  validateToken = async () => {
+    const res = await _axios('get', `/validate-token`)
+    return res
+  }
 }

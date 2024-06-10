@@ -15,25 +15,33 @@ import { NoDataFound } from "@/common/NoDataFound";
 export const PendingOrderPanel = () => {
   const [openDeletePopup, setOpenDeletePopup] = useState(false);
   const [currentOrderId, setCurrentOrderId] = useState(null);
-  const [currentOrderData, setCurrentOrderData] = useState(null);
   const [openDeliveryStatusForm, setOpenDeliveryStatusForm] = useState(false);
-  const { pendingOrders, deleteOrderById, updateOrderById } = new OrdersApi();
-  const { data, isLoading, refetch } = useQuery(["getPendingOrders"], pendingOrders);
-
-  const { mutate: deletePendingorder, isLoading: deletePendingOrderStatusLoading } = useMutation(
-    deleteOrderById,
-    {
-      onSuccess: (data, variables, context) => {
-        setOpenDeletePopup(false);
-        ToastifySuccess(data?.notification);
-        refetch();
-      },
-      onError: (data, variables, context) => {
-        setOpenDeletePopup(true);
-        ToastifyFailed(data?.notification);
-      },
-    }
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const { pendingOrders, deleteOrderById, updateOrderById, getOrderById } = new OrdersApi();
+  const { data, isLoading, refetch } = useQuery(
+    ["getPendingOrders", page, limit],
+    pendingOrders
   );
+
+  const { data: currentOrderData } = useQuery(["getOrderById", currentOrderId], getOrderById, {
+    enabled: !!currentOrderId,
+  });
+
+  const {
+    mutate: deletePendingorder,
+    isLoading: deletePendingOrderStatusLoading,
+  } = useMutation(deleteOrderById, {
+    onSuccess: (data, variables, context) => {
+      setOpenDeletePopup(false);
+      ToastifySuccess(data?.message);
+      refetch();
+    },
+    onError: (data, variables, context) => {
+      setOpenDeletePopup(true);
+      ToastifyFailed(data?.error);
+    },
+  });
 
   const {
     mutate: updatePendingOrderStatus,
@@ -41,12 +49,12 @@ export const PendingOrderPanel = () => {
   } = useMutation(updateOrderById, {
     onSuccess: (data, variables, context) => {
       setOpenDeliveryStatusForm(false);
-      ToastifySuccess(data?.notification);
+      ToastifySuccess(data?.message);
       refetch();
     },
     onError: (data, variables, context) => {
       setOpenDeliveryStatusForm(true);
-      ToastifyFailed(data?.notification);
+      ToastifyFailed(data?.error);
     },
   });
 
@@ -65,30 +73,37 @@ export const PendingOrderPanel = () => {
 
   const handleDeliveryForm = (id) => {
     setCurrentOrderId(id);
-    const orderData = data?.orders?.data?.find((i) => i?.id === id);
-    setCurrentOrderData(orderData);
     setOpenDeliveryStatusForm(!openDeliveryStatusForm);
+    if(openDeliveryStatusForm){
+      setCurrentOrderId(null)
+    }
   };
 
-  if(isLoading){
-    return <Loader />
+  const onPaginationClick = (page) => {
+    setPage(Number(page) + 1);
+  };
+
+  if (isLoading) {
+    return <Loader />;
   }
 
-  if(data && !data?.orders?.data?.length >= 1){
-    return <NoDataFound />
+  if (data && data?.orders?.length === 0) {
+    return <NoDataFound />;
   }
-
+  
   return (
     <>
       <Breadcrumb currentPage={"Pending Orders"} serachEnable />
       <BaseTable
-            onTableData={data?.orders?.data}
-            onDelete={handleDeleteOrder}
-            onNavigate={handleNavigateOrder}
-            onUpdate={handleDeliveryForm}
-            tableHeadings={AllOrderTableHeadings}
-            isShown
-          />
+        onTableData={data?.orders}
+        onDelete={handleDeleteOrder}
+        onNavigate={handleNavigateOrder}
+        onUpdate={handleDeliveryForm}
+        tableHeadings={AllOrderTableHeadings}
+        isShown
+        onPaginationClick={onPaginationClick}
+        totalPage={data?.pagination?.totalPage}
+      />
       {openDeletePopup && (
         <Popup open={openDeletePopup} onClose={handleDeleteOrder}>
           <DeleteItem
@@ -98,7 +113,7 @@ export const PendingOrderPanel = () => {
           />
         </Popup>
       )}
-      {openDeliveryStatusForm && (
+      {openDeliveryStatusForm && currentOrderData &&(
         <Popup open={openDeliveryStatusForm} onClose={handleDeliveryForm}>
           <DeliveryStatusForm
             updateOrderStatusLoading={updatePendingOrderStatusLoading}

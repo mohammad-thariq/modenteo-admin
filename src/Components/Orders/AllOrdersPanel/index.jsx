@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import { Breadcrumb } from "../../../common/Breadcrumb";
 import { BaseTable } from "@/common/BaseTable";
 import { OrdersApi } from "@/service/orders/ordersAPI";
@@ -16,22 +16,30 @@ export const AllOrdersPanel = () => {
   const router = useRouter();
   const [openDeletePopup, setOpenDeletePopup] = useState(false);
   const [currentOrderId, setCurrentOrderId] = useState(null);
-  const [currentOrderData, setCurrentOrderData] = useState(null);
   const [openDeliveryStatusForm, setOpenDeliveryStatusForm] = useState(false);
-  const { allOrders, deleteOrderById, updateOrderById } = new OrdersApi();
-  const { data, isLoading, refetch } = useQuery(["getAllOrders"], allOrders);
+  const { allOrders, deleteOrderById, updateOrderById, getOrderById } =
+    new OrdersApi();
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const { data, isLoading, refetch } = useQuery(
+    ["getAllOrders", page, limit],
+    allOrders
+  );
+  const { data: currentOrderData } = useQuery(["getOrderById", currentOrderId], getOrderById, {
+    enabled: !!currentOrderId,
+  });
 
   const { mutate, isLoading: deleteOrderStatusLoading } = useMutation(
     deleteOrderById,
     {
       onSuccess: (data, variables, context) => {
         setOpenDeletePopup(false);
-        ToastifySuccess(data?.notification);
+        ToastifySuccess(data?.message);
         refetch();
       },
       onError: (data, variables, context) => {
         setOpenDeletePopup(true);
-        ToastifyFailed(data?.notification);
+        ToastifyFailed(data?.error);
       },
     }
   );
@@ -40,12 +48,12 @@ export const AllOrdersPanel = () => {
     useMutation(updateOrderById, {
       onSuccess: (data, variables, context) => {
         setOpenDeliveryStatusForm(false);
-        ToastifySuccess(data?.notification);
+        ToastifySuccess(data?.message);
         refetch();
       },
       onError: (data, variables, context) => {
         setOpenDeliveryStatusForm(true);
-        ToastifyFailed(data?.notification);
+        ToastifyFailed(data?.error);
       },
     });
 
@@ -58,34 +66,42 @@ export const AllOrdersPanel = () => {
     mutate({ id: currentOrderId });
   };
 
-  const handleNavigateOrder = (id) => {
-    router?.push(`/admin/show-order/${id}`);
-  };
+  // const handleNavigateOrder = (id) => {
+  //   router?.push(`/admin/show-order/${id}`);
+  // };
 
   const handleDeliveryForm = (id) => {
     setCurrentOrderId(id);
-    const orderData = data?.orders?.data?.find((i) => i?.id === id);
-    setCurrentOrderData(orderData);
     setOpenDeliveryStatusForm(!openDeliveryStatusForm);
+    if(openDeliveryStatusForm){
+      setCurrentOrderId(null)
+    }
+  };
+
+  const onPaginationClick = (page) => {
+    setPage(Number(page) + 1);
   };
 
   if (isLoading) {
     return <Loader />;
   }
 
-  if (data && data?.orders?.data?.length >= 1) {
+  if (data && data?.orders?.length === 0) {
     return <NoDataFound />;
   }
+
   return (
     <>
       <Breadcrumb currentPage="All Orders" serachEnable />
       <BaseTable
         onTableData={data?.orders}
         onDelete={handleDeleteOrder}
-        onNavigate={handleNavigateOrder}
+        // onNavigate={handleNavigateOrder}
         onUpdate={handleDeliveryForm}
         tableHeadings={AllOrderTableHeadings}
         isShown
+        onPaginationClick={onPaginationClick}
+        totalPage={data?.pagination?.totalPage}
       />
       {openDeletePopup && (
         <Popup open={openDeletePopup} onClose={handleDeleteOrder}>
@@ -96,7 +112,7 @@ export const AllOrdersPanel = () => {
           />
         </Popup>
       )}
-      {openDeliveryStatusForm && (
+      {openDeliveryStatusForm && currentOrderData && (
         <Popup open={openDeliveryStatusForm} onClose={handleDeliveryForm}>
           <DeliveryStatusForm
             updateOrderStatusLoading={updateOrderStatusLoading}

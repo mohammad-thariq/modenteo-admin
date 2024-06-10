@@ -1,60 +1,54 @@
-import { localStorageConst } from "@/constant/localStorage";
 import { _axios } from "@/helper/axios";
-import { LocalStorageHelper } from "@/utils/localStorage";
-
-const getToken = () => {
-  let token = LocalStorageHelper.getItem(localStorageConst.JWTADMIN);
-  return token;
-};
 
 export class OrdersApi {
-  allOrders = async () => {
-    const res = await _axios("get", `/all-order?token=${getToken()}`);
+  allOrders = async ({queryKey}) => {
+    const res = await _axios("get", `/orders?page=${queryKey[1]}&limit=${queryKey[2]}`);
     return res;
   };
-  pendingOrders = async () => {
-    const res = await _axios("get", `/pending-order?token=${getToken()}`);
+  pendingOrders = async ({ queryKey }) => {
+    const res = await _axios("get", `/pending-order?page=${queryKey[1]}&limit=${queryKey[2]}`);
     return res;
   };
-  progressOrders = async () => {
-    const res = await _axios("get", `/pregress-order?token=${getToken()}`);
+  progressOrders = async ({ queryKey }) => {
+    const res = await _axios("get", `/pregress-order?page=${queryKey[1]}&limit=${queryKey[2]}`);
     return res;
   };
-  completedOrders = async () => {
-    const res = await _axios("get", `/completed-order?token=${getToken()}`);
+  deliveredOrders = async ({ queryKey }) => {
+    const res = await _axios("get", `/delivered-order?page=${queryKey[1]}&limit=${queryKey[2]}`);
     return res;
   };
-  deliveryOrder = async () => {
-    const res = await _axios("get", `/delivered-order?token=${getToken()}`);
-    return res;
-  };
-  cashOnDelivery = async () => {
-    const res = await _axios("get", `/cash-on-delivery?token=${getToken()}`);
+  dispatchedOrder = async ({ queryKey }) => {
+    const res = await _axios("get", `/dispatched-order?page=${queryKey[1]}&limit=${queryKey[2]}`);
     return res;
   };
 
-  declinedOrders = async () => {
-    const res = await _axios("get", `/declined-order?token=${getToken()}`);
+  declinedOrders = async ({ queryKey }) => {
+    const res = await _axios("get", `/declined-order?page=${queryKey[1]}&limit=${queryKey[2]}`);
     return res;
   };
+
+  getOrderById = async ({ queryKey }) => {
+    const res = await _axios("get", `/orders/${queryKey[1]}`);
+    return res;
+  };
+  
   getOrderShowById = async ({ queryKey }) => {
     const data = { id: queryKey[1] };
-    const res = await _axios("get", `/order-show?token=${getToken()}`, data);
+    const res = await _axios("get", `/order-show`, data);
     return res;
   };
 
   deleteOrderById = async (data) => {
-    const res = await _axios("post", `/delete-order?token=${getToken()}`, {
-      ...data,
-    });
+    console.log(data, 'data');
+    const res = await _axios("delete", `/orders/delete/${data.id}`)
     return res;
   };
 
   updateOrderById = async (data) => {
     const res = await _axios(
-      "post",
-      `/update-order-status?token=${getToken()}`,
-      { ...data }
+      "patch",
+      `/orders/update/${data.id}`,
+      {data}
     );
     return res;
   };

@@ -13,33 +13,33 @@ export const orderStatusOptions = {
   paymentStatus: [
     {
       name: "Pending",
-      value: 0,
+      value: 1,
     },
     {
       name: "Success",
-      value: 1,
+      value: 2,
     },
   ],
   orderStatus: [
     {
       name: "Pending",
-      value: 0,
-    },
-    {
-      name: "In Progress",
       value: 1,
     },
     {
-      name: "Delivered",
+      name: "In Progress",
       value: 2,
     },
     {
-      name: "Completed",
+      name: "Delivered",
       value: 3,
     },
     {
-      name: "Declined",
+      name: "Completed",
       value: 4,
+    },
+    {
+      name: "Declined",
+      value: 5,
     },
   ],
   deliveryMan: [

@@ -12,25 +12,36 @@ import { useMutation, useQuery } from "react-query";
 import { Loader } from "@/common/Loader";
 import { NoDataFound } from "@/common/NoDataFound";
 
-export const CompletedOrderPanel = () => {
+export const DispatchedOrderPanel = () => {
   const [openDeletePopup, setOpenDeletePopup] = useState(false);
   const [openDeliveryStatusForm, setOpenDeliveryStatusForm] = useState(false);
   const [currentOrderId, setCurrentOrderId] = useState(null);
-  const [currentOrderData, setCurrentOrderData] = useState(null);
-  const { completedOrders, deleteOrderById, updateOrderById } = new OrdersApi();
-  const { data, isLoading,  refetch } = useQuery(["getCompletedOrders"], completedOrders);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const { dispatchedOrder, deleteOrderById, updateOrderById, getOrderById } = new OrdersApi();
+  const { data, isLoading, refetch } = useQuery(
+    ["getDispatchedOrder", page, limit],
+    dispatchedOrder
+  );
 
-  const { mutate, isLoading: deleteOrderStatusLoading } = useMutation(deleteOrderById, {
-    onSuccess: (data, variables, context) => {
-      setOpenDeletePopup(false);
-      ToastifySuccess(data?.notification);
-      refetch();
-    },
-    onError: (data, variables, context) => {
-      setOpenDeletePopup(true);
-      ToastifyFailed(data?.notification);
-    },
+  const { data: currentOrderData } = useQuery(["getOrderById", currentOrderId], getOrderById, {
+    enabled: !!currentOrderId,
   });
+
+  const { mutate, isLoading: deleteOrderStatusLoading } = useMutation(
+    deleteOrderById,
+    {
+      onSuccess: (data, variables, context) => {
+        setOpenDeletePopup(false);
+        ToastifySuccess(data?.message);
+        refetch();
+      },
+      onError: (data, variables, context) => {
+        setOpenDeletePopup(true);
+        ToastifyFailed(data?.error);
+      },
+    }
+  );
 
   const handleNavigateOrder = (id) => {
     router?.push(`/admin/show-order/${id}`);
@@ -40,12 +51,12 @@ export const CompletedOrderPanel = () => {
     useMutation(updateOrderById, {
       onSuccess: (data, variables, context) => {
         setOpenDeliveryStatusForm(false);
-        ToastifySuccess(data?.notification);
+        ToastifySuccess(data?.message);
         refetch();
       },
       onError: (data, variables, context) => {
         setOpenDeliveryStatusForm(true);
-        ToastifyFailed(data?.notification);
+        ToastifyFailed(data?.error);
       },
     });
 
@@ -59,30 +70,36 @@ export const CompletedOrderPanel = () => {
 
   const handleDeliveryForm = (id) => {
     setCurrentOrderId(id);
-    const orderData = data?.orders?.data?.find((i) => i?.id === id);
-    setCurrentOrderData(orderData);
     setOpenDeliveryStatusForm(!openDeliveryStatusForm);
+    if(openDeliveryStatusForm){
+      setCurrentOrderId(null)
+    }
+  };
+
+  const onPaginationClick = (page) => {
+    setPage(Number(page) + 1);
+  };
+
+  if (isLoading) {
+    return <Loader />;
   }
 
+  if (data && data?.orders?.length === 0) {
+    return <NoDataFound />;
+  }
   
-  if(isLoading){
-    return <Loader />
-  }
-
-  if(data && !data?.orders?.data?.length >= 1){
-    return <NoDataFound />
-  }
-
   return (
     <>
       <Breadcrumb currentPage={"Completed Orders"} serachEnable />
       <BaseTable
-        onTableData={data?.orders?.data}
+        onTableData={data?.orders}
         onDelete={handleDeleteOrder}
         onNavigate={handleNavigateOrder}
         onUpdate={handleDeliveryForm}
         tableHeadings={AllOrderTableHeadings}
         isShown
+        onPaginationClick={onPaginationClick}
+        totalPage={data?.pagination?.totalPage}
       />
       {openDeletePopup && (
         <Popup open={openDeletePopup} onClose={handleDeleteOrder}>
@@ -93,7 +110,7 @@ export const CompletedOrderPanel = () => {
           />
         </Popup>
       )}
-      {openDeliveryStatusForm && (
+      {openDeliveryStatusForm && currentOrderData && (
         <Popup open={openDeliveryStatusForm} onClose={handleDeliveryForm}>
           <DeliveryStatusForm
             updateOrderStatusLoading={updateOrderStatusLoading}
