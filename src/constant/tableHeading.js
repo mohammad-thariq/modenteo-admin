@@ -69,6 +69,13 @@ export const BrandsTableHeading = [
   "Status",
   "Action",
 ];
+export const HeroBannerTableHeading =[  "SN",
+"Title",
+"Sub title",
+"Description",
+"Image",
+"Status",
+"Action",];
 
 export const PopularProductsTableHeading = [
   "SN",

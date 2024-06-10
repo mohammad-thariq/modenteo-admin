@@ -1,4 +1,4 @@
 import { Spotlight } from "@/Components/ManageWebsite/Spotlight";
-export default function customerservice(){
+export default function spotlight(){
     return <Spotlight/>
 }

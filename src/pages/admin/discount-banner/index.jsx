@@ -1,4 +1,4 @@
 import { DiscountBanner } from "@/Components/ManageWebsite/DiscountBanner";
-export default function customerservice(){
+export default function discountbanner(){
     return <DiscountBanner/>
 }

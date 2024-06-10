@@ -1,4 +1,4 @@
-import { CustomerService } from "@/Components/ManageWebsite/CustomerService";
-export default function customerservice(){
-    return <CustomerService/>
+import { HeroBanner } from "@/Components/ManageWebsite/HeroBanner";
+export default function herobanner(){
+    return <HeroBanner/>
 }

@@ -16,6 +16,7 @@ import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRound
 import { PopularProductTable } from "./TableBody/ManageWebsite/PopularProductTable";
 import { DiscountBannerTable } from "./TableBody/ManageWebsite/DiscountBannerTable";
 import { SpotlightTable } from "./TableBody/ManageWebsite/SpotlightTable";
+import { HeroBannerTable } from "./TableBody/ManageWebsite/HeroBannerTable";
 export const BaseTable = ({
   ref,
   tableHeadings,
@@ -34,6 +35,7 @@ export const BaseTable = ({
   onSpecKeyData,
   onInventoryData,
   onProductData,
+  onHeroBannerData,
   onSubCategoriesData,
   onShowOrder,
   // tableDatas ends
@@ -147,6 +149,11 @@ export const BaseTable = ({
                     )}
                     {onSpotlightData && (
                       <SpotlightTable onSpotlightData={onSpotlightData} onUpdate={onUpdate}
+                        onDelete={onDelete}
+                      />
+                    )}
+                    {onHeroBannerData && (
+                      <HeroBannerTable onHeroBannerData={onHeroBannerData} onUpdate={onUpdate}
                         onDelete={onDelete}
                       />
                     )}

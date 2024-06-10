@@ -190,4 +190,41 @@ export class manageWebsiteAPI {
     return res;
   };
   // Spotlight Ends
+
+
+
+  // Hero Banner Starts
+  herobanner = async ({ queryKey }) => {
+    const res = await _axios("get", `/banner?page=${queryKey[1]}&limit=${queryKey[2]}`);
+    return res;
+  };
+  
+  createHeroBanner = async (data) => {
+    const res = await _axios(
+      "post",
+      `/banner/create`,
+      data,
+      "multipart/form-data"
+    );
+    return res;
+  };
+
+  updateHeroBanner = async (data) => {
+    const res = await _axios(
+      "patch",
+      `/banner/update/${data.id}`,
+      data,
+      "multipart/form-data"
+    );
+    return res;
+  };
+
+  deleteHeroBanner = async (data) => {
+    const res = await _axios(
+      "delete",
+      `/banner/delete/${data.id}`
+    );
+    return res;
+  };
+  // Hero Banner Ends
 }
