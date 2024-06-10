@@ -72,6 +72,15 @@ export const CollectionsTableHeading = [
   "Status",
   "Action",
 ];
+
+export const CustomerServiceTableHeading = [
+  "SN",
+  "Badge",
+  "Description",
+  "Icon",
+  "Status",
+  "Action",
+];
 export const productReportTableHeading = [
   "SN",
   "Name",
