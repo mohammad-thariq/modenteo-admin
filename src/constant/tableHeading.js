@@ -70,7 +70,7 @@ export const BrandsTableHeading = [
   "Action",
 ];
 
-export const PopularProductsTableHeading =[
+export const PopularProductsTableHeading = [
   "SN",
   "Title",
   "Description",
@@ -79,6 +79,10 @@ export const PopularProductsTableHeading =[
   "Action",
 ];
 
+export const DiscountBannerTableHeading = [
+  "SN",
+  "Title", "Sub title", "description", "Button Name", "Status", "Image", "Action",
+]
 export const CollectionsTableHeading = [
   "SN",
   "Name",

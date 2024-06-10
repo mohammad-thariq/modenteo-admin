@@ -1,4 +1,4 @@
-import { CustomerService } from "@/Components/ManageWebsite/CustomerService";
+import { DiscountBanner } from "@/Components/ManageWebsite/DiscountBanner";
 export default function customerservice(){
-    return <CustomerService/>
+    return <DiscountBanner/>
 }

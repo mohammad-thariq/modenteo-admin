@@ -14,6 +14,7 @@ import ReactPaginate from "react-paginate";
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import { PopularProductTable } from "./TableBody/ManageWebsite/PopularProductTable";
+import { DiscountBannerTable } from "./TableBody/ManageWebsite/DiscountBannerTable";
 export const BaseTable = ({
   ref,
   tableHeadings,
@@ -27,6 +28,7 @@ export const BaseTable = ({
   onCustomerServiceData,
   onFashionProductData,
   onPopularProductsData,
+  onDiscountBannerData,
   onSpecKeyData,
   onInventoryData,
   onProductData,
@@ -133,6 +135,11 @@ export const BaseTable = ({
                     )}
                     {onPopularProductsData && (
                       <PopularProductTable onPopularProductsData={onPopularProductsData} onUpdate={onUpdate}
+                        onDelete={onDelete}
+                      />
+                    )}
+                    {onDiscountBannerData && (
+                      <DiscountBannerTable onDiscountBannerData={onDiscountBannerData} onUpdate={onUpdate}
                         onDelete={onDelete}
                       />
                     )}
