@@ -102,10 +102,7 @@ export const SideNavConst = {
           name: "Discount Banner",
           url: "/admin/discount-banner",
         },
-        {
-          name: "Fashion Products",
-          url: "/admin/fashion-products",
-        },
+
         {
           name: "Spot Light",
           url: "/admin/spotlight-products",
@@ -115,10 +112,14 @@ export const SideNavConst = {
           url: "/admin/popular-products",
         },
         {
+          name: "Fashion Products",
+          url: "/admin/fashion-products",
+        },
+        {
           name: "Customer Service",
           url: "/admin/customer-service",
         },
-     
+
       ],
     },
     {

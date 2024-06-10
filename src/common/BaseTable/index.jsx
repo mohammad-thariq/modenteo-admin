@@ -6,6 +6,7 @@ import { OrderShowTable } from "./TableBody/OrderTable/OrderShow";
 import { BrandsTable } from "./TableBody/Products/BrandsTable";
 import { CollectionsTable } from "./TableBody/Products/CollectionsTable";
 import { CustomerServiceTable } from "./TableBody/ManageWebsite/CustomerServiceTable";
+import { FashionProductTable } from "./TableBody/ManageWebsite/FashionProductTable";
 import { SpecKeyTable } from "./TableBody/Products/SpecKeyTable";
 import { Product } from "./TableBody/Products/Product";
 import { Inventory } from "./TableBody/Inventory";
@@ -26,6 +27,7 @@ export const BaseTable = ({
   onBrandsData,
   onCollectionsData,
   onCustomerServiceData,
+  onFashionProductData,
   onSpecKeyData,
   onInventoryData,
   onProductData,
@@ -122,6 +124,11 @@ export const BaseTable = ({
                     )}
                     {onCustomerServiceData && (
                       <CustomerServiceTable onCustomerServiceData={onCustomerServiceData} onUpdate={onUpdate}
+                        onDelete={onDelete}
+                      />
+                    )}
+                    {onFashionProductData && (
+                      <FashionProductTable onFashionProductData={onFashionProductData} onUpdate={onUpdate}
                         onDelete={onDelete}
                       />
                     )}

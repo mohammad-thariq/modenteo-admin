@@ -42,7 +42,12 @@ export const CityTableHeading = [
   "Status",
   "Action",
 ];
-
+export const FashionProductTableHeading = [
+  "SN",
+  "Image",
+  "Status",
+  "Action",
+];
 export const ManageTableHeadings = ["Name", "Image", "Status", "Action"];
 
 
