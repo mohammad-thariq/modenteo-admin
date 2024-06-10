@@ -124,14 +124,10 @@ export const SideNavConst = {
     },
     {
       heading: "Settings",
+      url: "/admin/website-settings",
       icon: <SettingsIcon sx={{ fontSize: 18 }} />,
-      subRoutes: [
-        {
-          name: "website-settings",
-          url: "/admin/website-settings",
-        },
-      ],
     },
+    
     {
       heading: "Users",
       icon: <GroupIcon sx={{ fontSize: 18 }} />,
