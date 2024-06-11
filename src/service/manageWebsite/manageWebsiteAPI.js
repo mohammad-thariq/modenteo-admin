@@ -14,7 +14,11 @@ export class manageWebsiteAPI {
     const res = await _axios("get", `/service?page=${queryKey[1]}&limit=${queryKey[2]}`);
     return res;
   };
-  
+  serviceActive = async () => {
+    const res = await _axios("get", `/list/service`);
+    return res;
+  };
+
   createService = async (data) => {
     const res = await _axios(
       "post",
@@ -44,13 +48,13 @@ export class manageWebsiteAPI {
   };
   // Customer Service Ends
 
-  
+
   // Fashion Product Starts
   fashion = async ({ queryKey }) => {
     const res = await _axios("get", `/fashion_product?page=${queryKey[1]}&limit=${queryKey[2]}`);
     return res;
   };
-  
+
   createFashion = async (data) => {
     const res = await _axios(
       "post",
@@ -86,7 +90,7 @@ export class manageWebsiteAPI {
     const res = await _axios("get", `/popular_produts?page=${queryKey[1]}&limit=${queryKey[2]}`);
     return res;
   };
-  
+
   createPopular = async (data) => {
     const res = await _axios(
       "post",
@@ -123,7 +127,7 @@ export class manageWebsiteAPI {
     const res = await _axios("get", `/discount_banner?page=${queryKey[1]}&limit=${queryKey[2]}`);
     return res;
   };
-  
+
   createDiscount = async (data) => {
     const res = await _axios(
       "post",
@@ -161,7 +165,7 @@ export class manageWebsiteAPI {
     const res = await _axios("get", `/spot_light?page=${queryKey[1]}&limit=${queryKey[2]}`);
     return res;
   };
-  
+
   createSpotlight = async (data) => {
     const res = await _axios(
       "post",
@@ -198,7 +202,7 @@ export class manageWebsiteAPI {
     const res = await _axios("get", `/banner?page=${queryKey[1]}&limit=${queryKey[2]}`);
     return res;
   };
-  
+
   createHeroBanner = async (data) => {
     const res = await _axios(
       "post",
