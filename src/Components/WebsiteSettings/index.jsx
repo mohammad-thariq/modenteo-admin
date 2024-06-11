@@ -7,6 +7,7 @@ import { productCateoriesAPI } from "@/service/productCategories/productCategori
 import { ManageCategoriesApi } from "@/service/manageCategories/manageCategoriesAPI";
 import { SettingsAPI } from "@/service/settings/settings";
 import { useEffect, useState } from "react";
+
 export const WebsiteSettings = () => {
   const { productActiveCategory, productActiveSubCategory } = new ManageCategoriesApi();
   const { createSettings, getSettings } = new SettingsAPI();
@@ -16,6 +17,7 @@ export const WebsiteSettings = () => {
   const { data: brands } = useQuery(["brands"], brandsActive);
   const { data: category } = useQuery(["category"], productActiveCategory);
   const { data: sub_category } = useQuery(["sub-category"], productActiveSubCategory);
+
   const schema = Yup.object({
     sections: Yup.array().of(
       Yup.object({
@@ -27,6 +29,8 @@ export const WebsiteSettings = () => {
         section: Yup.string().required("Section is required"),
         type: Yup.string().required("Type is required"),
         value: Yup.string().required("Value is required"),
+        title: Yup.string().required("Title is required"),
+        description: Yup.string().required("Description is required"),
       })
     ),
   });
@@ -39,51 +43,55 @@ export const WebsiteSettings = () => {
     { name: "fashion", label: "Fashion Section" },
     { name: "service", label: "Customer Service Section" },
   ]);
-  const [typeSections, settypeSections] = useState([{ type: '', value: '', section: '' }]);
+
+  const [typeSections, setTypeSections] = useState([
+    { type: '', value: '', section: '', title: '', description: '' }
+  ]);
+
   const getSectionByName = (name) => {
     return sections.find(section => section.name === name);
   };
+
   useEffect(() => {
     if (settings && settings?.settings && settings?.settings.length > 0) {
-      let tempsection = [];
-      settings?.settings.forEach((item, index) => {
+      let tempSection = [];
+      settings?.settings.forEach((item) => {
         let sectionDetails = getSectionByName(item?.type);
         item.name = sectionDetails?.name;
         item.label = sectionDetails?.label;
-        tempsection.push(item);
-
+        tempSection.push(item);
       });
-      setSections(tempsection);
+      setSections(tempSection);
     }
     if (settings && settings?.home_settings) {
-      settypeSections(settings?.home_settings);
+      setTypeSections(settings?.home_settings);
     }
+  }, [settings]);
 
-  }, [settings])
-  const { mutate: createSettingsMutate } =
-    useMutation(createSettings, {
-      onSuccess: (data, variables, context) => {
-        ToastifySuccess("Website Settings Saved Successfully");
-      },
-      onError: (data, variables, context) => {
-        refetch();
-        ToastifyFailed("Failed to save website settings");
-      },
-    });
+  const { mutate: createSettingsMutate } = useMutation(createSettings, {
+    onSuccess: () => {
+      ToastifySuccess("Website Settings Saved Successfully");
+    },
+    onError: () => {
+      refetch();
+      ToastifyFailed("Failed to save website settings");
+    },
+  });
+
   const onSave = (values) => {
     let section = [];
     values?.sections.forEach((data, index) => {
       data.type = sections[index].name;
-      section.push(data)
+      section.push(data);
     });
     let data = { section: section, home_settings: values?.typeSections };
-    createSettingsMutate(data)
-  }
+    createSettingsMutate(data);
+  };
 
   return (
     <>
       <Breadcrumb currentPage={"Settings"} />
-      <ProfileCard >
+      <ProfileCard>
         <div className="card-body">
           <Formik
             enableReinitialize
@@ -113,7 +121,7 @@ export const WebsiteSettings = () => {
             }) => (
               <form role="form" onSubmit={handleSubmit}>
                 <FieldArray name="sections">
-                  {({ push }) => (
+                  {() => (
                     <>
                       {values.sections.map((section, index) => (
                         <div key={index} className="mb-3">
@@ -164,7 +172,7 @@ export const WebsiteSettings = () => {
                 </FieldArray>
                 <label>Product Listing Sections</label><br />
                 <FieldArray name="typeSections">
-                  {({ insert, remove, push }) => (
+                  {({ remove, push }) => (
                     <>
                       {values.typeSections.map((section, index) => (
                         <div key={index} className="mb-3">
@@ -177,16 +185,43 @@ export const WebsiteSettings = () => {
                             className="form-control"
                           >
                             <option value="" label="Select section" />
-                            <option value="banner" label="Banner Section" />
-                            <option value="discount" label="Discount Section" />
-                            <option value="spotlight" label="Spotlight Section" />
-                            <option value="popular" label="Popular Section" />
-                            <option value="fashion" label="Fashion Section" />
-                            <option value="customservice" label="Customer Section" />
+                            {sections.map((sec) => (
+                              <option key={sec.name} value={sec.name} label={sec.label} />
+                            ))}
                           </select>
                           {errors.typeSections?.[index]?.section && touched.typeSections?.[index]?.section && (
                             <div className="field-error">{errors.typeSections[index].section}</div>
                           )}
+                          <label>Title</label>
+                          <div className="mb-3">
+                            <input
+                              type="text"
+                              name={`typeSections.${index}.title`}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={section?.title}
+                              className="form-control"
+                              placeholder="Title"
+                            />
+                            {errors.typeSections?.[index]?.title && touched.typeSections?.[index]?.title && (
+                              <div className="error">{errors.typeSections[index].title}</div>
+                            )}
+                          </div>
+                          <label>Description</label>
+                          <div className="mb-3">
+                            <input
+                              type="text"
+                              name={`typeSections.${index}.description`}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={section.description}
+                              className="form-control"
+                              placeholder="Description"
+                            />
+                            {errors.typeSections?.[index]?.description && touched.typeSections?.[index]?.description && (
+                              <div className="error">{errors.typeSections[index].description}</div>
+                            )}
+                          </div>
                           <label>Choose Type</label>
                           <select
                             name={`typeSections.${index}.type`}
@@ -213,22 +248,22 @@ export const WebsiteSettings = () => {
                             className="form-control"
                           >
                             <option value="" label="Select value" />
-                            {section.type === 'main_category' ?
+                            {section.type === 'main_category' &&
                               category?.categories.map((item) => (
                                 <option key={item.id} value={item.id} label={item.name} />
-                              ))
-                              : section.type === 'collection' ?
-                                collection?.collections.map((item) => (
-                                  <option key={item.id} value={item.id} label={item.name} />
-                                ))
-                                : section.type === 'brands' ?
-                                  brands?.brands.map((item) => (
-                                    <option key={item.id} value={item.id} label={item.name} />
-                                  ))
-                                  : section.type === 'sub_category' ?
-                                    sub_category?.sub_categories.map((item) => (
-                                      <option key={item.id} value={item.id} label={item.name} />
-                                    )) : null}
+                              ))}
+                            {section.type === 'collection' &&
+                              collection?.collections.map((item) => (
+                                <option key={item.id} value={item.id} label={item.name} />
+                              ))}
+                            {section.type === 'brands' &&
+                              brands?.brands.map((item) => (
+                                <option key={item.id} value={item.id} label={item.name} />
+                              ))}
+                            {section.type === 'sub_category' &&
+                              sub_category?.sub_categories.map((item) => (
+                                <option key={item.id} value={item.id} label={item.name} />
+                              ))}
                           </select>
                           {errors.typeSections?.[index]?.value && touched.typeSections?.[index]?.value && (
                             <div className="field-error">{errors.typeSections[index].value}</div>
@@ -245,7 +280,7 @@ export const WebsiteSettings = () => {
                       <button
                         type="button"
                         className="btn btn-primary"
-                        onClick={() => push({ type: '', value: '', section: '' })}
+                        onClick={() => push({ type: '', value: '', section: '', title: '', description: '' })}
                       >
                         Add Section
                       </button>
