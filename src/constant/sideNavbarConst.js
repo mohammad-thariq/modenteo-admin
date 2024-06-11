@@ -6,7 +6,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import GroupIcon from "@mui/icons-material/Group";
 import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
 import SettingsIcon from '@mui/icons-material/Settings';
-
+import { Pages } from "@mui/icons-material";
 export const SideNavConst = {
   routes: [
     {
@@ -126,6 +126,11 @@ export const SideNavConst = {
       heading: "Settings",
       url: "/admin/website-settings",
       icon: <SettingsIcon sx={{ fontSize: 18 }} />,
+    },
+    {
+      heading: "Pages",
+      url: "/admin/pages",
+      icon: <Pages sx={{ fontSize: 18 }} />,
     },
     
     {

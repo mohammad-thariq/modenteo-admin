@@ -17,6 +17,7 @@ import { PopularProductTable } from "./TableBody/ManageWebsite/PopularProductTab
 import { DiscountBannerTable } from "./TableBody/ManageWebsite/DiscountBannerTable";
 import { SpotlightTable } from "./TableBody/ManageWebsite/SpotlightTable";
 import { HeroBannerTable } from "./TableBody/ManageWebsite/HeroBannerTable";
+import { PageTable } from "./PageTable";
 export const BaseTable = ({
   ref,
   tableHeadings,
@@ -38,6 +39,7 @@ export const BaseTable = ({
   onHeroBannerData,
   onSubCategoriesData,
   onShowOrder,
+  onPageData,
   // tableDatas ends
 
   //  Table Depend Data starts
@@ -149,6 +151,11 @@ export const BaseTable = ({
                     )}
                     {onSpotlightData && (
                       <SpotlightTable onSpotlightData={onSpotlightData} onUpdate={onUpdate}
+                        onDelete={onDelete}
+                      />
+                    )}
+                    {onPageData && (
+                      <PageTable onPageData={onPageData} onUpdate={onUpdate}
                         onDelete={onDelete}
                       />
                     )}
