@@ -285,10 +285,10 @@ export const DashboardPanel = () => {
             <TrackingCard key={i?.id} {...i} />
           ))}
         </div>
-        <div className="row mt-4">
+        {/* <div className="row mt-4">
           <ChartBar chartBarsRef={chartBarsRef} />
           <ChartLine chartLineRef={chartLineRef} />
-        </div>
+        </div> */}
         <div className="row mt-4">
           {DashboardConst?.trackingCardData?.slice(4, 8).map((i) => (
             <TrackingCard key={i?.id} {...i} />

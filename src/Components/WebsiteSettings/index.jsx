@@ -2,20 +2,24 @@ import { Breadcrumb } from "@/common/Breadcrumb";
 import * as Yup from "yup";
 import ProfileCard from "@/common/ProfileCard";
 import { Formik, FieldArray } from "formik";
-import { ProfileApi } from "@/service/profile/profileAPI";
-import { useQuery } from "react-query";
-
+import { useQuery, useMutation } from "react-query";
+import { productCateoriesAPI } from "@/service/productCategories/productCategoriesAPI";
+import { ManageCategoriesApi } from "@/service/manageCategories/manageCategoriesAPI";
+import { SettingsAPI } from "@/service/settings/settings";
+import { useEffect, useState } from "react";
 export const WebsiteSettings = () => {
-  const { profile } = new ProfileApi();
-  const { data, isLoading } = useQuery(['profile'], profile);
-
+  const { productActiveCategory, productActiveSubCategory } = new ManageCategoriesApi();
+  const { createSettings, getSettings } = new SettingsAPI();
+  const { collectionsActive, brandsActive } = new productCateoriesAPI();
+  const { data: settings, refetch } = useQuery(["settings"], getSettings);
+  const { data: collection } = useQuery(["collection"], collectionsActive);
+  const { data: brands } = useQuery(["brands"], brandsActive);
+  const { data: category } = useQuery(["category"], productActiveCategory);
+  const { data: sub_category } = useQuery(["sub-category"], productActiveSubCategory);
   const schema = Yup.object({
-    field: Yup.string().required("Field is required"),
     sections: Yup.array().of(
       Yup.object({
-        title: Yup.string().required("Title is required"),
-        description: Yup.string().required("Description is required"),
-        toggle: Yup.boolean(),
+        enabled: Yup.boolean(),
       })
     ),
     typeSections: Yup.array().of(
@@ -27,33 +31,73 @@ export const WebsiteSettings = () => {
     ),
   });
 
-  const sections = [
-    { name: "bannerToggle", label: "Banner Section" },
-    { name: "discountToggle", label: "Discount Banner Section" },
-    { name: "spotlightToggle", label: "Spotlight Section" },
-    { name: "popularToggle", label: "Popular Product Section" },
-    { name: "fashionToggle", label: "Fashion Section" },
-    { name: "serviceToggle", label: "Customer Service Section" },
-  ];
+  const [sections, setSections] = useState([
+    { name: "banner", label: "Banner Section" },
+    { name: "discount", label: "Discount Banner Section" },
+    { name: "spotlight", label: "Spotlight Section" },
+    { name: "popular", label: "Popular Product Section" },
+    { name: "fashion", label: "Fashion Section" },
+    { name: "service", label: "Customer Service Section" },
+  ]);
+  const [typeSections, settypeSections] = useState([{ type: '', value: '', section: '' }]);
+  const getSectionByName = (name) => {
+    return sections.find(section => section.name === name);
+  };
+  useEffect(() => {
+    if (settings && settings?.settings && settings?.settings.length > 0) {
+      let tempsection = [];
+      settings?.settings.forEach((item, index) => {
+        let sectionDetails = getSectionByName(item?.type);
+        item.name = sectionDetails?.name;
+        item.label = sectionDetails?.label;
+        tempsection.push(item);
+
+      });
+      setSections(tempsection);
+    }
+    if (settings && settings?.home_settings) {
+      settypeSections(settings?.home_settings);
+    }
+
+  }, [settings])
+  const { mutate: createSettingsMutate } =
+    useMutation(createSettings, {
+      onSuccess: (data, variables, context) => {
+        ToastifySuccess("Website Settings Saved Successfully");
+      },
+      onError: (data, variables, context) => {
+        refetch();
+        ToastifyFailed("Failed to save website settings");
+      },
+    });
+  const onSave = (values) => {
+    let section = [];
+    values?.sections.forEach((data, index) => {
+      data.type = sections[index].name;
+      section.push(data)
+    });
+    let data = { section: section, home_settings: values?.typeSections };
+    createSettingsMutate(data)
+  }
 
   return (
     <>
       <Breadcrumb currentPage={"Settings"} />
-      <ProfileCard Name={data?.data?.name} Title={data?.data?.email} >
+      <ProfileCard >
         <div className="card-body">
           <Formik
+            enableReinitialize
             initialValues={{
               sections: sections.map(section => ({
-                title: '',
-                description: '',
-                toggle: false,
+                title: section?.title || "",
+                description: section?.description || "",
+                enabled: section?.enabled || false,
               })),
-              typeSections: [{ type: '', value: '', section: '' }],
+              typeSections: typeSections,
             }}
-            validationSchema={schema}
+            // validationSchema={schema}
             onSubmit={(values, actions) => {
-              // handle submission
-              console.log('Submitted values:', values);
+              onSave(values);
               actions.setSubmitting(false);
             }}
           >
@@ -64,6 +108,7 @@ export const WebsiteSettings = () => {
               handleChange,
               handleBlur,
               handleSubmit,
+              setFieldValue,
               isSubmitting,
             }) => (
               <form role="form" onSubmit={handleSubmit}>
@@ -77,10 +122,10 @@ export const WebsiteSettings = () => {
                             <input
                               type="checkbox"
                               className="form-check-input"
-                              name={`sections.${index}.toggle`}
-                              onChange={handleChange}
+                              name={`sections.${index}.enabled`}
+                              onChange={(e) => setFieldValue(`sections.${index}.enabled`, e.target.checked)}
                               onBlur={handleBlur}
-                              checked={section.toggle}
+                              checked={section.enabled}
                             />
                             <label className="form-check-label">Yes/No</label>
                           </div>
@@ -117,8 +162,7 @@ export const WebsiteSettings = () => {
                     </>
                   )}
                 </FieldArray>
-                <label>Product Listing Sections</label><br/>
-
+                <label>Product Listing Sections</label><br />
                 <FieldArray name="typeSections">
                   {({ insert, remove, push }) => (
                     <>
@@ -127,7 +171,7 @@ export const WebsiteSettings = () => {
                           <label>Choose After Section</label>
                           <select
                             name={`typeSections.${index}.section`}
-                            value={section.section}
+                            value={section?.section || section?.after_section}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             className="form-control"
@@ -152,8 +196,8 @@ export const WebsiteSettings = () => {
                             className="form-control"
                           >
                             <option value="" label="Select type" />
-                            <option value="main category" label="Main Category" />
-                            <option value="sub category" label="Sub Category" />
+                            <option value="main_category" label="Main Category" />
+                            <option value="sub_category" label="Sub Category" />
                             <option value="collection" label="Collection" />
                             <option value="brands" label="Brands" />
                           </select>
@@ -169,7 +213,22 @@ export const WebsiteSettings = () => {
                             className="form-control"
                           >
                             <option value="" label="Select value" />
-                            {/* Add options for values based on the chosen type */}
+                            {section.type === 'main_category' ?
+                              category?.categories.map((item) => (
+                                <option key={item.id} value={item.id} label={item.name} />
+                              ))
+                              : section.type === 'collection' ?
+                                collection?.collections.map((item) => (
+                                  <option key={item.id} value={item.id} label={item.name} />
+                                ))
+                                : section.type === 'brands' ?
+                                  brands?.brands.map((item) => (
+                                    <option key={item.id} value={item.id} label={item.name} />
+                                  ))
+                                  : section.type === 'sub_category' ?
+                                    sub_category?.sub_categories.map((item) => (
+                                      <option key={item.id} value={item.id} label={item.name} />
+                                    )) : null}
                           </select>
                           {errors.typeSections?.[index]?.value && touched.typeSections?.[index]?.value && (
                             <div className="field-error">{errors.typeSections[index].value}</div>
@@ -205,7 +264,6 @@ export const WebsiteSettings = () => {
               </form>
             )}
           </Formik>
-
         </div>
       </ProfileCard>
     </>

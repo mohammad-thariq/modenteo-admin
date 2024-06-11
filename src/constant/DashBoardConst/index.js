@@ -38,12 +38,6 @@ export const DashboardConst = {
         },
         {
             id: 7,
-            name: "Total Block",
-            count: "0",
-            icon: "ni ni-paper-diploma text-lg opacity-10"
-        },
-        {
-            id: 8,
             name: "Complete Order",
             count: "120",
             icon: "ni ni-cart text-lg opacity-10"

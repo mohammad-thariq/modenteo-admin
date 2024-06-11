@@ -26,8 +26,6 @@ const MainPage = ({ Component, pageProps }) => {
   const {validateToken} = new AuthorizationApi()
   const { data } = useQuery(["validate-token"], validateToken)
 
-  console.log(data, 'validate');
-
   useEffect(() => {
     const adminAuthToken = LocalStorageHelper.getItem(
       localStorageConst.JWTADMIN
