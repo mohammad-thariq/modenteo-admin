@@ -360,3 +360,7 @@ body {
 .error,.field-error {
   color: red;
 }
+
+.gallery-preview .img-thumbnail{
+  margin: 0.2rem;
+}

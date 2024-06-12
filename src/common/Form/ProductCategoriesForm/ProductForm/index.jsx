@@ -2,8 +2,7 @@
 import { Formik } from "formik";
 import style from "../index.module.css";
 import { Button } from "@/common/Button";
-import { useState } from "react";
-import { useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { BaseUrls } from "../../../../../env";
 import * as Yup from "yup";
@@ -43,6 +42,7 @@ export const ProductForm = ({
   brand,
 }) => {
   const editorRef = useRef("");
+  const fileInputRef = useRef(null);
   const [topProduct, setTopProduct] = useState(
     data?.top_product === 1 ? true : false || false
   );
@@ -57,6 +57,7 @@ export const ProductForm = ({
   );
 
   const [imagePreview, setImagePreview] = useState();
+  const [galleryPreviews, setGalleryPreviews] = useState([]);
 
   const toggleTopProduct = () => {
     setTopProduct(!topProduct);
@@ -72,12 +73,44 @@ export const ProductForm = ({
   const toggleFeaturedProduct = () => {
     setFeaturedProduct(!featuredProduct);
   };
-
+  useEffect(() => {
+    if (data?.gallery != null) {
+      let galleryData = data?.gallery.split(',');
+      setGalleryPreviews(galleryData);
+    }
+  }, [data])
   const getLongDescription =
     editorRef.current && editorRef.current.getContent();
+  const handleGalleryChange = (e) => {
+    const files = Array.from(e.target.files);
+    setGalleryPreviews((prev) => [
+      ...prev,
+      ...files.map((file) => URL.createObjectURL(file)),
+    ]);
+    e.target.value = null; // Clear the file input value
+  };
 
+  const handleRemoveImage = (index) => {
+    setGalleryPreviews((prev) => {
+      const newPreviews = prev.filter((_, i) => i !== index);
+      if (newPreviews.length === 0) {
+        fileInputRef.current.value = null; // Reset the file input if no images left
+      }
+      return newPreviews;
+    });
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    const files = Array.from(e.dataTransfer.files);
+    setGalleryPreviews((prev) => [
+      ...prev,
+      ...files.map((file) => URL.createObjectURL(file)),
+    ]);
+    fileInputRef.current.value = null; // Clear the file input value
+  };
   return (
-    <div className={style.wrapper}>
+    <div className={style.wrapper} onDragOver={(e) => e.preventDefault()} onDrop={handleDrop}>
       <Formik
         initialValues={{
           short_name: data?.short_name || "",
@@ -101,9 +134,11 @@ export const ProductForm = ({
           new_arrival: newArrival === false ? 0 : 1,
           best_product: bestProduct === false ? 0 : 1,
           featured_product: featuredProduct === false ? 0 : 1,
+          gallery: [],
         }}
         validationSchema={schema}
         onSubmit={(values, actions) => {
+
           if (!imagePreview) {
             actions.setFieldError("image", "Image is required");
             return;
@@ -117,52 +152,54 @@ export const ProductForm = ({
           }
           onUpdate
             ? onUpdate({
-                id: currentProductId,
-                short_name: values?.short_name,
-                name: values?.name,
-                image: imagePreview,
-                category: values?.category,
-                sub_category: values?.sub_category,
-                collection: values?.collection,
-                brand: values?.brand,
-                quantity: values?.quantity,
-                sku: values?.sku,
-                price: values?.price,
-                offer_price: values?.offer_price,
-                short_description: values?.short_description,
-                long_description: getLongDescription,
-                status: values?.status - 1,
-                weight: values?.weight,
-                seo_title: values?.seo_title,
-                seo_description: values?.seo_description,
-                top_product: topProduct === false ? 0 : 1,
-                new_arrival: newArrival === false ? 0 : 1,
-                best_product: bestProduct === false ? 0 : 1,
-                featured_product: featuredProduct === false ? 0 : 1,
-              })
+              id: currentProductId,
+              short_name: values?.short_name,
+              name: values?.name,
+              image: imagePreview,
+              category: values?.category,
+              sub_category: values?.sub_category,
+              collection: values?.collection,
+              brand: values?.brand,
+              quantity: values?.quantity,
+              sku: values?.sku,
+              price: values?.price,
+              offer_price: values?.offer_price,
+              short_description: values?.short_description,
+              long_description: getLongDescription,
+              status: values?.status - 1,
+              weight: values?.weight,
+              seo_title: values?.seo_title,
+              seo_description: values?.seo_description,
+              top_product: topProduct === false ? 0 : 1,
+              new_arrival: newArrival === false ? 0 : 1,
+              best_product: bestProduct === false ? 0 : 1,
+              featured_product: featuredProduct === false ? 0 : 1,
+              gallery: galleryPreviews,
+            })
             : onSave({
-                short_name: values?.short_name,
-                name: values?.name,
-                image: imagePreview,
-                category: values?.category,
-                sub_category: values?.sub_category,
-                collection: values?.collection,
-                brand: values?.brand,
-                quantity: values?.quantity,
-                sku: values?.sku,
-                price: values?.price,
-                offer_price: values?.offer_price,
-                short_description: values?.short_description,
-                long_description: getLongDescription,
-                status: values?.status - 1,
-                weight: values?.weight,
-                seo_title: values?.seo_title,
-                seo_description: values?.seo_description,
-                top_product: topProduct === false ? 0 : 1,
-                new_arrival: newArrival === false ? 0 : 1,
-                best_product: bestProduct === false ? 0 : 1,
-                featured_product: featuredProduct === false ? 0 : 1,
-              });
+              short_name: values?.short_name,
+              name: values?.name,
+              image: imagePreview,
+              category: values?.category,
+              sub_category: values?.sub_category,
+              collection: values?.collection,
+              brand: values?.brand,
+              quantity: values?.quantity,
+              sku: values?.sku,
+              price: values?.price,
+              offer_price: values?.offer_price,
+              short_description: values?.short_description,
+              long_description: getLongDescription,
+              status: values?.status - 1,
+              weight: values?.weight,
+              seo_title: values?.seo_title,
+              seo_description: values?.seo_description,
+              top_product: topProduct === false ? 0 : 1,
+              new_arrival: newArrival === false ? 0 : 1,
+              best_product: bestProduct === false ? 0 : 1,
+              featured_product: featuredProduct === false ? 0 : 1,
+              gallery: galleryPreviews,
+            });
           actions.setSubmitting(true);
         }}
       >
@@ -192,6 +229,26 @@ export const ProductForm = ({
               >
                 {errors.image && touched.image && errors.image}
               </p>
+            </div>
+            <div className="mb-3">
+              <label>Product Gallery </label>
+              <input ref={fileInputRef} type="file" name="gallery" className="form-control" multiple
+                accept="image/jpeg, image/jpg, image/png" onChange={handleGalleryChange} />
+              <div className="gallery-preview mt-2">
+                {
+                  galleryPreviews.map((src, index) => (
+                    <div key={index} className="img-thumbnail" style={{ position: "relative", display: "inline-block" }}>
+                      <img src={src} alt={`Gallery Preview ${index}`} style={{
+                        maxWidth: "100px", maxHeight: "100px", margin: "5px"
+                      }} />
+                      <button type="button" onClick={() => handleRemoveImage(index)}
+                        style={{
+                          position: "absolute", top: "0", right: "0", background: "red", color: "white", border: "none", borderRadius:
+                            "50%", cursor: "pointer",
+                        }}>&times;</button>
+                    </div>
+                  ))}
+              </div>
             </div>
             <label>Short Name</label>
             <div className="mb-2">

@@ -129,7 +129,6 @@ export const Products = () => {
     setPage(Number(page) + 1);
   };
 
-  console.log(currentProductDataId, 'currentProductDataId');
   return (
     <>
       <Breadcrumb currentPage={"Products"} serachEnable />
