@@ -2,7 +2,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 
-export const OrderTable = ({onTableData, onUpdate,onDelete,onNavigate }) => {
+export const OrderTable = ({ onTableData, onUpdate, onDelete, onNavigate }) => {
   return (
     <>
       {onTableData &&
@@ -39,27 +39,27 @@ export const OrderTable = ({onTableData, onUpdate,onDelete,onNavigate }) => {
                   item?.order_status === 0
                     ? "text-warning border border-warning text-xxs font-weight-bold badge badge-xxs"
                     : item?.order_status === 1
-                    ? "text-info border border-info text-xxs font-weight-bold badge badge-xxs"
-                    : item?.order_status === 2
-                    ? "text-success border border-success text-xxs font-weight-bold badge badge-xxs"
-                    : item?.order_status === 3
-                    ? "text-success border border-success text-xxs font-weight-bold badge badge-xxs"
-                    : item?.order_status === 4
-                    ? "text-danger border border-danger text-xxs font-weight-bold badge badge-xxs"
-                    : ""
+                      ? "text-info border border-info text-xxs font-weight-bold badge badge-xxs"
+                      : item?.order_status === 2
+                        ? "text-success border border-success text-xxs font-weight-bold badge badge-xxs"
+                        : item?.order_status === 3
+                          ? "text-success border border-success text-xxs font-weight-bold badge badge-xxs"
+                          : item?.order_status === 4
+                            ? "text-danger border border-danger text-xxs font-weight-bold badge badge-xxs"
+                            : ""
                 }
               >
                 {item?.order_status === 0
                   ? "Pending"
                   : item?.order_status === 1
-                  ? "Progress"
-                  : item?.order_status === 2
-                  ? "Completed"
-                  : item?.order_status === 3
-                  ? "Delivered"
-                  : item?.order_status === 4
-                  ? "Declined"
-                  : ""}
+                    ? "Progress"
+                    : item?.order_status === 2
+                      ? "Completed"
+                      : item?.order_status === 3
+                        ? "Delivered"
+                        : item?.order_status === 4
+                          ? "Declined"
+                          : ""}
               </span>
             </td>
             <td className="align-middle text-center">
@@ -68,15 +68,15 @@ export const OrderTable = ({onTableData, onUpdate,onDelete,onNavigate }) => {
                   item?.payment_status === 1
                     ? "text-success border border-success  text-xxs font-weight-bold badge badge-xxs"
                     : item?.payment_status === 0
-                    ? "text-warning border border-warning text-xxs font-weight-bold badge badge-xxs"
-                    : ""
+                      ? "text-warning border border-warning text-xxs font-weight-bold badge badge-xxs"
+                      : ""
                 }
               >
                 {item?.payment_status === 1
                   ? "Success"
                   : item?.payment_status === 0
-                  ? "Pending"
-                  : ""}
+                    ? "Pending"
+                    : ""}
                 {/* {item?.payment_status} */}
               </span>
             </td>

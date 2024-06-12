@@ -12,4 +12,9 @@ export class DashBoardApi {
     const res = await _axios("get", `/dashboard?token=${getToken()}`);
     return res;
   };
+  dashboard = async () => {
+    const res = await _axios("get", `/admin/dashboard`);
+    return res
+  }
+
 }

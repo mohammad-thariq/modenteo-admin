@@ -1,11 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { Breadcrumb } from "../../common/Breadcrumb";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import Chart from "chart.js/auto";
-import { TrackingCard } from "./TrackingCard";
-import { DashboardConst } from "@/constant/DashBoardConst";
-import { ChartBar } from "./ChartBar";
-import { ChartLine } from "./ChartLine";
+import React, { useCallback, useState } from "react";
+import DashboardConst from "./DashBoardConst";
 import { BaseTable } from "@/common/BaseTable";
 import { useRouter } from "next/router";
 import { Popup } from "@/common/Popup";
@@ -20,24 +16,22 @@ import { NoDataFound } from "@/common/NoDataFound";
 import { AllOrderTableHeadings } from "@/constant/tableHeading";
 
 export const DashboardPanel = () => {
-  const chartBarsRef = useRef(null);
-  const chartLineRef = useRef(null);
   const router = useRouter();
   const [openDeletePopup, setOpenDeletePopup] = useState(false);
   const [openDeliveryStatusForm, setOpenDeliveryStatusForm] = useState(false);
   const [currentOrderId, setCurrentOrderId] = useState(false);
   const [currentOrderData, setCurrentOrderData] = useState(null);
-  const { getDashBoard } = new DashBoardApi();
   const { deleteOrderById, updateOrderById } = new OrdersApi();
-  const { data, refetch } = useQuery("dashboard", getDashBoard);
-
+  const { dashboard } = new DashBoardApi();
+  const { data } = useQuery(["dashboard"], dashboard);
+  console.log(data?.todayOrders, 'todayOrderstodayOrders')
   const { mutate, isLoading } = useMutation(deleteOrderById, {
-    onSuccess: (data, variables, context) => {
+    onSuccess: (data) => {
       setOpenDeletePopup(false);
       ToastifySuccess(data?.notification);
       refetch();
     },
-    onError: (data, variables, context) => {
+    onError: (data) => {
       setOpenDeletePopup(true);
       ToastifyFailed(data?.notification);
     },
@@ -45,11 +39,11 @@ export const DashboardPanel = () => {
 
   const { mutate: updateOrderStatus, isLoading: updateOrderStatusLoading } =
     useMutation(updateOrderById, {
-      onSuccess: (data, variables, context) => {
+      onSuccess: () => {
         setOpenDeliveryStatusForm(false);
         refetch();
       },
-      onError: (data, variables, context) => {
+      onError: () => {
         setOpenDeliveryStatusForm(true);
       },
     });
@@ -76,233 +70,26 @@ export const DashboardPanel = () => {
     },
     [currentOrderData, data?.todayOrders, openDeliveryStatusForm]
   );
-
-  useEffect(() => {
-    const ctxBars = chartBarsRef.current;
-    const ctxLine = chartLineRef.current;
-
-    if (ctxBars) {
-      if (ctxBars.chart) {
-        ctxBars.chart.destroy();
-      }
-      ctxBars.chart = new Chart(ctxBars, {
-        type: "bar",
-        data: {
-          labels: [
-            "Apr",
-            "May",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep",
-            "Oct",
-            "Nov",
-            "Dec",
-          ],
-          datasets: [
-            {
-              label: "Sales",
-              tension: 0.4,
-              borderWidth: 0,
-              borderRadius: 4,
-              borderSkipped: false,
-              backgroundColor: "#fff",
-              data: [450, 200, 100, 220, 500, 100, 400, 230, 500],
-              maxBarThickness: 6,
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              display: false,
-            },
-          },
-          interaction: {
-            intersect: false,
-            mode: "index",
-          },
-          scales: {
-            y: {
-              grid: {
-                drawBorder: false,
-                display: false,
-                drawOnChartArea: false,
-                drawTicks: false,
-              },
-              ticks: {
-                suggestedMin: 0,
-                suggestedMax: 500,
-                beginAtZero: true,
-                padding: 15,
-                font: {
-                  size: 14,
-                  family: "Open Sans",
-                  style: "normal",
-                  lineHeight: 2,
-                },
-                color: "#fff",
-              },
-            },
-            x: {
-              grid: {
-                drawBorder: false,
-                display: false,
-                drawOnChartArea: false,
-                drawTicks: false,
-              },
-              ticks: {
-                display: false,
-              },
-            },
-          },
-        },
-      });
-    }
-
-    if (ctxLine) {
-      if (ctxLine.chart) {
-        ctxLine.chart.destroy();
-      }
-      ctxLine.chart = new Chart(ctxLine, {
-        type: "line",
-        data: {
-          labels: [
-            "Apr",
-            "May",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep",
-            "Oct",
-            "Nov",
-            "Dec",
-          ],
-          datasets: [
-            {
-              label: "Mobile apps",
-              tension: 0.4,
-              borderWidth: 0,
-              pointRadius: 0,
-              // borderColor: "#cb0c9f",
-              borderColor: "#dc395f",
-              borderWidth: 3,
-              // backgroundColor: gradientStroke1,
-              fill: true,
-              data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
-              maxBarThickness: 6,
-            },
-            {
-              label: "Websites",
-              tension: 0.4,
-              borderWidth: 0,
-              pointRadius: 0,
-              borderColor: "#3A416F",
-              borderWidth: 3,
-              // backgroundColor: gradientStroke2,
-              fill: true,
-              data: [30, 90, 40, 140, 290, 290, 340, 230, 400],
-              maxBarThickness: 6,
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              display: false,
-            },
-          },
-          interaction: {
-            intersect: false,
-            mode: "index",
-          },
-          scales: {
-            y: {
-              grid: {
-                drawBorder: false,
-                display: true,
-                drawOnChartArea: true,
-                drawTicks: false,
-                borderDash: [5, 5],
-              },
-              ticks: {
-                display: true,
-                padding: 10,
-                color: "#b2b9bf",
-                font: {
-                  size: 11,
-                  family: "Open Sans",
-                  style: "normal",
-                  lineHeight: 2,
-                },
-              },
-            },
-            x: {
-              grid: {
-                drawBorder: false,
-                display: false,
-                drawOnChartArea: false,
-                drawTicks: false,
-                borderDash: [5, 5],
-              },
-              ticks: {
-                display: true,
-                color: "#b2b9bf",
-                padding: 20,
-                font: {
-                  size: 11,
-                  family: "Open Sans",
-                  style: "normal",
-                  lineHeight: 2,
-                },
-              },
-            },
-          },
-        },
-      });
-    }
-
-    return () => {
-      if (ctxBars && ctxBars.chart) {
-        ctxBars.chart.destroy();
-      }
-      if (ctxLine && ctxLine.chart) {
-        ctxLine.chart.destroy();
-      }
-    };
-  }, []);
+  const onPaginationClick = (page) => {
+    setPage(Number(page) + 1);
+  };
 
   return (
     <>
       <Breadcrumb currentPage={"Dashboard"} serachEnable />
       <div className="container-fluid py-4">
-        <div className="row">
-          {DashboardConst?.trackingCardData?.slice(0, 4).map((i) => (
-            <TrackingCard key={i?.id} {...i} />
-          ))}
-        </div>
-        {/* <div className="row mt-4">
-          <ChartBar chartBarsRef={chartBarsRef} />
-          <ChartLine chartLineRef={chartLineRef} />
-        </div> */}
+        <DashboardConst data={data} />
         <div className="row mt-4">
-          {DashboardConst?.trackingCardData?.slice(4, 8).map((i) => (
-            <TrackingCard key={i?.id} {...i} />
-          ))}
-        </div>
-        <div className="row mt-4">
-          {!data?.todayOrders?.length >= 1 ? (
+          {data?.todayOrders && data?.todayOrders?.length > 0 ? (
             <BaseTable
               tableTitle="Today's Order"
-              tableHeadings={AllOrderTableHeadings}
               onTableData={data?.todayOrders}
-              handleDeleteOrder={handleDeleteOrder}
-              handleNavigateOrder={handleNavigateOrder}
-              handleDeliveryForm={handleDeliveryForm}
+              onDelete={handleDeleteOrder}
+              onUpdate={handleDeliveryForm}
+              tableHeadings={AllOrderTableHeadings}
+              isShown
+              onPaginationClick={onPaginationClick}
+              totalPage={data?.pagination?.totalPage}
             />
           ) : (
             <>
