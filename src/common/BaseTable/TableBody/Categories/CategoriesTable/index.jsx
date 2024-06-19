@@ -19,7 +19,7 @@ export const CategoriesTable = (props) => {
               width={100}
               height={100}
               alt=""
-              src={`${BaseUrls?.IMAGE_URL}${item.image}`}
+              src={item.image}
               className="text-secondary text-sm font-weight-bold product-image"
             />
           </td>

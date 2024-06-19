@@ -16,14 +16,14 @@ export const SubCategoriesTable = (props) => {
               </span>
             </td>
             <td className="align-middle text-center">
-            <Image
-              width={70}
-              height={70}
-              alt=""
-              src={`${BaseUrls?.IMAGE_URL}${item.image}`}
-              className="text-secondary text-sm font-weight-bold product-image"
-            />
-          </td>
+              <Image
+                width={70}
+                height={70}
+                alt=""
+                src={item.image}
+                className="text-secondary text-sm font-weight-bold product-image"
+              />
+            </td>
             <td className="align-middle text-center">
               <span className="text-secondary text-sm font-weight-bold">
                 {item.category?.name}

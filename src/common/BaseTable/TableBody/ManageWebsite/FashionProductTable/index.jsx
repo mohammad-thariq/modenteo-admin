@@ -8,7 +8,7 @@ export const FashionProductTable = (props) => {
   return (
     <>
       {props?.onFashionProductData &&
-       props?.onFashionProductData?.map((item, index) => (
+        props?.onFashionProductData?.map((item, index) => (
           <tr key={index}>
             <td className="align-middle text-center">
               <span className="text-secondary text-sm font-weight-bold">
@@ -20,10 +20,7 @@ export const FashionProductTable = (props) => {
                 width={70}
                 height={70}
                 alt=""
-                src={
-                  `${BaseUrls?.IMAGE_URL}/${item.image}` ||
-                  "/assets/img/placeholder.jpg"
-                }
+                src={item.image || "/assets/img/placeholder.jpg"}
                 className="text-secondary text-sm font-weight-bold product-image"
               />
             </td>

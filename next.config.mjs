@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["16.171.249.99"],
+    domains: ["modenteo-file.s3.eu-north-1.amazonaws.com"],
   },
 };
 
