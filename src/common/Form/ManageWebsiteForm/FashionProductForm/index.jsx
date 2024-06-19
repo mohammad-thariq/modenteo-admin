@@ -11,7 +11,7 @@ import { statusConstantOption } from "@/constant/statusConst";
 export const FashionProductForm = ({
   onSave,
   onClose,
-  currentCollectionsId,
+  currentFashionProductsId,
   data,
   onUpdate,
   loading,
@@ -38,16 +38,16 @@ export const FashionProductForm = ({
           }
           onUpdate
             ? onUpdate({
-              id: currentCollectionsId,
-              image: imagePreview,
-              page_url: values?.page_url,
-              status: values?.status - 1,
-            })
+                id: currentFashionProductsId,
+                image: imagePreview,
+                page_url: values?.page_url,
+                status: values?.status - 1,
+              })
             : onSave({
-              image: imagePreview,
-              page_url: values?.page_url,
-              status: values?.status - 1,
-            });
+                image: imagePreview,
+                page_url: values?.page_url,
+                status: values?.status - 1,
+              });
           actions.setSubmitting(true);
         }}
       >
@@ -72,7 +72,9 @@ export const FashionProductForm = ({
                 previewImage={imagePreview}
                 setPreviewImage={setImagePreview}
               />
-              <p style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}>
+              <p
+                style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}
+              >
                 {errors.image && touched.image && errors.image}
               </p>
             </div>
@@ -93,7 +95,7 @@ export const FashionProductForm = ({
                 {errors.page_url && touched.page_url && errors.page_url}
               </p>
             </div>
-            
+
             <InputSelect
               label={"Status"}
               onBlur={handleBlur}

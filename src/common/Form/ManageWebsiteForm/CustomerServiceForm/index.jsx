@@ -11,14 +11,13 @@ import { statusConstantOption } from "@/constant/statusConst";
 export const CustomerServiceForm = ({
   onSave,
   onClose,
-  currentCollectionsId,
+  currentCustomerServicesId,
   data,
   onUpdate,
   loading,
   button,
 }) => {
   const [imagePreview, setImagePreview] = useState();
-
 
   const schema = Yup.object({
     badge: Yup.string().required("Title is Required"),
@@ -42,18 +41,18 @@ export const CustomerServiceForm = ({
           }
           onUpdate
             ? onUpdate({
-              id: currentCollectionsId,
-              image: imagePreview,
-              badge: values?.badge,
-              description: values?.description,
-              status: values?.status - 1,
-            })
+                id: currentCustomerServicesId,
+                image: imagePreview,
+                badge: values?.badge,
+                description: values?.description,
+                status: values?.status - 1,
+              })
             : onSave({
-              image: imagePreview,
-              badge: values?.badge,
-              description: values?.description,
-              status: values?.status - 1,
-            });
+                image: imagePreview,
+                badge: values?.badge,
+                description: values?.description,
+                status: values?.status - 1,
+              });
           actions.setSubmitting(true);
         }}
       >
@@ -78,7 +77,9 @@ export const CustomerServiceForm = ({
                 previewImage={imagePreview}
                 setPreviewImage={setImagePreview}
               />
-              <p style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}>
+              <p
+                style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}
+              >
                 {errors.image && touched.image && errors.image}
               </p>
             </div>
@@ -113,7 +114,9 @@ export const CustomerServiceForm = ({
               <p
                 style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}
               >
-                {errors.description && touched.description && errors.description}
+                {errors.description &&
+                  touched.description &&
+                  errors.description}
               </p>
             </div>
             <InputSelect

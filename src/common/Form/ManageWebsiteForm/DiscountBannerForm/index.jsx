@@ -11,14 +11,13 @@ import { statusConstantOption } from "@/constant/statusConst";
 export const DiscountBannerForm = ({
   onSave,
   onClose,
-  currentCollectionsId,
+  currentDiscountBannersId,
   data,
   onUpdate,
   loading,
   button,
 }) => {
   const [imagePreview, setImagePreview] = useState();
-
 
   const schema = Yup.object({
     title: Yup.string().required("Title is Required"),
@@ -48,24 +47,24 @@ export const DiscountBannerForm = ({
           }
           onUpdate
             ? onUpdate({
-              id: currentCollectionsId,
-              image: imagePreview,
-              title: values?.title, 
-              sub_title: values?.sub_title,
-              description: values?.description, 
-              button_name: values?.button_name,
-              page_url: values?.page_url,
-              status: values?.status - 1,
-            })
+                id: currentDiscountBannersId,
+                image: imagePreview,
+                title: values?.title,
+                sub_title: values?.sub_title,
+                description: values?.description,
+                button_name: values?.button_name,
+                page_url: values?.page_url,
+                status: values?.status - 1,
+              })
             : onSave({
-              image: imagePreview,
-              title: values?.title,
-              sub_title: values?.sub_title,
-              description: values?.description,
-              button_name: values?.button_name,
-              page_url: values?.page_url,
-              status: values?.status - 1,
-            });
+                image: imagePreview,
+                title: values?.title,
+                sub_title: values?.sub_title,
+                description: values?.description,
+                button_name: values?.button_name,
+                page_url: values?.page_url,
+                status: values?.status - 1,
+              });
           actions.setSubmitting(true);
         }}
       >
@@ -90,7 +89,9 @@ export const DiscountBannerForm = ({
                 previewImage={imagePreview}
                 setPreviewImage={setImagePreview}
               />
-              <p style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}>
+              <p
+                style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}
+              >
                 {errors.image && touched.image && errors.image}
               </p>
             </div>
@@ -143,7 +144,9 @@ export const DiscountBannerForm = ({
               <p
                 style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}
               >
-                {errors.description && touched.description && errors.description}
+                {errors.description &&
+                  touched.description &&
+                  errors.description}
               </p>
             </div>
             <label>Page URL</label>
@@ -177,7 +180,9 @@ export const DiscountBannerForm = ({
               <p
                 style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}
               >
-                {errors.button_name && touched.button_name && errors.button_name}
+                {errors.button_name &&
+                  touched.button_name &&
+                  errors.button_name}
               </p>
             </div>
             <InputSelect

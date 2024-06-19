@@ -11,7 +11,7 @@ import { statusConstantOption } from "@/constant/statusConst";
 export const SpotlightForm = ({
   onSave,
   onClose,
-  currentCollectionsId,
+  currentSpotlightsId,
   data,
   onUpdate,
   loading,
@@ -19,13 +19,11 @@ export const SpotlightForm = ({
 }) => {
   const [imagePreview, setImagePreview] = useState();
 
-
   const schema = Yup.object({
     badge: Yup.string().required("Badge is Required"),
     bg_color: Yup.string().required("Background Color is Required"),
     page_url: Yup.string().required("Page URL is Required"),
     status: Yup.string().required("Status is Required"),
-
   });
   return (
     <div className={style.wrapper}>
@@ -45,20 +43,20 @@ export const SpotlightForm = ({
           }
           onUpdate
             ? onUpdate({
-              id: currentCollectionsId,
-              image: imagePreview,
-              badge: values?.badge,
-              bg_color: values?.bg_color,          
-              page_url: values?.page_url,
-              status: values?.status - 1,
-            })
+                id: currentSpotlightsId,
+                image: imagePreview,
+                badge: values?.badge,
+                bg_color: values?.bg_color,
+                page_url: values?.page_url,
+                status: values?.status - 1,
+              })
             : onSave({
-              image: imagePreview,
-              badge: values?.badge,
-              bg_color: values?.bg_color,
-              page_url: values?.page_url,
-              status: values?.status - 1,
-            });
+                image: imagePreview,
+                badge: values?.badge,
+                bg_color: values?.bg_color,
+                page_url: values?.page_url,
+                status: values?.status - 1,
+              });
           actions.setSubmitting(true);
         }}
       >
@@ -83,7 +81,9 @@ export const SpotlightForm = ({
                 previewImage={imagePreview}
                 setPreviewImage={setImagePreview}
               />
-              <p style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}>
+              <p
+                style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}
+              >
                 {errors.image && touched.image && errors.image}
               </p>
             </div>

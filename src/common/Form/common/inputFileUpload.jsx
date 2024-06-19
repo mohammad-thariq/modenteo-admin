@@ -3,22 +3,21 @@ import React, { useEffect } from "react";
 import { BaseUrls } from "../../../../env";
 
 export const InputFileUpload = ({
-    onChange,
-    onBlur,
-    value,
-    label,
-    previewImage,
-    setPreviewImage,
-    onData,
-    accept,
-    name
+  onChange,
+  onBlur,
+  value,
+  label,
+  previewImage,
+  setPreviewImage,
+  onData,
+  accept,
+  name,
 }) => {
-  
   useEffect(() => {
-    if(onData){
-      setPreviewImage(`${BaseUrls.IMAGE_URL}/${onData}`)
+    if (onData) {
+      setPreviewImage(`${onData}`);
     }
-  }, [onData, setPreviewImage])
+  }, [onData, setPreviewImage]);
 
   return (
     <>
