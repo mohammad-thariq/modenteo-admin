@@ -6,6 +6,7 @@ import { useState, useRef, useEffect } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { BaseUrls } from "../../../../../env";
 import * as Yup from "yup";
+import { uploadFiles } from "@/constant/fileupload";
 import {
   tinyMceContentStyle,
   tinyMcePlugin,
@@ -81,11 +82,15 @@ export const ProductForm = ({
   }, [data])
   const getLongDescription =
     editorRef.current && editorRef.current.getContent();
-  const handleGalleryChange = (e) => {
+  const handleGalleryChange = async (e) => {
     const files = Array.from(e.target.files);
+    // Upload files and get the URLs
+    const galleryURLs = await uploadFiles(files);
+
+    // Update gallery previews with the URLs
     setGalleryPreviews((prev) => [
       ...prev,
-      ...files.map((file) => URL.createObjectURL(file)),
+      ...galleryURLs
     ]);
     e.target.value = null; // Clear the file input value
   };
@@ -100,12 +105,14 @@ export const ProductForm = ({
     });
   };
 
-  const handleDrop = (e) => {
+  const handleDrop = async (e) => {
     e.preventDefault();
     const files = Array.from(e.dataTransfer.files);
+    const galleryURLs = await uploadFiles(files);
+    // Update gallery previews with the URLs
     setGalleryPreviews((prev) => [
       ...prev,
-      ...files.map((file) => URL.createObjectURL(file)),
+      ...galleryURLs
     ]);
     fileInputRef.current.value = null; // Clear the file input value
   };
