@@ -66,7 +66,7 @@ export const WebsiteSettings = () => {
     if (settings && settings?.home_settings) {
       setTypeSections(settings?.home_settings);
     }
-  }, [settings]);
+  }, [settings, getSectionByName]);
 
   const { mutate: createSettingsMutate } = useMutation(createSettings, {
     onSuccess: () => {
