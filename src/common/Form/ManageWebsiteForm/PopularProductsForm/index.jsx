@@ -11,14 +11,13 @@ import { statusConstantOption } from "@/constant/statusConst";
 export const PopularProductsForm = ({
   onSave,
   onClose,
-  currentCollectionsId,
+  currentPopularProductssId,
   data,
   onUpdate,
   loading,
   button,
 }) => {
   const [imagePreview, setImagePreview] = useState();
-
 
   const schema = Yup.object({
     title: Yup.string().required("Title is Required"),
@@ -44,20 +43,20 @@ export const PopularProductsForm = ({
           }
           onUpdate
             ? onUpdate({
-              id: currentCollectionsId,
-              image: imagePreview,
-              title: values?.title,
-              description: values?.description,          
-              page_url: values?.page_url,
-              status: values?.status - 1,
-            })
+                id: currentPopularProductssId,
+                image: imagePreview,
+                title: values?.title,
+                description: values?.description,
+                page_url: values?.page_url,
+                status: values?.status - 1,
+              })
             : onSave({
-              image: imagePreview,
-              title: values?.title,
-              description: values?.description,
-              page_url: values?.page_url,
-              status: values?.status - 1,
-            });
+                image: imagePreview,
+                title: values?.title,
+                description: values?.description,
+                page_url: values?.page_url,
+                status: values?.status - 1,
+              });
           actions.setSubmitting(true);
         }}
       >
@@ -82,7 +81,9 @@ export const PopularProductsForm = ({
                 previewImage={imagePreview}
                 setPreviewImage={setImagePreview}
               />
-              <p style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}>
+              <p
+                style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}
+              >
                 {errors.image && touched.image && errors.image}
               </p>
             </div>
@@ -117,7 +118,9 @@ export const PopularProductsForm = ({
               <p
                 style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}
               >
-                {errors.description && touched.description && errors.description}
+                {errors.description &&
+                  touched.description &&
+                  errors.description}
               </p>
             </div>
             <label>Page URL</label>

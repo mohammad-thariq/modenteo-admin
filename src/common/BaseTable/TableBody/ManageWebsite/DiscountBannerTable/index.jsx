@@ -43,14 +43,10 @@ export const DiscountBannerTable = (props) => {
                 width={70}
                 height={70}
                 alt=""
-                src={
-                  `${BaseUrls?.IMAGE_URL}/${item.image}` ||
-                  "/assets/img/placeholder.jpg"
-                }
+                src={item.image || "/assets/img/placeholder.jpg"}
                 className="text-secondary text-sm font-weight-bold product-image"
               />
             </td>
-
 
             <td className="align-middle text-center cursor-pointer">
               <span>

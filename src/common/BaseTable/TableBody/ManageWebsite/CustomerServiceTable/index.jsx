@@ -8,7 +8,7 @@ export const CustomerServiceTable = (props) => {
   return (
     <>
       {props?.onCustomerServiceData &&
-       props?.onCustomerServiceData?.map((item, index) => (
+        props?.onCustomerServiceData?.map((item, index) => (
           <tr key={index}>
             <td className="align-middle text-center">
               <span className="text-secondary text-sm font-weight-bold">
@@ -30,10 +30,7 @@ export const CustomerServiceTable = (props) => {
                 width={70}
                 height={70}
                 alt=""
-                src={
-                  `${BaseUrls?.IMAGE_URL}/${item.image}` ||
-                  "/assets/img/placeholder.jpg"
-                }
+                src={item.image || "/assets/img/placeholder.jpg"}
                 className="text-secondary text-sm font-weight-bold product-image"
               />
             </td>

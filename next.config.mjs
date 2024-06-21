@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["api-modenteo.onrender.com"],
+    domains: ["modenteo-file.s3.eu-north-1.amazonaws.com"],
   },
 };
 
