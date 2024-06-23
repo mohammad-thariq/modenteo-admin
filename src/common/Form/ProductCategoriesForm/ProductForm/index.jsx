@@ -85,7 +85,7 @@ export const ProductForm = ({
   const handleGalleryChange = async (e) => {
     const files = Array.from(e.target.files);
     // Upload files and get the URLs
-    const galleryURLs = await uploadFiles(files);
+    const galleryURLs = await uploadFiles(e.target.files);
 
     // Update gallery previews with the URLs
     setGalleryPreviews((prev) => [

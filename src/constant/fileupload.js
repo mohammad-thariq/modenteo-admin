@@ -8,26 +8,31 @@ const s3 = new AWS.S3({
     region: "eu-north-1", // Replace with your AWS region
 });
 
-// Function to upload file to S3 bucket
-export const uploadFiles = async (file) => {
+// Function to upload files to S3 bucket
+export const uploadFiles = async (files) => {
     const bucketName = "modenteo-file"; // Replace with your S3 bucket name
     const dirName = "products/gallery"; // Directory inside the bucket
-    const key = `${dirName}/${Date.now().toString()}-${file.name}`; // Unique key for the file
+    const uploadedURLs = [];
 
-    const params = {
-        Bucket: bucketName,
-        Key: key,
-        Body: file.data, // Assuming file.data contains the actual file data
-        ACL: "public-read", // Set appropriate ACL permissions
-        ContentType: file.type, // Content type of the file
-    };
+    for (const file of files) {
+        const key = `${dirName}/${Date.now().toString()}-${file.name}`; // Unique key for the file
 
-    try {
-        const data = await s3.upload(params).promise();
-        console.log("File uploaded successfully:", data.Location);
-        return data.Location; // Return the URL of the uploaded file
-    } catch (err) {
-        console.error("Error uploading file:", err);
-        throw err;
+        const params = {
+            Bucket: bucketName,
+            Key: key,
+            Body: file, // File object from input
+            ContentType: file.type, // Content type of the file
+        };
+
+        try {
+            const data = await s3.upload(params).promise();
+            console.log("File uploaded successfully:", data.Location);
+            uploadedURLs.push(data.Location); // Store the URL of the uploaded file
+        } catch (err) {
+            console.error("Error uploading file:", err);
+            throw err;
+        }
     }
+
+    return uploadedURLs;
 };
