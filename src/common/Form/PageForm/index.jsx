@@ -10,7 +10,7 @@ import {
   tinyMceToolbar,
 } from "@/constant/tableHeading";
 import { InputSelect } from "../common/inputSelect";
-import { statusConstantOption } from "@/constant/statusConst";
+import { pageTypeConstantOption, statusConstantOption } from "@/constant/statusConst";
 import { BaseUrls } from "../../../../env";
 export const PageForm = ({
   onSave,
@@ -26,6 +26,8 @@ export const PageForm = ({
     title: Yup.string().required("Title is Required"),
     // content: Yup.string().required("Description is Required"),
     status: Yup.string().required("Status is Required"),
+    // page_type:Yup.string().required("Page Type is Required"),
+
   });
 
   const getContent =
@@ -38,6 +40,7 @@ export const PageForm = ({
           content: data?.content || getContent || "",
 
           status: data?.status + 1 || "",
+          page_type: data?.page_type || ""
         }}
         validationSchema={schema}
         onSubmit={(values, actions) => {
@@ -54,11 +57,14 @@ export const PageForm = ({
               title: values?.title,
               content: getContent,
               status: values?.status - 1,
+              page_type: values?.page_type
             })
             : onSave({
               title: values?.title,
               content: getContent,
               status: values?.status - 1,
+              page_type: values?.page_type
+
             });
           actions.setSubmitting(true);
         }}
@@ -108,6 +114,18 @@ export const PageForm = ({
               {errors.content &&
                 touched.content &&
                 errors.content}
+            </p>
+            <InputSelect
+              label={"Page Type"}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              name={"page_type"}
+              values={values?.page_type}
+              isValue
+              onData={pageTypeConstantOption}
+            />
+            <p style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}>
+              {errors.page_type && touched.page_type && errors.page_type}
             </p>
             <InputSelect
               label={"Status"}

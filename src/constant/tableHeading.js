@@ -65,6 +65,7 @@ export const subCategoriesTableHeading = [
 export const PageTableHeading = [
   "SN",
   "Title",
+  "Type",
   "Status",
   "Action",
 ];

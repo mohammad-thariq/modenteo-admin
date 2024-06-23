@@ -8,7 +8,16 @@ export const statusConstantOption = [
     value: 1,
   },
 ];
-
+export const pageTypeConstantOption = [
+  {
+    name: "Service",
+    value: 'service',
+  },
+  {
+    name: "Company",
+    value: 'company',
+  },
+];
 export const orderStatusOptions = {
   paymentStatus: [
     {
