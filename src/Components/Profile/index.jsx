@@ -6,21 +6,24 @@ import { ProfileApi } from "@/service/profile/profileAPI";
 import { useQuery } from "react-query";
 
 export const Profile = () => {
+  const { profile } = new ProfileApi();
+  const { data, isLoading } = useQuery(["profile"], profile);
 
-  const {profile} = new ProfileApi()
-  const {data, isLoading} = useQuery(['profile'], profile)
   const schema = Yup.object({
-    name: Yup.string().required("Name is Required"),
-    email: Yup.string()
-      .email("Please Enter valid email")
-      .required("Email is Required"),
+    first_name: Yup.string().required("field is required"),
+    last_name: Yup.string().required("field is required"),
+    email: Yup.string().required("Eamil is required"),
+    password: Yup.string().required("Password is required"),
+    cnfrmpassword: Yup.string()
+      .oneOf([Yup.ref("password"), null], "Passwords must match")
+      .required("Confirm Password is required"),
   });
 
-console.log(data, 'profile');
+  console.log(data, "profile");
   return (
     <>
       <Breadcrumb currentPage={"Profile"} />
-      <ProfileCard Name={data?.data?.name}  Title={data?.data?.email} >
+      <ProfileCard Name={data?.data?.name} Title={data?.data?.email}>
         <div className="card-body ">
           <Formik
             initialValues={{
@@ -98,7 +101,7 @@ console.log(data, 'profile');
                 <label>Confirm Password</label>
                 <div className="mb-3">
                   <input
-                    type="email"
+                    type="password"
                     name="password"
                     onChange={handleChange}
                     onBlur={handleBlur}

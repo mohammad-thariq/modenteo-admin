@@ -18,6 +18,8 @@ import { DiscountBannerTable } from "./TableBody/ManageWebsite/DiscountBannerTab
 import { SpotlightTable } from "./TableBody/ManageWebsite/SpotlightTable";
 import { HeroBannerTable } from "./TableBody/ManageWebsite/HeroBannerTable";
 import { PageTable } from "./PageTable";
+import { UserTable } from "./TableBody/UserTable";
+import { AdminListTable } from "./TableBody/AdminList/AdminListTable";
 export const BaseTable = ({
   ref,
   tableHeadings,
@@ -40,6 +42,8 @@ export const BaseTable = ({
   onSubCategoriesData,
   onShowOrder,
   onPageData,
+  onUserData,
+  onAdminListData,
   // tableDatas ends
 
   //  Table Depend Data starts
@@ -62,7 +66,9 @@ export const BaseTable = ({
   let limit = pageLimit;
 
   tableHeadings?.forEach((item, index) => {
-    tableHeadingList.push(<TableHeader index={index} item={item} />);
+    tableHeadingList.push(
+      <TableHeader key={index} index={index} item={item} />
+    );
   });
 
   return (
@@ -125,42 +131,58 @@ export const BaseTable = ({
                       />
                     )}
                     {onCollectionsData && (
-                      <CollectionsTable onCollectionsData={onCollectionsData} onUpdate={onUpdate}
+                      <CollectionsTable
+                        onCollectionsData={onCollectionsData}
+                        onUpdate={onUpdate}
                         onDelete={onDelete}
                       />
                     )}
                     {onCustomerServiceData && (
-                      <CustomerServiceTable onCustomerServiceData={onCustomerServiceData} onUpdate={onUpdate}
+                      <CustomerServiceTable
+                        onCustomerServiceData={onCustomerServiceData}
+                        onUpdate={onUpdate}
                         onDelete={onDelete}
                       />
                     )}
                     {onFashionProductData && (
-                      <FashionProductTable onFashionProductData={onFashionProductData} onUpdate={onUpdate}
+                      <FashionProductTable
+                        onFashionProductData={onFashionProductData}
+                        onUpdate={onUpdate}
                         onDelete={onDelete}
                       />
                     )}
                     {onPopularProductsData && (
-                      <PopularProductTable onPopularProductsData={onPopularProductsData} onUpdate={onUpdate}
+                      <PopularProductTable
+                        onPopularProductsData={onPopularProductsData}
+                        onUpdate={onUpdate}
                         onDelete={onDelete}
                       />
                     )}
                     {onDiscountBannerData && (
-                      <DiscountBannerTable onDiscountBannerData={onDiscountBannerData} onUpdate={onUpdate}
+                      <DiscountBannerTable
+                        onDiscountBannerData={onDiscountBannerData}
+                        onUpdate={onUpdate}
                         onDelete={onDelete}
                       />
                     )}
                     {onSpotlightData && (
-                      <SpotlightTable onSpotlightData={onSpotlightData} onUpdate={onUpdate}
+                      <SpotlightTable
+                        onSpotlightData={onSpotlightData}
+                        onUpdate={onUpdate}
                         onDelete={onDelete}
                       />
                     )}
                     {onPageData && (
-                      <PageTable onPageData={onPageData} onUpdate={onUpdate}
+                      <PageTable
+                        onPageData={onPageData}
+                        onUpdate={onUpdate}
                         onDelete={onDelete}
                       />
                     )}
                     {onHeroBannerData && (
-                      <HeroBannerTable onHeroBannerData={onHeroBannerData} onUpdate={onUpdate}
+                      <HeroBannerTable
+                        onHeroBannerData={onHeroBannerData}
+                        onUpdate={onUpdate}
                         onDelete={onDelete}
                       />
                     )}
@@ -182,6 +204,22 @@ export const BaseTable = ({
 
                     {onInventoryData && (
                       <Inventory onInventoryData={onInventoryData} />
+                    )}
+
+                    {onUserData && (
+                      <UserTable
+                        onUserData={onUserData}
+                        onNavigate={onNavigate}
+                        onDelete={onDelete}
+                      />
+                    )}
+
+                    {onAdminListData && (
+                      <AdminListTable
+                        onAdminListData={onAdminListData}
+                        onUpdate={onUpdate}
+                        onDelete={onDelete}
+                      />
                     )}
                   </tbody>
                 </table>

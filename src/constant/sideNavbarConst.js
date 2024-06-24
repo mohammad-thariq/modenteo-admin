@@ -4,8 +4,8 @@ import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantity
 import CategoryIcon from "@mui/icons-material/Category";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import GroupIcon from "@mui/icons-material/Group";
-import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
-import SettingsIcon from '@mui/icons-material/Settings';
+import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
+import SettingsIcon from "@mui/icons-material/Settings";
 import { Pages } from "@mui/icons-material";
 export const SideNavConst = {
   routes: [
@@ -119,7 +119,6 @@ export const SideNavConst = {
           name: "Customer Service",
           url: "/admin/customer-service",
         },
-
       ],
     },
     {
@@ -132,7 +131,7 @@ export const SideNavConst = {
       url: "/admin/pages",
       icon: <Pages sx={{ fontSize: 18 }} />,
     },
-    
+
     {
       heading: "Users",
       icon: <GroupIcon sx={{ fontSize: 18 }} />,
@@ -141,10 +140,10 @@ export const SideNavConst = {
           name: "Customer List",
           url: "/admin/customer-list",
         },
-        {
-          name: "Pending Customer",
-          url: "/admin/pending-customer",
-        },
+        // {
+        //   name: "Pending Customer",
+        //   url: "/admin/pending-customer",
+        // },
       ],
     },
   ],

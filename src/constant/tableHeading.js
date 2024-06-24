@@ -18,7 +18,6 @@ export const showOrderTableHeadings = [
   "Total",
 ];
 
-
 export const InventoryTableHeading = [
   "SN",
   "Name",
@@ -42,14 +41,8 @@ export const CityTableHeading = [
   "Status",
   "Action",
 ];
-export const FashionProductTableHeading = [
-  "SN",
-  "Image",
-  "Status",
-  "Action",
-];
+export const FashionProductTableHeading = ["SN", "Image", "Status", "Action"];
 export const ManageTableHeadings = ["Name", "Image", "Status", "Action"];
-
 
 export const featuredCategoryTableHeading = ["Name", "	Action"];
 
@@ -62,27 +55,17 @@ export const subCategoriesTableHeading = [
   "Action",
 ];
 
-export const PageTableHeading = [
+export const PageTableHeading = ["SN", "Title", "Status", "Action"];
+export const BrandsTableHeading = ["SN", "Name", "Logo", "Status", "Action"];
+export const HeroBannerTableHeading = [
   "SN",
-  "Title",
-  "Type",
-  "Status",
-  "Action",
-];
-export const BrandsTableHeading = [
-  "SN",
-  "Name",
-  "Logo",
-  "Status",
-  "Action",
-];
-export const HeroBannerTableHeading = ["SN",
   "Title",
   "Sub title",
   "Description",
   "Image",
   "Status",
-  "Action",];
+  "Action",
+];
 
 export const PopularProductsTableHeading = [
   "SN",
@@ -95,10 +78,21 @@ export const PopularProductsTableHeading = [
 
 export const DiscountBannerTableHeading = [
   "SN",
-  "Title", "Sub title", "description", "Button Name", "Status", "Image", "Action",
+  "Title",
+  "Sub title",
+  "description",
+  "Button Name",
+  "Status",
+  "Image",
+  "Action",
 ];
-export const SpotlightTableHeading = ["SN",
-  "Title", "Status", "Image", "Action",];
+export const SpotlightTableHeading = [
+  "SN",
+  "Title",
+  "Status",
+  "Image",
+  "Action",
+];
 export const CollectionsTableHeading = [
   "SN",
   "Name",
@@ -222,5 +216,25 @@ export const WithdrawMethodTableheading = [
   "Maximum Amount",
   "Charge",
   "Status",
+  "Action",
+];
+
+export const customerListTableHeading = [
+  "SN",
+  "User Id",
+  "Name",
+  "Email",
+  // "Image",
+  // "Status",
+  "Action",
+];
+
+export const adminListTableHeading = [
+  "SN",
+  "Admin Id",
+  "Name",
+  "Email",
+  "Type",
+  // "Status",
   "Action",
 ];

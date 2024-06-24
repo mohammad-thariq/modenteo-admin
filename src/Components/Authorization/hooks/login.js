@@ -10,31 +10,29 @@ import { LocalStorageHelper } from "@/utils/localStorage";
 const { login, getTypeByEmail } = new AuthorizationApi();
 
 export const handleLogin = async (data) => {
-  const type = await getTypeByEmail(data)
-  if(type) {
+  const type = await getTypeByEmail(data);
+  if (type) {
     const AdminData = {
       ...data,
-      type: type?.data?.type || "super-admin"
-    }
-  const res = await login(AdminData);
-  if (res?.response?.data?.error) {
-    console.log(res, "error");
-    ToastifyFailed(`${res.response.data.error}`);
-    Reload();
-  } else {
-    console.log(res, "res");
-    LocalStorageHelper?.setItem(localStorageConst?.JWTADMIN, res?.token);
-    // LocalStorageHelper?.setItem(localStorageConst.EXPIREIN, res?.expires_in);
-    // LocalStorageHelper?.setItem(localStorageConst.REMEMBER, data?.rememberMe);
-    const user = {
-      id: res?.data?.id,
-      name: `${res?.data?.first_name} ${res?.data?.last_name}`,
-      email: res?.data?.email,
-      // avatar: `${BASE_URL || BaseUrls.BASE_URL}/${res?.admin?.image}`,
+      type: type?.data?.type || "super-admin",
     };
-    LocalStorageHelper?.setItem(localStorageConst?.USER, user);
-    ToastifySuccess(`Welcome Back ${user.name}`);
-    Redirect("/");
+    const res = await login(AdminData);
+    if (res?.response?.data?.error) {
+      console.log(res, "error");
+      ToastifyFailed(`${res.response.data.error}`);
+      Reload();
+    } else {
+      console.log(res, "res");
+      LocalStorageHelper?.setItem(localStorageConst?.JWTADMIN, res?.token);
+      const user = {
+        id: res?.data?.id,
+        name: `${res?.data?.first_name} ${res?.data?.last_name}`,
+        email: res?.data?.email,
+        type: res?.data?.type,
+      };
+      LocalStorageHelper?.setItem(localStorageConst?.USER, user);
+      ToastifySuccess(`Welcome Back ${user.name}`);
+      Redirect("/");
+    }
   }
-}
 };

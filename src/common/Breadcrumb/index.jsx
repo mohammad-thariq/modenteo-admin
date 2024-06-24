@@ -8,17 +8,22 @@ import React, { useEffect, useState } from "react";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import { SideBarNav } from "../SideBar";
 import { Reload } from "@/helper/base";
-import InventoryIcon from '@mui/icons-material/Inventory';
+import { validateUserTypeEnum } from "@/constant/enum/users.enum";
 
 export const Breadcrumb = ({ currentPage, serachEnable }) => {
   const [userData, setUserData] = useState();
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const [openSideNavBar, setOpenSideNavBar] = useState(false);
 
   useEffect(() => {
     if (LocalStorageHelper?.getItem(localStorageConst.USER)) {
       setUserData(LocalStorageHelper?.getItem(localStorageConst.USER));
+
+      if (userData?.type === validateUserTypeEnum.SUPERADMIN) {
+        setIsSuperAdmin(true);
+      }
     }
-  }, []);
+  }, [userData?.type]);
 
   function logOut() {
     LocalStorageHelper?.removeItem(localStorageConst.JWTADMIN);
@@ -104,10 +109,12 @@ export const Breadcrumb = ({ currentPage, serachEnable }) => {
                   <a onClick={() => router.push("/admin/profile")}>
                     <i className="fa fa-user me-sm-1"></i> Profile
                   </a>
-                  <a onClick={() => router.push("/admin/admin")}>
-                    <AdminPanelSettingsIcon sx={{ fontSize: "20px" }} /> Admin
-                    List
-                  </a>
+                  {isSuperAdmin && (
+                    <a onClick={() => router.push("/admin/admin-list")}>
+                      <AdminPanelSettingsIcon sx={{ fontSize: "20px" }} /> Admin
+                      List
+                    </a>
+                  )}
                   <a>
                     <button className="logout-btn" onClick={logOut}>
                       <LogoutIcon sx={{ color: "red", fontSize: "18px" }} /> Log
