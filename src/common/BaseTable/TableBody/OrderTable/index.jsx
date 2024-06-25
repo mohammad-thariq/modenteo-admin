@@ -15,7 +15,7 @@ export const OrderTable = ({ onTableData, onUpdate, onDelete, onNavigate }) => {
             </td>
             <td className="align-middle text-center">
               <span className="text-secondary text-xs font-weight-bold ">
-                {item.user_id}
+                {item.first_name}
               </span>
             </td>
             <td className="align-middle text-center">
