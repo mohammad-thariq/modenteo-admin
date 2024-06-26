@@ -31,6 +31,7 @@ export const WebsiteSettings = () => {
         value: Yup.string().required("Value is required"),
         title: Yup.string().required("Title is required"),
         description: Yup.string().required("Description is required"),
+        view_more: Yup.string().required("Link is required"),
       })
     ),
   });
@@ -45,7 +46,7 @@ export const WebsiteSettings = () => {
   ]);
 
   const [typeSections, setTypeSections] = useState([
-    { type: '', value: '', section: '', title: '', description: '' }
+    { type: '', value: '', section: '', title: '', description: '', view_more: '' }
   ]);
 
   const getSectionByName = (name) => {
@@ -249,25 +250,40 @@ export const WebsiteSettings = () => {
                           >
                             <option value="" label="Select value" />
                             {section.type === 'main_category' &&
-                              category?.categories.map((item) => (
+                              category?.categories?.map((item) => (
                                 <option key={item.id} value={item.id} label={item.name} />
                               ))}
                             {section.type === 'collection' &&
-                              collection?.collections.map((item) => (
+                              collection?.collections?.map((item) => (
                                 <option key={item.id} value={item.id} label={item.name} />
                               ))}
                             {section.type === 'brands' &&
-                              brands?.brands.map((item) => (
+                              brands?.brands?.map((item) => (
                                 <option key={item.id} value={item.id} label={item.name} />
                               ))}
                             {section.type === 'sub_category' &&
-                              sub_category?.sub_categories.map((item) => (
+                              sub_category?.sub_categories?.map((item) => (
                                 <option key={item.id} value={item.id} label={item.name} />
                               ))}
                           </select>
                           {errors.typeSections?.[index]?.value && touched.typeSections?.[index]?.value && (
                             <div className="field-error">{errors.typeSections[index].value}</div>
                           )}
+                          <label>View More Link</label>
+                          <div className="mb-3">
+                            <input
+                              type="text"
+                              name={`typeSections.${index}.view_more`}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={section?.view_more}
+                              className="form-control"
+                              placeholder="View More Link"
+                            />
+                            {errors.typeSections?.[index]?.view_more && touched.typeSections?.[index]?.view_more && (
+                              <div className="error">{errors.typeSections[index].view_more}</div>
+                            )}
+                          </div>
                           <button
                             type="button"
                             className="btn btn-danger mt-2"
