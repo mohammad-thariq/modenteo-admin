@@ -15,7 +15,7 @@ import { BaseUrls } from "../../../../env";
 export const PageForm = ({
   onSave,
   onClose,
-  currentCollectionsId,
+  currentPagesId,
   data,
   onUpdate,
   loading,
@@ -53,7 +53,7 @@ export const PageForm = ({
           }
           onUpdate
             ? onUpdate({
-              id: currentCollectionsId,
+              id: currentPagesId,
               title: values?.title,
               content: getContent,
               status: values?.status - 1,
