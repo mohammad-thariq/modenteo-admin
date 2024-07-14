@@ -1,21 +1,14 @@
 import EditNoteIcon from "@mui/icons-material/EditNote";
-import DeleteIcon from "@mui/icons-material/Delete";
-import ColorLens from "@mui/icons-material/ColorLens"
 import Image from "next/image";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { BaseUrls } from "../../../../../../env";
-import { ProductType } from "@/common/BaseTable/TableColumn/ProductType";
 import { ProductStatus } from "@/common/BaseTable/TableColumn/ProductStatus";
-import Settings from "@mui/icons-material/Settings";
 
-export const Product = ({ onProductData, onUpdate, onDelete }) => {
-  const onVariant = (id) => {
-    console.log(id,'df');
-    location.href=`/admin/products/variants/${id}`;
-  }
+export const VariantsTable = ({ onVariantsData, onUpdate, onDelete }) => {
   return (
     <>
-      {onProductData &&
-        onProductData?.products?.map((item, index) => (
+      {onVariantsData &&
+        onVariantsData?.map((item, index) => (
           <tr key={index}>
             <td className="align-middle text-center">
               <span className="text-secondary text-sm font-weight-bold">
@@ -24,50 +17,32 @@ export const Product = ({ onProductData, onUpdate, onDelete }) => {
             </td>
             <td className="align-middle text-center">
               <span className="text-secondary text-sm font-weight-bold">
-                {item.short_name}
+                {item.product_price}
               </span>
             </td>
             <td className="align-middle text-center">
               <span className="text-secondary text-sm font-weight-bold">
-                {item.color}
+                {item.offer_price}
               </span>
-            </td>
-            <td className="align-middle text-center">
-              <Image
-                width={70}
-                height={70}
-                alt=""
-                src={item.image || "/assets/img/placeholder.jpg"}
-                className="text-secondary text-sm font-weight-bold product-image"
-              />
             </td>
             <td className="align-middle text-center">
               <span className="text-secondary text-sm font-weight-bold">
-                <ProductType
-                  top={item?.top_product}
-                  best={item?.best_product}
-                  featured={item?.featured_product}
-                  newProduct={item?.new_arrival}
-                />
+                {item.product_quantity}
               </span>
             </td>
             <td className="align-middle text-center">
-              <ProductStatus status={item?.status} />
+              <span className="text-secondary text-sm font-weight-bold">
+                {item.product_size}
+              </span>
             </td>
 
             <td className="align-middle text-center cursor-pointer">
-              <span>
-                <Settings
-                  sx={{ fontSize: 25 }}
-                  onClick={() => onVariant(item.id)}
-                />
-              </span>{" "}
               <span>
                 <EditNoteIcon
                   sx={{ fontSize: 25 }}
                   onClick={() => onUpdate(item.id)}
                 />
-              </span>{" "}
+              </span>
               <span>
                 <DeleteIcon
                   sx={{ fontSize: 20 }}

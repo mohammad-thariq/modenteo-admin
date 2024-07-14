@@ -57,6 +57,8 @@ export const subCategoriesTableHeading = [
 
 export const PageTableHeading = ["SN", "Title", "Status", "Action"];
 export const BrandsTableHeading = ["SN", "Name", "Logo", "Status", "Action"];
+export const VariantsTableHeading = ["SN", "Price", "Offer Price","Quantity", "Size", "Action"];
+
 export const HeroBannerTableHeading = [
   "SN",
   "Title",
@@ -122,7 +124,7 @@ export const productReviewTableHeading = [];
 export const productTableHeading = [
   "SN",
   "Name",
-  "Price",
+  "Color",
   "Photo",
   "Type",
   "Status",

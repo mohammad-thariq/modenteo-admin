@@ -20,6 +20,7 @@ import { HeroBannerTable } from "./TableBody/ManageWebsite/HeroBannerTable";
 import { PageTable } from "./PageTable";
 import { UserTable } from "./TableBody/UserTable";
 import { AdminListTable } from "./TableBody/AdminList/AdminListTable";
+import { VariantsTable } from "./TableBody/Products/VariantsTable";
 export const BaseTable = ({
   ref,
   tableHeadings,
@@ -29,6 +30,7 @@ export const BaseTable = ({
   onTableData,
   onCategoriesData,
   onBrandsData,
+  onVariantsData,
   onCollectionsData,
   onCustomerServiceData,
   onFashionProductData,
@@ -130,6 +132,14 @@ export const BaseTable = ({
                         onDelete={onDelete}
                       />
                     )}
+                    {onVariantsData && (
+                      <VariantsTable
+                        onVariantsData={onVariantsData}
+                        onUpdate={onUpdate}
+                        onDelete={onDelete}
+                      />
+                    )}
+
                     {onCollectionsData && (
                       <CollectionsTable
                         onCollectionsData={onCollectionsData}

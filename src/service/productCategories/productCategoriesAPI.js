@@ -12,7 +12,7 @@ export class productCateoriesAPI {
     const res = await _axios("get", `/brands?page=${queryKey[1]}&limit=${queryKey[2]}`);
     return res;
   };
-  
+
   activeBrands = async () => {
     const res = await _axios("get", `/list/brands`);
     return res;
@@ -57,7 +57,7 @@ export class productCateoriesAPI {
     const res = await _axios("get", `/collections?page=${queryKey[1]}&limit=${queryKey[2]}`);
     return res;
   };
-  
+
   collectionsActive = async () => {
     const res = await _axios("get", `/list/collections`);
     return res;
@@ -123,4 +123,38 @@ export class productCateoriesAPI {
     );
     return res;
   };
+
+  // Product Variants
+  getVariantsbyProductID = async ({ queryKey }) => {
+    console.log(queryKey,'dsfsd')
+    const res = await _axios("get", `/variants/${queryKey[1]}`);
+    return res;
+  };
+  createVariants = async (data) => {
+    const res = await _axios(
+      "post",
+      `/variants/create`,
+      data,
+    );
+    return res;
+  };
+
+  updateVariants = async (data) => {
+    const res = await _axios(
+      "patch",
+      `/variants/update/${data.id}`,
+      data,
+    );
+    return res;
+  };
+
+  deleteVariants = async (data) => {
+    const res = await _axios(
+      "delete",
+      `/variants/delete/${data.id}`
+    );
+    return res;
+  };
+
+
 }

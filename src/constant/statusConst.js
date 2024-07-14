@@ -8,6 +8,17 @@ export const statusConstantOption = [
     value: 1,
   },
 ];
+export const colorConstantOption = [
+  {
+    name: "White",
+    value: 2,
+  },
+  {
+    name: "Black",
+    value: 1,
+  },
+];
+
 export const pageTypeConstantOption = [
   {
     name: "Service",
