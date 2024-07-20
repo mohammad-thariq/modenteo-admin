@@ -6,7 +6,7 @@ import { useState } from "react";
 import { InputFileUpload } from "../../common/inputFileUpload";
 import { FilePreviewChange } from "@/utils/filePreviewChange";
 import { InputSelect } from "../../common/inputSelect";
-import { statusConstantOption } from "@/constant/statusConst";
+import { statusConstantOption, cat_typeConstantOption } from "@/constant/statusConst";
 
 export const PopularProductsForm = ({
   onSave,
@@ -24,6 +24,7 @@ export const PopularProductsForm = ({
     description: Yup.string().required("Description is Required"),
     page_url: Yup.string().required("Page URL is Required"),
     status: Yup.string().required("Status is Required"),
+    cat_type: Yup.string().required("Category Type is Required"),
   });
   return (
     <div className={style.wrapper}>
@@ -33,6 +34,7 @@ export const PopularProductsForm = ({
           title: data?.title,
           description: data?.description,
           page_url: data?.page_url,
+          cat_type: data?.cat_type,
           status: data?.status + 1 || "",
         }}
         validationSchema={schema}
@@ -43,20 +45,24 @@ export const PopularProductsForm = ({
           }
           onUpdate
             ? onUpdate({
-                id: currentPopularProductssId,
-                image: imagePreview,
-                title: values?.title,
-                description: values?.description,
-                page_url: values?.page_url,
-                status: values?.status - 1,
-              })
+              id: currentPopularProductssId,
+              image: imagePreview,
+              title: values?.title,
+              description: values?.description,
+              page_url: values?.page_url,
+              status: values?.status - 1,
+              cat_type: values?.cat_type,
+
+            })
             : onSave({
-                image: imagePreview,
-                title: values?.title,
-                description: values?.description,
-                page_url: values?.page_url,
-                status: values?.status - 1,
-              });
+              image: imagePreview,
+              title: values?.title,
+              description: values?.description,
+              page_url: values?.page_url,
+              status: values?.status - 1,
+              cat_type: values?.cat_type,
+
+            });
           actions.setSubmitting(true);
         }}
       >
@@ -151,6 +157,18 @@ export const PopularProductsForm = ({
             />
             <p style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}>
               {errors.status && touched.status && errors.status}
+            </p>
+            <InputSelect
+              label={"Category Type"}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              name={"cat_type"}
+              values={values?.cat_type}
+              isValue
+              onData={cat_typeConstantOption}
+            />
+            <p style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}>
+              {errors.cat_type && touched.cat_type && errors.cat_type}
             </p>
             <div className={style.btnWrapper}>
               <Button

@@ -8,6 +8,7 @@ export const statusConstantOption = [
     value: 1,
   },
 ];
+export const cat_typeConstantOption = [{ name: "Website", value: 'website' },{ name: "Mens", value: 'men' },{ name: "Women", value: 'women' },{ name: "Kids", value: 'kids' }];
 export const colorConstantOption = [
   {
     name: "White",

@@ -1,14 +1,13 @@
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import Image from "next/image";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { BaseUrls } from "../../../../../../env";
 import { ProductStatus } from "@/common/BaseTable/TableColumn/ProductStatus";
 
-export const CustomerServiceTable = (props) => {
+export const VariantSizeTable = ({ onVariantSizesData, onUpdate, onDelete }) => {
   return (
     <>
-      {props?.onCustomerServiceData &&
-        props?.onCustomerServiceData?.map((item, index) => (
+      {onVariantSizesData &&
+        onVariantSizesData?.map((item, index) => (
           <tr key={index}>
             <td className="align-middle text-center">
               <span className="text-secondary text-sm font-weight-bold">
@@ -17,27 +16,8 @@ export const CustomerServiceTable = (props) => {
             </td>
             <td className="align-middle text-center">
               <span className="text-secondary text-sm font-weight-bold">
-                {item.badge}
+                {item.name}
               </span>
-            </td>
-            <td className="align-middle text-center">
-              <span className="text-secondary text-sm font-weight-bold">
-                {item.cat_type.toUpperCase()}
-              </span>
-            </td>
-            <td className="align-middle text-center">
-              <span className="text-secondary text-sm font-weight-bold">
-                {item.description}
-              </span>
-            </td>
-            <td className="align-middle text-center">
-              <Image
-                width={70}
-                height={70}
-                alt=""
-                src={item.image || "/assets/img/placeholder.jpg"}
-                className="text-secondary text-sm font-weight-bold product-image"
-              />
             </td>
             <td className="align-middle text-center">
               <ProductStatus status={item?.status} />
@@ -47,13 +27,13 @@ export const CustomerServiceTable = (props) => {
               <span>
                 <EditNoteIcon
                   sx={{ fontSize: 25 }}
-                  onClick={() => props?.onUpdate(item.id)}
+                  onClick={() => onUpdate(item.id)}
                 />
               </span>
               <span>
                 <DeleteIcon
                   sx={{ fontSize: 20 }}
-                  onClick={() => props?.onDelete(item.id)}
+                  onClick={() => onDelete(item.id)}
                 />
               </span>
             </td>

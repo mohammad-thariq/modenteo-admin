@@ -126,7 +126,7 @@ export class productCateoriesAPI {
 
   // Product Variants
   getVariantsbyProductID = async ({ queryKey }) => {
-    console.log(queryKey,'dsfsd')
+    console.log(queryKey, 'dsfsd')
     const res = await _axios("get", `/variants/${queryKey[1]}`);
     return res;
   };
@@ -156,5 +156,35 @@ export class productCateoriesAPI {
     return res;
   };
 
+  // Product Variants Sizes
+  variantsizes = async () => {
+    const res = await _axios("get", `/variants-sizes`);
+    return res;
+  };
+  createVariantSizes = async (data) => {
+    const res = await _axios(
+      "post",
+      `/variants-sizes/create`,
+      data,
+    );
+    return res;
+  };
+
+  updateVariantSizes = async (data) => {
+    const res = await _axios(
+      "patch",
+      `/variants-sizes/update/${data.id}`,
+      data,
+    );
+    return res;
+  };
+
+  deleteVariantSizes = async (data) => {
+    const res = await _axios(
+      "delete",
+      `/variants-sizes/delete/${data.id}`
+    );
+    return res;
+  };
 
 }

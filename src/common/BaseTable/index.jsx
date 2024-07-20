@@ -21,6 +21,7 @@ import { PageTable } from "./PageTable";
 import { UserTable } from "./TableBody/UserTable";
 import { AdminListTable } from "./TableBody/AdminList/AdminListTable";
 import { VariantsTable } from "./TableBody/Products/VariantsTable";
+import { VariantSizeTable } from "./TableBody/VariantSizeTable";
 export const BaseTable = ({
   ref,
   tableHeadings,
@@ -45,6 +46,7 @@ export const BaseTable = ({
   onShowOrder,
   onPageData,
   onUserData,
+  onVariantSizesData,
   onAdminListData,
   // tableDatas ends
 
@@ -132,6 +134,14 @@ export const BaseTable = ({
                         onDelete={onDelete}
                       />
                     )}
+                    {onVariantSizesData && (
+                      <VariantSizeTable
+                        onVariantSizesData={onVariantSizesData}
+                        onUpdate={onUpdate}
+                        onDelete={onDelete}
+                      />
+                    )}
+
                     {onVariantsData && (
                       <VariantsTable
                         onVariantsData={onVariantsData}

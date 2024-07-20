@@ -25,14 +25,17 @@ export const Variants = () => {
 
   const router = useRouter();
   const id = router?.query?.id;
-  const { getVariantsbyProductID, createVariants, updateVariants, deleteVariants } = new productCateoriesAPI();
+  const { getVariantsbyProductID, createVariants, updateVariants, deleteVariants, variantsizes } = new productCateoriesAPI();
   const { data, isLoading, isError, error, refetch } = useQuery(
     ["variants", id],
     getVariantsbyProductID,
     { enabled: !!id }
   );
 
-
+  const { data: size } = useQuery(
+    ["variantsizes"],
+    variantsizes
+  );
   const { mutate: createVariantsMutate, isLoading: createVariantsLoading } =
     useMutation(createVariants, {
       onSuccess: (data, variables, context) => {
@@ -136,6 +139,7 @@ export const Variants = () => {
       {createvariant && (
         <Popup open={createvariant} onClose={handleCreateVariant}>
           <VariantForm
+            size={size?.variants}
             onClose={handleCreateVariant}
             button="Add New"
             loading={createVariantsLoading}
@@ -147,6 +151,7 @@ export const Variants = () => {
       {updateVariant && (
         <Popup open={updateVariant} onClose={handleUpdateVariant}>
           <VariantForm
+            size={size?.variants}
             button="Update"
             onUpdate={updateVariantsMutate}
             onClose={handleUpdateVariant}

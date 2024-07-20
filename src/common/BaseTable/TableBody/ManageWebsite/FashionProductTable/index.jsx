@@ -25,6 +25,11 @@ export const FashionProductTable = (props) => {
               />
             </td>
             <td className="align-middle text-center">
+              <span className="text-secondary text-sm font-weight-bold">
+                {item.cat_type.toUpperCase()}
+              </span>
+            </td>
+            <td className="align-middle text-center">
               <ProductStatus status={item?.status} />
             </td>
 

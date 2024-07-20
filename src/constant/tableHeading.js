@@ -27,6 +27,12 @@ export const InventoryTableHeading = [
   "Action",
 ];
 
+export const VariantSizesTableHeading = [
+  "SN",
+  "Name",
+  "Status",
+  "Action",
+];
 export const stockInventoryHeading = ["SN", "Stock", "Date", "Action"];
 
 export const CountryTableHeading = ["SN", "Name", "Status", "Action"];
@@ -41,7 +47,7 @@ export const CityTableHeading = [
   "Status",
   "Action",
 ];
-export const FashionProductTableHeading = ["SN", "Image", "Status", "Action"];
+export const FashionProductTableHeading = ["SN", "Image","Category Type", "Status", "Action"];
 export const ManageTableHeadings = ["Name", "Image", "Status", "Action"];
 
 export const featuredCategoryTableHeading = ["Name", "	Action"];
@@ -62,6 +68,7 @@ export const VariantsTableHeading = ["SN", "Price", "Offer Price","Quantity", "S
 export const HeroBannerTableHeading = [
   "SN",
   "Title",
+  "Category Type",
   "Sub title",
   "Description",
   "Image",
@@ -72,6 +79,7 @@ export const HeroBannerTableHeading = [
 export const PopularProductsTableHeading = [
   "SN",
   "Title",
+  "Category Type",
   "Description",
   "Image",
   "Status",
@@ -81,6 +89,7 @@ export const PopularProductsTableHeading = [
 export const DiscountBannerTableHeading = [
   "SN",
   "Title",
+  "Category Type",
   "Sub title",
   "description",
   "Button Name",
@@ -91,6 +100,7 @@ export const DiscountBannerTableHeading = [
 export const SpotlightTableHeading = [
   "SN",
   "Title",
+  "Category Type",
   "Status",
   "Image",
   "Action",
@@ -106,6 +116,7 @@ export const CollectionsTableHeading = [
 export const CustomerServiceTableHeading = [
   "SN",
   "Badge",
+  "Category Type",
   "Description",
   "Icon",
   "Status",

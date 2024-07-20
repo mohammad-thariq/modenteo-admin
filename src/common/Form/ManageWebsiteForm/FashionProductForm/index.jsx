@@ -6,7 +6,7 @@ import { useState } from "react";
 import { InputFileUpload } from "../../common/inputFileUpload";
 import { FilePreviewChange } from "@/utils/filePreviewChange";
 import { InputSelect } from "../../common/inputSelect";
-import { statusConstantOption } from "@/constant/statusConst";
+import { statusConstantOption, cat_typeConstantOption } from "@/constant/statusConst";
 
 export const FashionProductForm = ({
   onSave,
@@ -21,6 +21,7 @@ export const FashionProductForm = ({
   const schema = Yup.object({
     page_url: Yup.string().required("Page Link is Required"),
     status: Yup.string().required("Status is Required"),
+    cat_type: Yup.string().required("Category Type is Required"),
   });
   return (
     <div className={style.wrapper}>
@@ -29,6 +30,7 @@ export const FashionProductForm = ({
           image: imagePreview,
           page_url: data?.page_url,
           status: data?.status + 1 || "",
+          cat_type: data?.cat_type,
         }}
         validationSchema={schema}
         onSubmit={(values, actions) => {
@@ -38,16 +40,16 @@ export const FashionProductForm = ({
           }
           onUpdate
             ? onUpdate({
-                id: currentFashionProductsId,
-                image: imagePreview,
-                page_url: values?.page_url,
-                status: values?.status - 1,
-              })
+              id: currentFashionProductsId,
+              image: imagePreview,
+              page_url: values?.page_url,
+              status: values?.status - 1,
+            })
             : onSave({
-                image: imagePreview,
-                page_url: values?.page_url,
-                status: values?.status - 1,
-              });
+              image: imagePreview,
+              page_url: values?.page_url,
+              status: values?.status - 1,
+            });
           actions.setSubmitting(true);
         }}
       >
@@ -107,6 +109,18 @@ export const FashionProductForm = ({
             />
             <p style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}>
               {errors.status && touched.status && errors.status}
+            </p>
+            <InputSelect
+              label={"Category Type"}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              name={"cat_type"}
+              values={values?.cat_type}
+              isValue
+              onData={cat_typeConstantOption}
+            />
+            <p style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}>
+              {errors.cat_type && touched.cat_type && errors.cat_type}
             </p>
             <div className={style.btnWrapper}>
               <Button

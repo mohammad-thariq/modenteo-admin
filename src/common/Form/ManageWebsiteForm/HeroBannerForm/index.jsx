@@ -6,7 +6,7 @@ import { useState } from "react";
 import { InputFileUpload } from "../../common/inputFileUpload";
 import { FilePreviewChange } from "@/utils/filePreviewChange";
 import { InputSelect } from "../../common/inputSelect";
-import { statusConstantOption } from "@/constant/statusConst";
+import { statusConstantOption, cat_typeConstantOption } from "@/constant/statusConst";
 
 export const HeroBannerForm = ({
   onSave,
@@ -24,6 +24,7 @@ export const HeroBannerForm = ({
     sub_title: Yup.string().required("Sub title is Required"),
     page_url: Yup.string().required("Page URL is Required"),
     status: Yup.string().required("Status is Required"),
+    cat_type: Yup.string().required("Category Type is Required"),
     description: Yup.string().required("Description is Required"),
     button_name: Yup.string().required("Button Name is Required"),
   });
@@ -37,6 +38,7 @@ export const HeroBannerForm = ({
           description: data?.description,
           button_name: data?.button_name,
           page_url: data?.page_url,
+          cat_type: data?.cat_type,
           status: data?.status + 1 || "",
         }}
         validationSchema={schema}
@@ -47,24 +49,28 @@ export const HeroBannerForm = ({
           }
           onUpdate
             ? onUpdate({
-                id: currentHeroBannersId,
-                image: imagePreview,
-                title: values?.title,
-                sub_title: values?.sub_title,
-                page_url: values?.page_url,
-                status: values?.status - 1,
-                description: values?.description,
-                button_name: values?.button_name,
-              })
+              id: currentHeroBannersId,
+              image: imagePreview,
+              title: values?.title,
+              sub_title: values?.sub_title,
+              page_url: values?.page_url,
+              status: values?.status - 1,
+              description: values?.description,
+              button_name: values?.button_name,
+              cat_type: values?.cat_type,
+
+            })
             : onSave({
-                image: imagePreview,
-                title: values?.title,
-                sub_title: values?.sub_title,
-                page_url: values?.page_url,
-                status: values?.status - 1,
-                description: values?.description,
-                button_name: values?.button_name,
-              });
+              image: imagePreview,
+              title: values?.title,
+              sub_title: values?.sub_title,
+              page_url: values?.page_url,
+              status: values?.status - 1,
+              description: values?.description,
+              button_name: values?.button_name,
+              cat_type: values?.cat_type,
+
+            });
           actions.setSubmitting(true);
         }}
       >
@@ -196,6 +202,18 @@ export const HeroBannerForm = ({
             />
             <p style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}>
               {errors.status && touched.status && errors.status}
+            </p>
+            <InputSelect
+              label={"Category Type"}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              name={"cat_type"}
+              values={values?.cat_type}
+              isValue
+              onData={cat_typeConstantOption}
+            />
+            <p style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}>
+              {errors.cat_type && touched.cat_type && errors.cat_type}
             </p>
             <div className={style.btnWrapper}>
               <Button

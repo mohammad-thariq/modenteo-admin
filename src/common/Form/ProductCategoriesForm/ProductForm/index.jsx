@@ -41,9 +41,8 @@ const editSchema = Yup.object({
   status: Yup.string().required("Status is Required"),
   color: Yup.string().required("Color is Required"),
 });
-export const ProductForm = ({ onClose, button, data, onSave, currentProductId, onUpdate, loading, category, subCategory, collection, brand, }) => {
-  console.log(brand, "dsf")
-  let size = [{ "id": 1, "name": "S" }, { "id": 2, "name": "M" }, { "id": 3, "name": "L" }, { "id": 4, "name": "XL" }, { "id": 5, "name": "XXL" }];
+export const ProductForm = ({ onClose, button, data, onSave, currentProductId, onUpdate, loading, category, subCategory, collection, brand,size }) => {
+
   const editorRef = useRef("");
   const fileInputRef = useRef(null);
   const [topProduct, setTopProduct] = useState(
@@ -121,7 +120,7 @@ export const ProductForm = ({ onClose, button, data, onSave, currentProductId, o
   return (
     <div className={style.wrapper} onDragOver={(e) => e.preventDefault()} onDrop={handleDrop}>
       <Formik initialValues={{
-        short_name: data?.short_name || "", name: data?.name || "", image: imagePreview, category: data?.category_id || "", sub_category: data?.sub_category_id || "", collection: data?.collection_id || "", brand: data?.brand_id || "", sku: data?.sku || "", short_description: data?.short_description || "", long_description: data?.long_description || getLongDescription || "", status: data?.status + 1 || "", seo_title: data?.seo_title || "", seo_description: data?.seo_description || "", top_product: topProduct === false ? 0 : 1, new_arrival: newArrival === false ? 0 : 1, best_product: bestProduct === false ? 0 : 1, featured_product: featuredProduct === false ? 0 : 1, gallery: [], product_details: data?.product_details || [{ product_quantity: '', product_price: '', offer_price: '', product_size: '' }],
+        short_name: data?.short_name || "", name: data?.name || "", image: imagePreview, category: data?.category_id || "", sub_category: data?.sub_category_id || "", collection: data?.collection_id || "", brand: data?.brand_id || "", color: data?.color, sku: data?.sku || "", short_description: data?.short_description || "", long_description: data?.long_description || getLongDescription || "", status: data?.status + 1 || "", seo_title: data?.seo_title || "", seo_description: data?.seo_description || "", top_product: topProduct === false ? 0 : 1, new_arrival: newArrival === false ? 0 : 1, best_product: bestProduct === false ? 0 : 1, featured_product: featuredProduct === false ? 0 : 1, gallery: [], product_details: data?.product_details || [{ product_quantity: '', product_price: '', offer_price: '', product_size: '' }],
       }}
         validationSchema={currentProductId ? editSchema : schema}
         onSubmit={(values, actions) => {
@@ -409,7 +408,7 @@ export const ProductForm = ({ onClose, button, data, onSave, currentProductId, o
                           </div>
                         </div>
                         <div className="row">
-                          <div className="col-5">
+                          <div className="col-6">
                             <label>Product Price</label>
                             <input
                               type="number"
@@ -489,9 +488,18 @@ export const ProductForm = ({ onClose, button, data, onSave, currentProductId, o
             <InputSelect label="Status" name="status" onChange={handleChange} onBlur={handleBlur} value={values.status} isValue onData={statusConstantOption} />
             <p style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}> {errors.status && touched.status && errors.status} </p>
 
-            <InputSelect label="Color" name="color" onChange={handleChange} onBlur={handleBlur} value={values.color} isValue onData={colorConstantOption} />
-            <p style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}> {errors.color && touched.color && errors.color} </p>
-
+            <label>Color</label>
+            <div className="mb-2">
+              <input
+                type="text"
+                name="color"
+                className="form-control"
+                placeholder="Color"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.color}
+              />
+            </div>
             <label>SEO Title</label>
             <div className="mb-2">
               <input type="text" name="seo_title" className="form-control" placeholder="SEO Title" onChange={handleChange} onBlur={handleBlur} value={values.seo_title} />

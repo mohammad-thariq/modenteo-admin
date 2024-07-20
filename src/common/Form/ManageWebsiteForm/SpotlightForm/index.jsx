@@ -6,7 +6,7 @@ import { useState } from "react";
 import { InputFileUpload } from "../../common/inputFileUpload";
 import { FilePreviewChange } from "@/utils/filePreviewChange";
 import { InputSelect } from "../../common/inputSelect";
-import { statusConstantOption } from "@/constant/statusConst";
+import { statusConstantOption, cat_typeConstantOption } from "@/constant/statusConst";
 
 export const SpotlightForm = ({
   onSave,
@@ -24,6 +24,7 @@ export const SpotlightForm = ({
     bg_color: Yup.string().required("Background Color is Required"),
     page_url: Yup.string().required("Page URL is Required"),
     status: Yup.string().required("Status is Required"),
+    cat_type: Yup.string().required("Category Type is Required"),
   });
   return (
     <div className={style.wrapper}>
@@ -34,6 +35,7 @@ export const SpotlightForm = ({
           bg_color: data?.bg_color,
           page_url: data?.page_url,
           status: data?.status + 1 || "",
+          cat_type: data?.cat_type,
         }}
         validationSchema={schema}
         onSubmit={(values, actions) => {
@@ -43,20 +45,22 @@ export const SpotlightForm = ({
           }
           onUpdate
             ? onUpdate({
-                id: currentSpotlightsId,
-                image: imagePreview,
-                badge: values?.badge,
-                bg_color: values?.bg_color,
-                page_url: values?.page_url,
-                status: values?.status - 1,
-              })
+              id: currentSpotlightsId,
+              image: imagePreview,
+              badge: values?.badge,
+              bg_color: values?.bg_color,
+              page_url: values?.page_url,
+              status: values?.status - 1,
+              cat_type: values?.cat_type,
+            })
             : onSave({
-                image: imagePreview,
-                badge: values?.badge,
-                bg_color: values?.bg_color,
-                page_url: values?.page_url,
-                status: values?.status - 1,
-              });
+              image: imagePreview,
+              badge: values?.badge,
+              bg_color: values?.bg_color,
+              page_url: values?.page_url,
+              status: values?.status - 1,
+              cat_type: values?.cat_type,
+            });
           actions.setSubmitting(true);
         }}
       >
@@ -149,6 +153,18 @@ export const SpotlightForm = ({
             />
             <p style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}>
               {errors.status && touched.status && errors.status}
+            </p>
+            <InputSelect
+              label={"Category Type"}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              name={"cat_type"}
+              values={values?.cat_type}
+              isValue
+              onData={cat_typeConstantOption}
+            />
+            <p style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}>
+              {errors.cat_type && touched.cat_type && errors.cat_type}
             </p>
             <div className={style.btnWrapper}>
               <Button

@@ -1,4 +1,4 @@
 import { CustomerService } from "@/Components/ManageWebsite/CustomerService";
-export default function customerservice(){
-    return <CustomerService/>
+export default function customerservice() {
+    return <CustomerService />
 }

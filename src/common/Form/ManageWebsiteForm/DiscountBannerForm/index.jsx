@@ -26,6 +26,7 @@ export const DiscountBannerForm = ({
     button_name: Yup.string().required("Button Name is Required"),
     page_url: Yup.string().required("Page URL is Required"),
     status: Yup.string().required("Status is Required"),
+    cat_type: Yup.string().required("Category Type is Required"),
   });
   return (
     <div className={style.wrapper}>
@@ -36,6 +37,7 @@ export const DiscountBannerForm = ({
           sub_title: data?.sub_title,
           description: data?.description,
           button_name: data?.button_name,
+          cat_type: data?.cat_type,
           page_url: data?.page_url,
           status: data?.status + 1 || "",
         }}
@@ -55,6 +57,8 @@ export const DiscountBannerForm = ({
                 button_name: values?.button_name,
                 page_url: values?.page_url,
                 status: values?.status - 1,
+                cat_type: values?.cat_type,
+
               })
             : onSave({
                 image: imagePreview,
@@ -64,6 +68,8 @@ export const DiscountBannerForm = ({
                 button_name: values?.button_name,
                 page_url: values?.page_url,
                 status: values?.status - 1,
+                cat_type: values?.cat_type,
+
               });
           actions.setSubmitting(true);
         }}
@@ -196,6 +202,18 @@ export const DiscountBannerForm = ({
             />
             <p style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}>
               {errors.status && touched.status && errors.status}
+            </p>
+            <InputSelect
+              label={"Category Type"}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              name={"cat_type"}
+              values={values?.cat_type}
+              isValue
+              onData={cat_typeConstantOption}
+            />
+            <p style={{ marginTop: "5px", marginBottom: "5px", color: "red" }}>
+              {errors.cat_type && touched.cat_type && errors.cat_type}
             </p>
             <div className={style.btnWrapper}>
               <Button

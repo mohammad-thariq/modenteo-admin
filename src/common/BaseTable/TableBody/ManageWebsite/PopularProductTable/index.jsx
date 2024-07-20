@@ -22,6 +22,11 @@ export const PopularProductTable = (props) => {
             </td>
             <td className="align-middle text-center">
               <span className="text-secondary text-sm font-weight-bold">
+                {item.cat_type.toUpperCase()}
+              </span>
+            </td>
+            <td className="align-middle text-center">
+              <span className="text-secondary text-sm font-weight-bold">
                 {item.description}
               </span>
             </td>

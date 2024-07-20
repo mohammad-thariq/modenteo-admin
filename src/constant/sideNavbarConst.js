@@ -6,7 +6,9 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import GroupIcon from "@mui/icons-material/Group";
 import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
 import SettingsIcon from "@mui/icons-material/Settings";
-import { Pages } from "@mui/icons-material";
+import { CheckOutlined, ChildCare, ChildFriendly, Man, Man2, Pages, PriceCheckOutlined, ProductionQuantityLimitsTwoTone, Woman } from "@mui/icons-material";
+import Settings from "@mui/icons-material/Settings";
+import ProductionQuantityLimits from "@mui/icons-material/ProductionQuantityLimits";
 export const SideNavConst = {
   routes: [
     {
@@ -127,9 +129,29 @@ export const SideNavConst = {
       icon: <SettingsIcon sx={{ fontSize: 18 }} />,
     },
     {
+      heading: "Men Settings",
+      url: "/admin/men-settings",
+      icon: <Man sx={{ fontSize: 18 }} />,
+    },
+    {
+      heading: "Women Settings",
+      url: "/admin/women-settings",
+      icon: <Woman sx={{ fontSize: 18 }} />,
+    },
+    {
+      heading: "Kids Settings",
+      url: "/admin/kids-settings",
+      icon: <ChildCare sx={{ fontSize: 18 }} />,
+    },
+    {
       heading: "Pages",
       url: "/admin/pages",
       icon: <Pages sx={{ fontSize: 18 }} />,
+    },
+    {
+      heading: "Variant Sizes",
+      url: "/admin/variant-size",
+      icon: <ProductionQuantityLimitsTwoTone sx={{ fontSize: 18 }} />,
     },
 
     {

@@ -25,7 +25,7 @@ export const Products = () => {
     collectionsActive,
     createProducts,
     updateProducts,
-    deleteProductById,
+    deleteProductById, variantsizes
   } = new productCateoriesAPI();
 
   const [createProduct, setCreateProduct] = useState(false);
@@ -39,6 +39,10 @@ export const Products = () => {
   const { data, isLoading, refetch } = useQuery(
     ["products", page, limit],
     products
+  );
+  const { data: size } = useQuery(
+    ["variantsizes"],
+    variantsizes
   );
 
   const { data: category } = useQuery(
@@ -156,6 +160,7 @@ export const Products = () => {
       {createProduct && (
         <Popup open={createProduct} onClose={handleCreateProduct}>
           <ProductForm
+            size={size?.variants}
             category={category?.categories}
             subCategory={subCategory?.sub_categories}
             collection={collection?.collections}
@@ -170,6 +175,7 @@ export const Products = () => {
       {updateProduct && (
         <Popup open={updateProduct} onClose={handleUpdateProduct}>
           <ProductForm
+            size={size?.variants}
             category={category?.categories}
             subCategory={subCategory?.sub_categories}
             collection={collection?.collections}
