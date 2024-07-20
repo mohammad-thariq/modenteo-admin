@@ -6,7 +6,7 @@ import { useState } from "react";
 import { InputFileUpload } from "../../common/inputFileUpload";
 import { FilePreviewChange } from "@/utils/filePreviewChange";
 import { InputSelect } from "../../common/inputSelect";
-import { statusConstantOption } from "@/constant/statusConst";
+import { statusConstantOption,cat_typeConstantOption } from "@/constant/statusConst";
 
 export const DiscountBannerForm = ({
   onSave,
