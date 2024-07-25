@@ -5,12 +5,14 @@ import Image from "next/image";
 import { BaseUrls } from "../../../../../../env";
 import { ProductType } from "@/common/BaseTable/TableColumn/ProductType";
 import { ProductStatus } from "@/common/BaseTable/TableColumn/ProductStatus";
-import Settings from "@mui/icons-material/Settings";
+import { Category, Settings } from "@mui/icons-material";
 
 export const Product = ({ onProductData, onUpdate, onDelete }) => {
   const onVariant = (id) => {
-    console.log(id,'df');
-    location.href=`/admin/products/variants/${id}`;
+    location.href = `/admin/products/variants/${id}`;
+  }
+  const productVariants = (id) => {
+    location.href = `/admin/products-variants/${id}`;
   }
   return (
     <>
@@ -56,6 +58,12 @@ export const Product = ({ onProductData, onUpdate, onDelete }) => {
             </td>
 
             <td className="align-middle text-center cursor-pointer">
+              <span>
+                <Category
+                  sx={{ fontSize: 25 }}
+                  onClick={() => productVariants(item.id)}
+                />
+              </span>{" "}
               <span>
                 <Settings
                   sx={{ fontSize: 25 }}
