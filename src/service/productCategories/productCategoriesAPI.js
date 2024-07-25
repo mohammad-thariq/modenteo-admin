@@ -115,6 +115,14 @@ export class productCateoriesAPI {
     return res;
   };
 
+  variantProducts = async (data) => {
+    const res = await _axios(
+      "post",
+      `/products-variants/${data.product_id}`,
+      data
+    );
+    return res;
+  };
   deleteProductById = async (data) => {
     const res = await _axios(
       "delete",
@@ -155,6 +163,15 @@ export class productCateoriesAPI {
     );
     return res;
   };
+  productlist = async () => {
+    const res = await _axios("get", `/products-list`);
+    return res;
+  };
+  getprdvariants = async  ({ queryKey }) => {
+    const res = await _axios("get", `/get-prd-variants/${queryKey[1]}`);
+    return res;
+  };
+
 
   // Product Variants Sizes
   variantsizes = async () => {

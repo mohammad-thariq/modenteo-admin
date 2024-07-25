@@ -7,13 +7,11 @@ import { ProductType } from "@/common/BaseTable/TableColumn/ProductType";
 import { ProductStatus } from "@/common/BaseTable/TableColumn/ProductStatus";
 import { Category, Settings } from "@mui/icons-material";
 
-export const Product = ({ onProductData, onUpdate, onDelete }) => {
+export const Product = ({ onProductData, onUpdate, onDelete, openVariant }) => {
   const onVariant = (id) => {
     location.href = `/admin/products/variants/${id}`;
   }
-  const productVariants = (id) => {
-    location.href = `/admin/products-variants/${id}`;
-  }
+
   return (
     <>
       {onProductData &&
@@ -61,7 +59,7 @@ export const Product = ({ onProductData, onUpdate, onDelete }) => {
               <span>
                 <Category
                   sx={{ fontSize: 25 }}
-                  onClick={() => productVariants(item.id)}
+                  onClick={() => openVariant(item.id)}
                 />
               </span>{" "}
               <span>

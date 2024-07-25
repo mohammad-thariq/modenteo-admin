@@ -2,6 +2,7 @@ import { BaseTable } from "@/common/BaseTable";
 import { Breadcrumb } from "@/common/Breadcrumb";
 import { Button } from "@/common/Button";
 import { ProductForm } from "@/common/Form/ProductCategoriesForm/ProductForm";
+import { VariantProductForm } from "@/common/Form/ProductCategoriesForm/VariantProductForm";
 import { Loader } from "@/common/Loader";
 import { NoDataFound } from "@/common/NoDataFound";
 import { Popup } from "@/common/Popup";
@@ -25,11 +26,13 @@ export const Products = () => {
     collectionsActive,
     createProducts,
     updateProducts,
-    deleteProductById, variantsizes
+    variantProducts,
+    deleteProductById, variantsizes, productlist, getprdvariants
   } = new productCateoriesAPI();
 
   const [createProduct, setCreateProduct] = useState(false);
   const [updateProduct, setUpdateProduct] = useState(false);
+  const [variantProduct, setvariantProduct] = useState(false);
   const [openDeletePopup, setOpenDeletePopup] = useState(false);
   const [currentProductId, setCurrentProductId] = useState(null);
   const [currentProductDataId, setCurrentProductDataId] = useState(null);
@@ -44,6 +47,19 @@ export const Products = () => {
     ["variantsizes"],
     variantsizes
   );
+  
+  const { data: productvariants } = useQuery(
+    ["getprdvariants", currentProductDataId?.id],
+    getprdvariants,
+    {
+      enabled: !!currentProductDataId,
+    }
+  );
+  const { data: productlists } = useQuery(
+    ["productlist"],
+    productlist
+  );
+
 
   const { data: category } = useQuery(
     ["product-active-category"],
@@ -88,6 +104,19 @@ export const Products = () => {
         refetch();
       },
     });
+  const { mutate: variantProductMutate, isLoading: variantProductLoading } =
+    useMutation(variantProducts, {
+      onSuccess: (data, variables, context) => {
+        setvariantProduct(false);
+        ToastifySuccess(data?.message);
+        refetch();
+      },
+      onError: (data, variables, context) => {
+        setvariantProduct(true);
+        ToastifyFailed(data?.message);
+        refetch();
+      },
+    });
 
   const { mutate: deleteProductMutate, isLoading: deleteProductLoading } =
     useMutation(deleteProductById, {
@@ -111,7 +140,12 @@ export const Products = () => {
     const getProductById = data?.products?.find((i) => i?.id === id);
     setCurrentProductDataId(getProductById);
   };
-
+  const handleVariantProduct = (id) => {
+    setvariantProduct(!variantProduct);
+    setCurrentProductId(id);
+    const getProductById = data?.products?.find((i) => i?.id === id);
+    setCurrentProductDataId(getProductById);
+  }
   const handleDeleteProduct = (id) => {
     setCurrentProductId(id);
     setOpenDeletePopup(!openDeletePopup);
@@ -153,6 +187,7 @@ export const Products = () => {
         onProductData={data}
         onDelete={handleDeleteProduct}
         onUpdate={handleUpdateProduct}
+        openVariant={handleVariantProduct}
         totalPage={data?.pagination?.totalPage}
         onPaginationClick={onPaginationClick}
         pageLimit={limit}
@@ -189,6 +224,22 @@ export const Products = () => {
           />
         </Popup>
       )}
+      {variantProduct && (
+        <Popup open={variantProduct} onClose={handleVariantProduct}>
+          <VariantProductForm
+            products={productlists?.products}
+            size={size?.variants}
+            onClose={handleUpdateProduct}
+            data={currentProductDataId}
+            mappedVariants={productvariants}
+            button="update"
+            onSave={variantProductMutate}
+            currentProductId={currentProductId}
+            loading={variantProductLoading}
+          />
+        </Popup>
+      )}
+
       {openDeletePopup && (
         <Popup open={openDeletePopup} onClose={handleDeleteProduct}>
           <DeleteItem

@@ -56,6 +56,7 @@ export const BaseTable = ({
   //  tableActions starts
   onUpdate,
   onDelete,
+  openVariant,
   onNavigate,
   isShown = false,
   //  tableActions ends
@@ -217,6 +218,7 @@ export const BaseTable = ({
                     {onProductData && (
                       <Product
                         onProductData={onProductData}
+                        openVariant={openVariant}
                         onUpdate={onUpdate}
                         onDelete={onDelete}
                       />
