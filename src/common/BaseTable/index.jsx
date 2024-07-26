@@ -128,6 +128,7 @@ export const BaseTable = ({
                     {onShowOrder && (
                       <OrderShowTable onShowOrder={onShowOrder} />
                     )}
+                    
                     {onBrandsData && (
                       <BrandsTable
                         onBrandsData={onBrandsData}
