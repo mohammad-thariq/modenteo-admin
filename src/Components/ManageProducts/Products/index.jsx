@@ -229,7 +229,7 @@ export const Products = () => {
           <VariantProductForm
             products={productlists?.products}
             size={size?.variants}
-            onClose={handleUpdateProduct}
+            onClose={handleVariantProduct}
             data={currentProductDataId}
             mappedVariants={productvariants}
             button="update"
