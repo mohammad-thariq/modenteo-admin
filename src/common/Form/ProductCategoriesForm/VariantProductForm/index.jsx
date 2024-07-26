@@ -31,7 +31,7 @@ export const VariantProductForm = ({ onClose, button, data, onSave, loading, cur
         }}
       >
         {({ values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue }) => (
-          <form onSubmit={handleSubmit} className="formInner overflow-column height-500">
+          <form onSubmit={handleSubmit} className="formInner overflow-column">
             <div className="mb-3">
               <input
                 type="hidden"
