@@ -108,7 +108,7 @@ export const Products = () => {
     useMutation(variantProducts, {
       onSuccess: (data, variables, context) => {
         setvariantProduct(false);
-        ToastifySuccess(data?.message);
+        ToastifySuccess("Variants Mapped Successfully");
         refetch();
       },
       onError: (data, variables, context) => {
