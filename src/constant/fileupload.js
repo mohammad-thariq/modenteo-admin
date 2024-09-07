@@ -5,12 +5,12 @@ import { BaseUrls } from "../../env"; // Import your environment configuration i
 const s3 = new AWS.S3({
     accessKeyId: BaseUrls.AWS_ACCESS_KEY_ID,
     secretAccessKey: BaseUrls.AWS_SECRET_ACCESS_KEY,
-    region: "eu-north-1", // Replace with your AWS region
+    region: "ap-southeast-2", // Replace with your AWS region
 });
 
 // Function to upload files to S3 bucket
 export const uploadFiles = async (files) => {
-    const bucketName = "modenteo-file"; // Replace with your S3 bucket name
+    const bucketName = "modenteo"; // Replace with your S3 bucket name
     const dirName = "products/gallery"; // Directory inside the bucket
     const uploadedURLs = [];
 
