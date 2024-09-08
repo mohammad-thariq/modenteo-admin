@@ -44,11 +44,13 @@ export const FashionProductForm = ({
               image: imagePreview,
               page_url: values?.page_url,
               status: values?.status - 1,
+              cat_type: values?.cat_type,
             })
             : onSave({
               image: imagePreview,
               page_url: values?.page_url,
               status: values?.status - 1,
+              cat_type: values?.cat_type,
             });
           actions.setSubmitting(true);
         }}
